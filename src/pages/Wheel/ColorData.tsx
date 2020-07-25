@@ -1,8 +1,9 @@
 import React from 'react';
-import { ColorDataProps } from './types'
 import { Box, Grid, Text, Heading, Textarea } from '@chakra-ui/core';
 import { tint, shade } from 'polished';
+import { useTranslation } from 'react-i18next';
 
+import { ColorDataProps } from './types'
 interface ColorSchema {
   [color: string]: {
     [shade: number]: string;
@@ -29,6 +30,8 @@ const shadesList = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
 const ColorData: React.FC<ColorDataProps> = ({
   colors,
 }) => {
+  const { t } = useTranslation('pages');
+
   const [
     // PRIMARY
     red,
@@ -98,27 +101,27 @@ const ColorData: React.FC<ColorDataProps> = ({
   return (
     <Box marginY="2rem" color="white">
       <Box marginBottom="1rem">
-        <Heading as="h2" size="lg">Primary</Heading>
-          <Text>Red: {red}</Text>
-          <Text>Blue: {blue}</Text>
-          <Text>Yellow: {yellow}</Text>
+        <Heading as="h2" size="lg">{t('wheel.colorGroups.primary')}</Heading>
+          <Text>{t('wheel.colors.red')}: {red}</Text>
+          <Text>{t('wheel.colors.blue')}: {blue}</Text>
+          <Text>{t('wheel.colors.yellow')}: {yellow}</Text>
       </Box>
 
       <Box marginBottom="1rem">
-        <Heading as="h2" size="lg">Secondary</Heading>
-          <Text>Violet: {violet}</Text>
-          <Text>Green: {green}</Text>
-          <Text>Orange: {orange}</Text>
+        <Heading as="h2" size="lg">{t('wheel.colorGroups.secondary')}</Heading>
+          <Text>{t('wheel.colors.violet')}: {violet}</Text>
+          <Text>{t('wheel.colors.green')}: {green}</Text>
+          <Text>{t('wheel.colors.orange')}: {orange}</Text>
       </Box>
 
       <Box marginBottom="1rem">
-        <Heading as="h2" size="lg">Tertiary</Heading>
-          <Text>Red-Violet: {red_violet}</Text>
-          <Text>Blue-Violet: {blue_violet}</Text>
-          <Text>Blue-Green: {blue_green}</Text>
-          <Text>Yellow-Green: {yellow_green}</Text>
-          <Text>Yellow-Orange: {yellow_orange}</Text>
-          <Text>Red-Orange: {red_orange}</Text>
+        <Heading as="h2" size="lg">{t('wheel.colorGroups.tertiary')}</Heading>
+          <Text>{t('wheel.colors.red_violet')}: {red_violet}</Text>
+          <Text>{t('wheel.colors.blue_violet')}: {blue_violet}</Text>
+          <Text>{t('wheel.colors.blue_green')}: {blue_green}</Text>
+          <Text>{t('wheel.colors.yellow_green')}: {yellow_green}</Text>
+          <Text>{t('wheel.colors.yellow_orange')}: {yellow_orange}</Text>
+          <Text>{t('wheel.colors.red_orange')}: {red_orange}</Text>
       </Box>
 
       <Grid templateColumns="repeat(13, 1fr)">
