@@ -4,7 +4,7 @@ const globalStyles = css`
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
 
   html, body {
-    background-color: #fff;
+    background-color: #333;
   }
 
   html, body, #root {

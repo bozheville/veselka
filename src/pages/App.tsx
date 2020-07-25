@@ -17,7 +17,7 @@ import { MenuItem } from 'types';
 const menuItems = menuJson as unknown as MenuItem[];
 
 const AboutPage = React.lazy(() => import('pages/About'));
-const HomePage = React.lazy(() => import('pages/Home'));
+const WheelPage = React.lazy(() => import('pages/Wheel'));
 const Page404 = React.lazy(() => import('pages/Page404'));
 
 interface IApp {}
@@ -35,8 +35,8 @@ const App: React.FC<IApp> = () => {
             <Layout menuItems={menuItems}>
               <Suspense fallback={<div>Loading...</div>}>
                 <Switch>
-                  <Route path="/" exact component={HomePage} />
                   <Route path="/about" exact component={AboutPage} />
+                  <Route path="/" exact component={WheelPage} />
                   <Route component={Page404} />
                 </Switch>
               </Suspense>
