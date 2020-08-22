@@ -1,6 +1,6 @@
 import React, { useMemo, useContext } from 'react';
-import { SectorProps } from './types'
-import WheelContext from './WheelContext';
+import { SectorProps } from './circle.d'
+import WheelContext from '../WheelContext';
 
 const polarToCartesian = (
   centerX: number,
@@ -50,13 +50,18 @@ const Sector: React.FC<SectorProps> = ({
   to,
   color,
   radius,
+  centerX,
+  centerY,
 }) => {
   const { center } = useContext(WheelContext);
-
+  const position = {
+    x: centerX || center.x,
+    y: centerY || center.y,
+  }
   const dProp = useMemo(() => getArcD({
     startAngle: from,
     endAngle: to,
-    ...center,
+    ...position,
     radius,
   }), [from, to, center, radius]);
 
