@@ -1,5 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Box, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Spinner } from '@chakra-ui/core';
+import {
+  Box,
+  Button,
+  Input,
+  Flex,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  Spinner
+} from '@chakra-ui/core';
 
 import { FilterColorProps, UrlProps } from './types';
 import useLink from 'hooks/useLink';
@@ -7,6 +17,7 @@ import { rgb } from 'polished';
 
 const FilterColor: React.FC<FilterColorProps> = ({
   onChange,
+  onViewDetailsClick,
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isUrlProcessed, setIsUrlProcessed] = useState(false);
@@ -15,10 +26,12 @@ const FilterColor: React.FC<FilterColorProps> = ({
   const [defaultRed, setDeafultRed] = useState(127);
   const [defaultGreen, setDeafultGreen] = useState(127);
   const [defaultBlue, setDeafultBlue] = useState(127);
-  const redRef = useRef<HTMLInputElement>();
-  const greenRef = useRef<HTMLInputElement>();
-  const blueRef = useRef<HTMLInputElement>();
-  const opacityRef = useRef<HTMLInputElement>();
+
+  const redRef = useRef<HTMLInputElement>(null);
+  const greenRef = useRef<HTMLInputElement>(null);
+  const blueRef = useRef<HTMLInputElement>(null);
+  const opacityRef = useRef<HTMLInputElement>(null);
+  const inputColorRef = useRef<HTMLInputElement>(null);
 
   const { updateURL, queryParams } = useLink<UrlProps>();
 
@@ -43,53 +56,54 @@ const FilterColor: React.FC<FilterColorProps> = ({
   }, [queryParams, isUrlProcessed]);
 
 
-  const handleUpdatePreview = useCallback(() => {
+  const handleChange = useCallback(() => {
     const red = parseInt((redRef.current?.childNodes[3] as HTMLInputElement).value, 10);
     const green = parseInt((greenRef.current?.childNodes[3] as HTMLInputElement).value, 10);
     const blue = parseInt((blueRef.current?.childNodes[3] as HTMLInputElement).value, 10);
     const opacity = parseFloat((opacityRef.current?.childNodes[3] as HTMLInputElement).value);
+    const newColor = rgb(red, green, blue);
+
+    if (inputColorRef?.current) {
+      inputColorRef.current.value = newColor;
+    }
 
     setWeight(opacity);
-    setColor(rgb(red, green, blue));
-  }, []);
+    setColor(newColor);
 
-  const handleChange = useCallback(() => {
-    onChange(color, weight);
+    onChange(newColor, opacity);
 
     updateURL({
-      c: color.replace('#', ''),
-      w: weight,
+      c: newColor.replace('#', ''),
+      w: opacity,
     });
-  }, [color, weight, onChange, updateURL]);
-
+  }, []);
 
   useEffect(() => {
     if (!isInitialized && isUrlProcessed) {
-      handleUpdatePreview();
+      handleChange();
       handleChange();
       setIsInitialized(true);
     }
-  }, [isUrlProcessed, handleChange, handleUpdatePreview,isInitialized]);
+  }, [isUrlProcessed, handleChange, isInitialized]);
 
   return (
     <Box
-    minWidth="200px"
-    borderWidth="1px"
-    rounded="lg"
-    p="1em"
-    backgroundColor="rgba(255,255,255,0.5)"
-  >
-    {isUrlProcessed ? (
+      width="100%"
+      borderWidth="1px"
+      rounded="lg"
+      p="1em"
+      backgroundColor="rgba(255,255,255,0.5)"
+    >
+      {isUrlProcessed ? (
       <>
         <Slider
           color="red"
-          onChange={handleUpdatePreview}
-          onMouseUp={handleChange}
-          onKeyUp={handleChange}
+          onChange={handleChange}
           ref={redRef}
           defaultValue={defaultRed}
           min={0}
           max={255}
+          marginBottom="2"
         >
           <SliderTrack />
           <SliderFilledTrack />
@@ -97,13 +111,12 @@ const FilterColor: React.FC<FilterColorProps> = ({
         </Slider>
         <Slider
           color="green"
-          onChange={handleUpdatePreview}
-          onMouseUp={handleChange}
-          onKeyUp={handleChange}
+          onChange={handleChange}
           ref={greenRef}
           defaultValue={defaultGreen}
           min={0}
           max={255}
+          marginBottom="2"
         >
           <SliderTrack />
           <SliderFilledTrack />
@@ -111,13 +124,12 @@ const FilterColor: React.FC<FilterColorProps> = ({
         </Slider>
         <Slider
           color="blue"
-          onChange={handleUpdatePreview}
-          onMouseUp={handleChange}
-          onKeyUp={handleChange}
+          onChange={handleChange}
           ref={blueRef}
           defaultValue={defaultBlue}
           min={0}
           max={255}
+          marginBottom="2"
         >
           <SliderTrack />
           <SliderFilledTrack />
@@ -125,26 +137,49 @@ const FilterColor: React.FC<FilterColorProps> = ({
         </Slider>
         <Slider
           color="black"
-          onChange={handleUpdatePreview}
-          onMouseUp={handleChange}
-          onKeyUp={handleChange}
+          onChange={handleChange}
           ref={opacityRef}
           defaultValue={weight}
           step={.01}
           min={0}
           max={1}
+          marginBottom="4"
         >
           <SliderTrack />
           <SliderFilledTrack />
           <SliderThumb />
         </Slider>
-        <Box backgroundColor={color} w="100%" h="50px" />
+        <Flex direction="row">
+          <Flex direction="column">
+            <Input
+              ref={inputColorRef}
+              textAlign="center"
+              marginBottom="4"
+              width="7em"
+            />
+          </Flex>
+          <Flex direction="column" flexGrow={1} marginLeft="4">
+            <Box
+              backgroundColor={color}
+              w="100%"
+              h="10"
+              marginBottom="4"
+              rounded="md"
+            />
+          </Flex>
+        </Flex>
+        <Button
+          marginX="auto"
+          variant="solid"
+          display="flex"
+          onClick={onViewDetailsClick}
+        >
+          View details
+        </Button>
       </>
     ) : (
       <Spinner />
     )}
-
-
     </Box>
   );
 };
