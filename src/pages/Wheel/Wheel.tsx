@@ -25,7 +25,11 @@ const BLUE_GREEN = mix(0.5, BLUE, GREEN);
 const YELLOW_GREEN = mix(0.5, YELLOW, GREEN);
 const YELLOW_ORANGE = mix(0.5, YELLOW, ORANGE);
 
-const defaultColors = [
+const BLACK = '#000000';
+const GRAY = '#777777';
+const WHITE = '#ffffff';
+//
+const defaultColors = {
   // PRIMARY
   RED,
   BLUE,
@@ -43,13 +47,18 @@ const defaultColors = [
   BLUE_GREEN,
   YELLOW_GREEN,
   YELLOW_ORANGE,
-];
 
+  // BASIC
+  BLACK,
+  GRAY,
+  WHITE,
+};
 
 const Wheel: React.FC<IWheelProps> = () => {
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
   const [filterColor, setFilterColor] = useState('');
   const [filterWeight, setFilterWeight] = useState(1);
-  const [colors, setColors] = useState<string[]>([...defaultColors]);
+  const [colors, setColors] = useState<{[key:string]: string}>({...defaultColors});
   const { t } = useTranslation('pages');
 
   const handleFilterColorChange = useCallback((color, weight) => {
@@ -57,26 +66,47 @@ const Wheel: React.FC<IWheelProps> = () => {
     setFilterWeight(weight);
   }, []);
 
+  const handleViewDetailsClick = useCallback(() => setIsDetailsVisible(true), []);
+
   useEffect(() => {
     if (!filterColor) {
       setColors(defaultColors);
     } else {
-      setColors(defaultColors.map(color => mix(filterWeight, color,filterColor )));
+      setColors(
+        Object
+          .entries(defaultColors)
+          .reduce((result, color) => ({
+            ...result,
+            [color[0]]: mix(filterWeight + (['BLACK', 'GRAY', 'WHITE'].includes(color[0]) ? (1-filterWeight)/2 : 0), color[1], filterColor )
+          }), {})
+      );
     }
+
+    setIsDetailsVisible(false);
   }, [filterColor, filterWeight]);
 
   return (
     <Page title={t('wheel.title')}>
-      <Flex justifyContent="space-between">
-        <Flex>
+      <Flex justifyContent="space-between" flexDirection={['column', 'column', 'row', 'row']}>
+        <Flex
+          flexDirection={['row', 'row', 'column', 'column']}
+          width={['100%', '100%', '67%', '75%']}
+          maxHeight={['45vh', '45vh', '80vh', null]}
+          marginBottom={['2rem', '2rem', 0, 0]}
+        >
           <Circle colors={colors} size={450} />
         </Flex>
-        <Flex>
-          <FilterColor onChange={handleFilterColorChange} />
+        <Flex
+          flexDirection={['row', 'row', 'column', 'column']}
+          width={['100%', '100%', '33%', '25%']}
+        >
+          <FilterColor
+            onChange={handleFilterColorChange}
+            onViewDetailsClick={handleViewDetailsClick}
+          />
         </Flex>
-
       </Flex>
-      <ColorData colors={colors} />
+      { isDetailsVisible && <ColorData colors={colors} /> }
     </Page>
   );
 };

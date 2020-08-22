@@ -54,7 +54,13 @@
         "blue_green": "Blue-Green",
         "yellow_green": "Yellow-Green",
         "yellow_orange": "Yellow-Orange"
+      },
+      "buttons": {
+        "details": "View Details"
       }
+    },
+    "test": {
+      "title": "Test"
     }
   }
 }

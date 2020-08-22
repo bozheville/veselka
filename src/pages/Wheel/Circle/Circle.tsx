@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { CircleProps } from './types';
-import WheelContext from './WheelContext';
+import { CircleProps } from './circle.d';
+import WheelContext from '../WheelContext';
 import Sector from './Sector';
 import Arc from './Arc';
 
@@ -22,14 +22,22 @@ const Circle: React.FC<CircleProps> = ({
   const dAngleTertiary = 360/6;
 
 
-  const sectors = colors.slice(0, 3).map((color, index) => ({
+  const sectors = [
+    colors.RED,
+    colors.BLUE,
+    colors.YELLOW,
+  ].map((color, index) => ({
     color,
     radius: radius/3,
     from: index * dAngle,
     to: (index+1)*dAngle,
   }));
 
-  const arcs = colors.slice(3, 6).map((color, index) => ({
+  const arcs = [
+    colors.VIOLET,
+    colors.GREEN,
+    colors.ORANGE,
+  ].map((color, index) => ({
     color,
     radius: radius*2/3,
     thickness: radius/3,
@@ -37,7 +45,14 @@ const Circle: React.FC<CircleProps> = ({
     endAngle: 60 + (index+1)*dAngle,
   }));
 
-  const tertiary = colors.slice(6).map((color, index) => ({
+  const tertiary = [
+    colors.RED_ORANGE,
+    colors.RED_VIOLET,
+    colors.BLUE_VIOLET,
+    colors.BLUE_GREEN,
+    colors.YELLOW_GREEN,
+    colors.YELLOW_ORANGE,
+  ].map((color, index) => ({
     color,
     radius: radius,
     thickness: radius/3,
@@ -49,9 +64,11 @@ const Circle: React.FC<CircleProps> = ({
     <WheelContext.Provider value={wheelContextValue}>
     <svg
       viewBox={`0 0 ${size} ${size}`}
-      width={size}
-      height={size}
     >
+      <rect x="0" y={size/2} width={size/2} height={size/2} fill={colors.WHITE} />
+      <rect x={size/2} y="0" width={size/2} height={size/2} fill={colors.GRAY} />
+      <rect x={size/2} y={size/2} width={size/2} height={size/2} fill={colors.BLACK} />
+
       {sectors.map(sector => (
         <Sector {...sector} key={sector.color} />
       ))}
