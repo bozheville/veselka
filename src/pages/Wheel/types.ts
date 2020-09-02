@@ -22,6 +22,7 @@ export interface ColorDataProps {
 }
 
 export interface UrlProps {
-  c: string;
-  w: number;
+  c?: string;
+  w?: number;
+  a?: string;
 }

@@ -1,4 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback
+} from 'react';
 import {
   Box,
   Button,
@@ -39,7 +44,7 @@ const FilterColor: React.FC<FilterColorProps> = ({
     if (!isUrlProcessed) {
       const { c, w } = queryParams;
 
-      if (/[a-f0-9]{6}/.test(c)) {
+      if (c && /[a-f0-9]{6}/.test(c)) {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(c);
         setDeafultRed(parseInt(result?.[1] as string, 16));
         setDeafultGreen(parseInt(result?.[2] as string, 16));
@@ -47,14 +52,13 @@ const FilterColor: React.FC<FilterColorProps> = ({
         setColor(`#${c}`);
       }
 
-      if (Boolean(w)) {
+      if (typeof w === 'number') {
         setWeight(w);
       }
 
       setIsUrlProcessed(true);
     }
   }, [queryParams, isUrlProcessed]);
-
 
   const handleChange = useCallback(() => {
     const red = parseInt((redRef.current?.childNodes[3] as HTMLInputElement).value, 10);
