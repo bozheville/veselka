@@ -1,14 +1,21 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
-import { Box, Grid, Textarea, Radio, RadioGroup, IconButton } from '@chakra-ui/core';
+import {
+  Box,
+  Textarea,
+  Radio,
+  RadioGroup,
+  IconButton,
+} from '@chakra-ui/core';
 
 import useLink from 'hooks/useLink';
 
 import { ColorDataProps, UrlProps } from '../types';
 
-import { orderedColors, shadesList, defaultColorAlias } from './constants';
+import { orderedColors, defaultColorAlias } from './constants';
 import useColorData from './useColorData';
 import { ColorAlias } from './colorData.d';
 import ColorAliasSection from './ColorAlias';
+import ColorShadesSection from './ColorShades';
 
 const ColorData: React.FC<ColorDataProps> = ({
   colors,
@@ -16,7 +23,12 @@ const ColorData: React.FC<ColorDataProps> = ({
   const [ exportType, setExportType ] = useState<string>('json');
   const [ colorAlias, setColorAlias ] = useState<ColorAlias>({});
 
-  const { output, schema } = useColorData(colors, exportType, colorAlias);
+  const {
+    output,
+    schema,
+    handleShadesChande,
+    isBWShadesOn
+  } = useColorData(colors, exportType, colorAlias);
 
   const { updateURL, queryParams } = useLink<UrlProps>();
 
@@ -43,6 +55,8 @@ const ColorData: React.FC<ColorDataProps> = ({
     }
   }, [queryParams.a])
 
+
+
   const handleExportTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setExportType(event.target.value);
   };
@@ -59,22 +73,15 @@ const ColorData: React.FC<ColorDataProps> = ({
 
   return (
     <Box marginY="2rem" color="white">
-      <Grid templateColumns="repeat(16, 1fr)">
-        {shadesList.map(shade => (
-          <React.Fragment key={`shade-${shade}`}>
-            <Box>{shade}</Box>
-            {orderedColors.map(colorName => (
-              <Box
-                key={`${colorName}-${shade}`}
-                backgroundColor={schema?.[colorName]?.[shade]}
-                w="100%"
-                h="2em"
-              />
-            ))}
-          </React.Fragment>
-        ))}
-      </Grid>
-      <ColorAliasSection value={schema} onChange={handleAliasChange} />
+      <ColorShadesSection
+        schema={schema}
+        isBWShadesOn={isBWShadesOn}
+        onShadesChande={handleShadesChande}
+      />
+      <ColorAliasSection
+        value={schema}
+        onChange={handleAliasChange}
+      />
       <Box marginTop="1rem" position="relative">
         <RadioGroup value={exportType} isInline onChange={handleExportTypeChange}>
           <Radio value="json">JSON</Radio>
