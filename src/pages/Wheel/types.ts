@@ -1,14 +1,10 @@
 import { RouteComponentProps } from 'react-router-dom';
 
-interface IWheelRouteProps {
-
-}
+interface IWheelRouteProps {}
 
 export interface IWheelContainerProps extends RouteComponentProps<IWheelRouteProps> {}
 
 export interface IWheelProps {}
-
-
 
 export interface FilterColorProps {
   onChange: (color: string, weight: number) => void;
@@ -22,7 +18,8 @@ export interface ColorDataProps {
 }
 
 export interface UrlProps {
-  c?: string;
-  w?: number;
-  a?: string;
+  c?: string; // mask color
+  w?: number; // mask weight
+  a?: string; // color names aliases
+  s?: number; // shades for black and white
 }

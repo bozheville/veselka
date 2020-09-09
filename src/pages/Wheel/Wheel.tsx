@@ -26,7 +26,7 @@ const YELLOW_GREEN = mix(0.5, YELLOW, GREEN);
 const YELLOW_ORANGE = mix(0.5, YELLOW, ORANGE);
 
 const BLACK = '#000000';
-const GRAY = '#777777';
+const GRAY = '#555555';
 const WHITE = '#ffffff';
 //
 const defaultColors = {
