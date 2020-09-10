@@ -3,6 +3,13 @@ import { CircleProps } from './circle.d';
 import WheelContext from '../WheelContext';
 import Sector from './Sector';
 import Arc from './Arc';
+import styled from '@emotion/styled';
+
+const SvgWrapper = styled.svg`
+  min-height: 40vh;
+  flex-direction: column;
+  flex-grow: 1;
+`;
 
 const Circle: React.FC<CircleProps> = ({
   colors,
@@ -62,7 +69,7 @@ const Circle: React.FC<CircleProps> = ({
 
   return (
     <WheelContext.Provider value={wheelContextValue}>
-    <svg
+    <SvgWrapper
       viewBox={`0 0 ${size} ${size}`}
     >
       <rect x="0" y={size/2} width={size/2} height={size/2} fill={colors.WHITE} />
@@ -78,7 +85,7 @@ const Circle: React.FC<CircleProps> = ({
       {tertiary.map(arc => (
         <Arc {...arc} key={arc.color} />
       ))}
-    </svg>
+    </SvgWrapper>
     </WheelContext.Provider>
   );
 };

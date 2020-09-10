@@ -52,9 +52,7 @@ const FilterColor: React.FC<FilterColorProps> = ({
         setColor(`#${c}`);
       }
 
-      if (typeof w === 'number') {
-        setWeight(w);
-      }
+      setWeight(parseFloat(String(w)||'1'));
 
       setIsUrlProcessed(true);
     }
@@ -84,8 +82,6 @@ const FilterColor: React.FC<FilterColorProps> = ({
 
   useEffect(() => {
     if (!isInitialized && isUrlProcessed) {
-      handleChange();
-      handleChange();
       setIsInitialized(true);
     }
   }, [isUrlProcessed, handleChange, isInitialized]);
