@@ -55,8 +55,6 @@ const ColorData: React.FC<ColorDataProps> = ({
     }
   }, [queryParams.a])
 
-
-
   const handleExportTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setExportType(event.target.value);
   };
