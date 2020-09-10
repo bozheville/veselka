@@ -14,7 +14,7 @@ import headSvg from './undraw_completed_steps_yurw.svg';
 import PromoItem from './PromoItem';
 import { IHomeProps } from './types';
 
-const mainLink = '/404';
+const mainLink = '/wheel';
 
 const Home: React.FC<IHomeProps> = () => {
   const { t } = useTranslation('pages');
@@ -46,7 +46,7 @@ const Home: React.FC<IHomeProps> = () => {
           <Button
             as={Link}
             to={mainLink}
-            variantColor="purple"
+            variantColor="red_violet"
             size="lg"
             mt="1em"
           >

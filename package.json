@@ -1,6 +1,6 @@
 {
   "name": "wheel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
@@ -22,10 +22,12 @@
     "@types/react-test-renderer": "^16.9.2",
     "emotion-theming": "^10.0.27",
     "i18next": "^19.4.5",
+    "polished": "^3.6.5",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
+    "react-hook-form": "^6.7.0",
     "react-i18next": "^11.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -38,7 +40,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "add:component": "node ./scripts/add.mjs --type component",
-    "add:page": "node ./scripts/add.mjs --type page"
+    "add:page": "node ./scripts/add.mjs --type page",
+    "lint": "eslint --ext ts,tsx ./src"
   },
   "eslintConfig": {
     "extends": "react-app"

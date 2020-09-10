@@ -33,6 +33,34 @@
     },
     "page404": {
       "title": "Page not found"
+    },
+    "wheel": {
+      "title": "Wheel",
+      "colorGroups": {
+        "primary": "Primary",
+        "secondary": "Secondary",
+        "tertiary": "Tertiary"
+      },
+      "colors": {
+        "red": "Red",
+        "blue": "Blue",
+        "yellow": "Yellow",
+        "violet": "Violet",
+        "green": "Green",
+        "orange": "Orange",
+        "red_violet": "Red-Violet",
+        "red_orange": "Red-Orange",
+        "blue_violet": "Blue-Violet",
+        "blue_green": "Blue-Green",
+        "yellow_green": "Yellow-Green",
+        "yellow_orange": "Yellow-Orange"
+      },
+      "buttons": {
+        "details": "View Details"
+      }
+    },
+    "test": {
+      "title": "Test"
     }
   }
 }
