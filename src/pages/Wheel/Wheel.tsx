@@ -99,6 +99,7 @@ const Wheel: React.FC<IWheelProps> = () => {
         <Flex
           flexDirection={['row', 'row', 'column', 'column']}
           width={['100%', '100%', '33%', '25%']}
+          paddingLeft={['0', '0', '4', '0']}
         >
           <FilterColor
             onChange={handleFilterColorChange}
