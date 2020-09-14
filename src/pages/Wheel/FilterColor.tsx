@@ -20,6 +20,8 @@ import { FilterColorProps, UrlProps } from './types';
 import useLink from 'hooks/useLink';
 import { rgb } from 'polished';
 
+const DEFAULT_WEIGHT = 0.8;
+
 const FilterColor: React.FC<FilterColorProps> = ({
   onChange,
   onViewDetailsClick,
@@ -27,7 +29,7 @@ const FilterColor: React.FC<FilterColorProps> = ({
   const [isInitialized, setIsInitialized] = useState(false);
   const [isUrlProcessed, setIsUrlProcessed] = useState(false);
   const [color, setColor] = useState('#7f7f7f');
-  const [weight, setWeight] = useState(1);
+  const [weight, setWeight] = useState(DEFAULT_WEIGHT);
   const [defaultRed, setDeafultRed] = useState(127);
   const [defaultGreen, setDeafultGreen] = useState(127);
   const [defaultBlue, setDeafultBlue] = useState(127);
@@ -44,27 +46,29 @@ const FilterColor: React.FC<FilterColorProps> = ({
     if (!isUrlProcessed) {
       const { c, w } = queryParams;
 
+      const weight = w ? parseFloat(String(w)) : DEFAULT_WEIGHT;
+      let color: string|null = null;
+      setWeight(weight);
+
       if (c && /[a-f0-9]{6}/.test(c)) {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(c);
         setDeafultRed(parseInt(result?.[1] as string, 16));
         setDeafultGreen(parseInt(result?.[2] as string, 16));
         setDeafultBlue(parseInt(result?.[3] as string, 16));
-        setColor(`#${c}`);
-      }
-
-      if (typeof w === 'number') {
-        setWeight(w);
+        color = `#${c}`;
+        setColor(color);
+        onChange(color, weight);
       }
 
       setIsUrlProcessed(true);
     }
-  }, [queryParams, isUrlProcessed]);
+  }, [queryParams, isUrlProcessed, onChange]);
 
   const handleChange = useCallback(() => {
     const red = parseInt((redRef.current?.childNodes[3] as HTMLInputElement).value, 10);
     const green = parseInt((greenRef.current?.childNodes[3] as HTMLInputElement).value, 10);
     const blue = parseInt((blueRef.current?.childNodes[3] as HTMLInputElement).value, 10);
-    const opacity = parseFloat((opacityRef.current?.childNodes[3] as HTMLInputElement).value);
+    const opacity = parseFloat((opacityRef.current?.childNodes[3] as HTMLInputElement).value) || 1;
     const newColor = rgb(red, green, blue);
 
     if (inputColorRef?.current) {
@@ -80,12 +84,10 @@ const FilterColor: React.FC<FilterColorProps> = ({
       c: newColor.replace('#', ''),
       w: opacity,
     });
-  }, []);
+  }, [updateURL, onChange]);
 
   useEffect(() => {
     if (!isInitialized && isUrlProcessed) {
-      handleChange();
-      handleChange();
       setIsInitialized(true);
     }
   }, [isUrlProcessed, handleChange, isInitialized]);

@@ -1,6 +1,6 @@
 {
   "name": "wheel",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
@@ -30,7 +30,7 @@
     "react-hook-form": "^6.7.0",
     "react-i18next": "^11.5.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "3.4.3",
     "typescript": "^3.9.5",
     "web-vitals": "^0.2.2"
   },
