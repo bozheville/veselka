@@ -58,7 +58,7 @@ const Wheel: React.FC<IWheelProps> = () => {
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
   const [filterColor, setFilterColor] = useState('');
   const [filterWeight, setFilterWeight] = useState(1);
-  const [colors, setColors] = useState<{[key:string]: string}>({...defaultColors});
+  const [colors, setColors] = useState<{[key:string]: string}>(defaultColors);
   const { t } = useTranslation('pages');
 
   const handleFilterColorChange = useCallback((color, weight) => {
@@ -75,10 +75,21 @@ const Wheel: React.FC<IWheelProps> = () => {
       setColors(
         Object
           .entries(defaultColors)
-          .reduce((result, color) => ({
-            ...result,
-            [color[0]]: mix(filterWeight + (['BLACK', 'GRAY', 'WHITE'].includes(color[0]) ? (1-filterWeight)/2 : 0), color[1], filterColor )
-          }), {})
+          .reduce((result, color) => {
+            const [ colorKey, colorValue ] = color;
+            const isBasic = ['BLACK', 'GRAY', 'WHITE'].includes(colorKey);
+            const weightModifier = (isBasic ? (1-filterWeight)/2 : 0);
+            const updatedColor = mix(
+              filterWeight + weightModifier,
+              colorValue,
+              filterColor
+            );
+
+            return {
+              ...result,
+              [colorKey]: updatedColor
+            };
+          }, {})
       );
     }
 
@@ -87,7 +98,10 @@ const Wheel: React.FC<IWheelProps> = () => {
 
   return (
     <Page title={t('wheel.title')}>
-      <Flex justifyContent="space-between" flexDirection={['column', 'column', 'row', 'row']}>
+      <Flex
+        justifyContent="space-between"
+        flexDirection={['column', 'column', 'row', 'row']}
+      >
         <Flex
           flexDirection={['row', 'row', 'column', 'column']}
           width={['100%', '100%', '67%', '75%']}

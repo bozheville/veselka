@@ -67,7 +67,7 @@ const ColorData: React.FC<ColorDataProps> = ({
           : ''
       ).join('~'),
     })
-  }, []);
+  }, [updateURL]);
 
   return (
     <Box marginY="2rem" color="white">

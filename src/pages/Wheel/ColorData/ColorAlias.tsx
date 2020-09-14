@@ -19,7 +19,7 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
 }) => {
   const [ isColorAliasVisible, setisColorAliasVisible ] = useState<boolean>(false);
   const handleAliasExpand = useCallback(() => setisColorAliasVisible(true), []);
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data: ColorAliasData) => {
     const normalizedData = Object
       .keys(data)

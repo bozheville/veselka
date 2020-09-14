@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CircleProps } from './circle.d';
 import WheelContext from '../WheelContext';
 import Sector from './Sector';
@@ -11,11 +11,14 @@ const SvgWrapper = styled.svg`
   flex-grow: 1;
 `;
 
+const dAngle = 360/3;
+const dAngleTertiary = 360/6;
+
 const Circle: React.FC<CircleProps> = ({
   colors,
   size = 600,
 }) => {
-  const [center, setCenter] = useState({x:0,y:0});
+  const [center, setCenter] = useState({ x:0, y:0 });
   const [radius, setRadius] = useState(0);
 
   useEffect(() => {
@@ -25,67 +28,66 @@ const Circle: React.FC<CircleProps> = ({
 
   const wheelContextValue = { center, radius };
 
-  const dAngle = 360/3;
-  const dAngleTertiary = 360/6;
+  const [basic, arcs] = useMemo(() => {
+    const basicColors = [
+      colors.BLACK,
+      colors.GRAY,
+      colors.WHITE,
+    ].map((color, index) => ({
+      color,
+      radius: radius/4,
+      from: index * dAngle,
+      to: (index+1)*dAngle,
+    }));
 
+    const primary = [
+      colors.RED,
+      colors.BLUE,
+      colors.YELLOW,
+    ].map((color, index) => ({
+      color,
+      radius: radius*2/4,
+      thickness: radius/4,
+      startAngle: index * dAngle,
+      endAngle: (index+1)*dAngle,
+    }));
 
-  const sectors = [
-    colors.RED,
-    colors.BLUE,
-    colors.YELLOW,
-  ].map((color, index) => ({
-    color,
-    radius: radius/3,
-    from: index * dAngle,
-    to: (index+1)*dAngle,
-  }));
+    const secondary = [
+      colors.VIOLET,
+      colors.GREEN,
+      colors.ORANGE,
+    ].map((color, index) => ({
+      color,
+      radius: radius*3/4,
+      thickness: radius/4,
+      startAngle: 60 + index * dAngle,
+      endAngle: 60 + (index+1)*dAngle,
+    }));
 
-  const arcs = [
-    colors.VIOLET,
-    colors.GREEN,
-    colors.ORANGE,
-  ].map((color, index) => ({
-    color,
-    radius: radius*2/3,
-    thickness: radius/3,
-    startAngle: 60 + index * dAngle,
-    endAngle: 60 + (index+1)*dAngle,
-  }));
+    const tertiary = [
+      colors.RED_ORANGE,
+      colors.RED_VIOLET,
+      colors.BLUE_VIOLET,
+      colors.BLUE_GREEN,
+      colors.YELLOW_GREEN,
+      colors.YELLOW_ORANGE,
+    ].map((color, index) => ({
+      color,
+      radius,
+      thickness: radius/4,
+      startAngle: index * dAngleTertiary,
+      endAngle: (index+1)*dAngleTertiary,
+    }));
 
-  const tertiary = [
-    colors.RED_ORANGE,
-    colors.RED_VIOLET,
-    colors.BLUE_VIOLET,
-    colors.BLUE_GREEN,
-    colors.YELLOW_GREEN,
-    colors.YELLOW_ORANGE,
-  ].map((color, index) => ({
-    color,
-    radius: radius,
-    thickness: radius/3,
-    startAngle: index * dAngleTertiary,
-    endAngle: (index+1)*dAngleTertiary,
-  }));
+    return [basicColors, [...primary, ...secondary, ...tertiary]];
+  }, [colors, radius]);
 
   return (
     <WheelContext.Provider value={wheelContextValue}>
-    <SvgWrapper
-      viewBox={`0 0 ${size} ${size}`}
-    >
-      <rect x="0" y={size/2} width={size/2} height={size/2} fill={colors.WHITE} />
-      <rect x={size/2} y="0" width={size/2} height={size/2} fill={colors.GRAY} />
-      <rect x={size/2} y={size/2} width={size/2} height={size/2} fill={colors.BLACK} />
-
-      {sectors.map(sector => (
-        <Sector {...sector} key={sector.color} />
-      ))}
-      {arcs.map(arc => (
-        <Arc {...arc} key={arc.color} />
-      ))}
-      {tertiary.map(arc => (
-        <Arc {...arc} key={arc.color} />
-      ))}
-    </SvgWrapper>
+      <SvgWrapper viewBox={`0 0 ${size} ${size}`}>
+        {basic.map(sector => <Sector {...sector} key={sector.color} />)}
+        {arcs.map(arc => <Arc {...arc} key={arc.color} />)}
+      </SvgWrapper>
     </WheelContext.Provider>
   );
 };
