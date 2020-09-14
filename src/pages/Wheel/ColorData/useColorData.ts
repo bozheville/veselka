@@ -5,13 +5,15 @@ import useLink from 'hooks/useLink';
 
 import { UrlProps } from '../types';
 
-import { shadesList, defaultColorAlias } from './constants';
+import { orderedColors, shadesList, defaultColorAlias } from './constants';
 import { ColorAlias, ColorSchema } from './colorData.d';
 
-const useColorData = (colors: ColorAlias, exportType: string, colorAlias: ColorAlias) => {
+const useColorData = (colors: ColorAlias ) => {
   const [ output, setOutput ] = useState<string>('');
   const [ schema, setSchema ] = useState<ColorSchema>();
   const [ isBWShadesOn, setIsBWShadesOn ] = useState<boolean>(false);
+  const [ colorAlias, setColorAlias ] = useState<ColorAlias>({});
+  const [ exportType, setExportType ] = useState<string>('json');
 
   const { updateURL, queryParams } = useLink<UrlProps>();
 
@@ -20,6 +22,16 @@ const useColorData = (colors: ColorAlias, exportType: string, colorAlias: ColorA
   const handleAliasExpand = useCallback(() => {
     setIsColorAliasVisible(true);
   }, []);
+
+  const handleAliasChange = useCallback((value: ColorAlias) => {
+    updateURL({
+      a: orderedColors.map(
+        (color) => defaultColorAlias[color] !== value[color]
+          ? value[color]
+          : ''
+      ).join('~'),
+    })
+  }, [updateURL]);
 
   const getJSONSchema = useCallback((colorAlias: ColorAlias) => (schema: ColorSchema) => {
     const jsonSchema: ColorSchema = {};
@@ -92,6 +104,23 @@ const useColorData = (colors: ColorAlias, exportType: string, colorAlias: ColorA
   }, [exportType, colorAlias, colors, isBWShadesOn, getJSONSchema, getSassSchema]);
 
   useEffect(() => {
+    if (queryParams.a) {
+      const colorAlias: ColorAlias = {};
+      const urlAlias = queryParams.a.split('~');
+
+      for (const [index, color] of Object.entries(orderedColors)) {
+        if (urlAlias[parseInt(index, 10)]) {
+          colorAlias[color] = urlAlias[parseInt(index, 10)];
+        }
+      }
+
+      setColorAlias(colorAlias);
+    } else {
+      setColorAlias({});
+    }
+  }, [queryParams.a])
+
+  useEffect(() => {
     setIsBWShadesOn(Boolean(parseInt(String(queryParams.s) || '0', 10)));
   }, [queryParams.s]);
 
@@ -101,13 +130,21 @@ const useColorData = (colors: ColorAlias, exportType: string, colorAlias: ColorA
     })
   }, [updateURL]);
 
+  const handleExportTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setExportType(event.target.value);
+  };
+
   return {
     output,
     schema,
+    colorAlias,
+    exportType,
     isColorAliasVisible,
     isBWShadesOn,
+    handleAliasChange,
     handleAliasExpand,
     handleShadesChande,
+    handleExportTypeChange,
   };
 };
 
