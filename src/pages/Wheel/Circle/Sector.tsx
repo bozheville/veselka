@@ -63,7 +63,7 @@ const Sector: React.FC<SectorProps> = ({
     endAngle: to,
     ...position,
     radius,
-  }), [from, to, center, radius]);
+  }), [from, to, radius, position]);
 
   return (
     <path

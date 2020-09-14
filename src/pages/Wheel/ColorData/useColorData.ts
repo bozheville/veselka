@@ -89,7 +89,7 @@ const useColorData = (colors: ColorAlias, exportType: string, colorAlias: ColorA
     } else {
       getJSONSchema(colorAlias)(schema);
     }
-  }, [exportType, colorAlias, colors, isBWShadesOn]);
+  }, [exportType, colorAlias, colors, isBWShadesOn, getJSONSchema, getSassSchema]);
 
   useEffect(() => {
     setIsBWShadesOn(Boolean(parseInt(String(queryParams.s) || '0', 10)));
@@ -99,7 +99,7 @@ const useColorData = (colors: ColorAlias, exportType: string, colorAlias: ColorA
     updateURL({
       s: event.target.checked ? 1 : 0
     })
-  }, [exportType, schema]);
+  }, [updateURL]);
 
   return {
     output,
