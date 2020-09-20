@@ -6,11 +6,6 @@ export interface IWheelContainerProps extends RouteComponentProps<IWheelRoutePro
 
 export interface IWheelProps {}
 
-export interface FilterColorProps {
-  onChange: (color: string, weight: number) => void;
-  onViewDetailsClick: () => void;
-}
-
 export interface ColorDataProps {
   colors: {
     [key:string]: string;

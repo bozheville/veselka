@@ -7,7 +7,7 @@ import { Flex } from '@chakra-ui/core';
 import { Page } from 'components';
 import { IWheelProps } from './types';
 import Circle from './Circle';
-import FilterColor from './FilterColor';
+import FilterColor from './Settings';
 import ColorData from './ColorData';
 
 const RED = '#ed1c24';
@@ -55,7 +55,7 @@ const defaultColors = {
 };
 
 const Wheel: React.FC<IWheelProps> = () => {
-  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+  const [isDetailsVisible, setIsDetailsVisible] = useState(true);
   const [filterColor, setFilterColor] = useState('');
   const [filterWeight, setFilterWeight] = useState(1);
   const [colors, setColors] = useState<{[key:string]: string}>(defaultColors);
@@ -63,7 +63,7 @@ const Wheel: React.FC<IWheelProps> = () => {
 
   const handleFilterColorChange = useCallback((color, weight) => {
     setFilterColor(color);
-    setFilterWeight(weight);
+    setFilterWeight(1-weight);
   }, []);
 
   const handleViewDetailsClick = useCallback(() => setIsDetailsVisible(true), []);
@@ -93,7 +93,7 @@ const Wheel: React.FC<IWheelProps> = () => {
       );
     }
 
-    setIsDetailsVisible(false);
+    // setIsDetailsVisible(false);
   }, [filterColor, filterWeight]);
 
   return (
@@ -104,7 +104,7 @@ const Wheel: React.FC<IWheelProps> = () => {
       >
         <Flex
           flexDirection={['row', 'row', 'column', 'column']}
-          width={['100%', '100%', '67%', '75%']}
+          width={['100%', '100%', '67%', '70%']}
           maxHeight={['45vh', '45vh', '80vh', null]}
           marginBottom={['2rem', '2rem', 0, 0]}
         >
@@ -112,7 +112,7 @@ const Wheel: React.FC<IWheelProps> = () => {
         </Flex>
         <Flex
           flexDirection={['row', 'row', 'column', 'column']}
-          width={['100%', '100%', '33%', '25%']}
+          width={['100%', '100%', '33%', '30%']}
           paddingLeft={['0', '0', '4', '0']}
         >
           <FilterColor
