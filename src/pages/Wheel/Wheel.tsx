@@ -5,7 +5,8 @@ import { mix } from 'polished';
 import { Flex } from '@chakra-ui/core';
 
 import { Page } from 'components';
-import { IWheelProps } from './types';
+import { useLink } from 'hooks';
+import { IWheelProps, UrlProps } from './types';
 import Circle from './Circle';
 import FilterColor from './Settings';
 import ColorData from './ColorData';
@@ -55,18 +56,29 @@ const defaultColors = {
 };
 
 const Wheel: React.FC<IWheelProps> = () => {
-  const [isDetailsVisible, setIsDetailsVisible] = useState(true);
+  const [isFilterVisible, setIsFilterVIsible] = useState(false);
   const [filterColor, setFilterColor] = useState('');
   const [filterWeight, setFilterWeight] = useState(1);
   const [colors, setColors] = useState<{[key:string]: string}>(defaultColors);
   const { t } = useTranslation('pages');
 
-  const handleFilterColorChange = useCallback((color, weight) => {
-    setFilterColor(color);
-    setFilterWeight(1-weight);
-  }, []);
+  const { updateURL, queryParams } = useLink<UrlProps>();
 
-  const handleViewDetailsClick = useCallback(() => setIsDetailsVisible(true), []);
+  useEffect(() => {
+    const color = /[0-9a-zA-Z]{6}/.test(queryParams.c || '') ? queryParams.c : null;
+    const balance = queryParams.w;
+
+    if (!balance || !color) {
+      updateURL({
+        c: color || '7f7f7f',
+        w: balance || 0.3,
+      });
+    } else {
+      setFilterColor(`#${color}`);
+      setFilterWeight(1-(balance));
+      setIsFilterVIsible(true);
+    }
+  }, [queryParams.c, queryParams.w]);
 
   useEffect(() => {
     if (!filterColor) {
@@ -115,13 +127,10 @@ const Wheel: React.FC<IWheelProps> = () => {
           width={['100%', '100%', '33%', '30%']}
           paddingLeft={['0', '0', '4', '0']}
         >
-          <FilterColor
-            onChange={handleFilterColorChange}
-            onViewDetailsClick={handleViewDetailsClick}
-          />
+          {isFilterVisible && <FilterColor />}
         </Flex>
       </Flex>
-      { isDetailsVisible && <ColorData colors={colors} /> }
+      <ColorData colors={colors} />
     </Page>
   );
 };

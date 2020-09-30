@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { rgb } from 'polished';
+import { useForm } from 'react-hook-form';
 
 import { useDebounce, useLink } from 'hooks';
 import { UrlProps } from '../types';
@@ -7,96 +8,107 @@ import { UrlProps } from '../types';
 const DEFAULT_COLOR = '#7f7f7f';
 const DEFAULT_COLOR_PARTIAL = 127;
 const DEFAULT_WEIGHT = 0.2;
+const DEBOUNCE_TIMEOUT = 300;
 
-const useSettings = (onChange: any) => {
-  const [isInitialized, setIsInitialized] = useState(false);
+export interface FormValues {
+  [color: string]: string;
+}
+
+const useSettings = () => {
   const [isUrlProcessed, setIsUrlProcessed] = useState(false);
-  const [color, setColor] = useState(DEFAULT_COLOR);
-  const [weight, setWeight] = useState(DEFAULT_WEIGHT);
-  const [defaultRed, setDeafultRed] = useState(DEFAULT_COLOR_PARTIAL);
-  const [defaultGreen, setDeafultGreen] = useState(DEFAULT_COLOR_PARTIAL);
-  const [defaultBlue, setDeafultBlue] = useState(DEFAULT_COLOR_PARTIAL);
 
-  const redRef = useRef<HTMLInputElement>(null);
-  const greenRef = useRef<HTMLInputElement>(null);
-  const blueRef = useRef<HTMLInputElement>(null);
-  const opacityRef = useRef<HTMLInputElement>(null);
-  const inputColorRef = useRef<HTMLInputElement>(null);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    errors,
+    reset,
+    watch
+  } = useForm();
+
+  const {
+    color,
+    balance,
+    red,
+    blue,
+    green,
+  } = watch();
+
+  const inputColorRef = register({
+    validate: (value: string) => /^#[a-zA-Z0-9]{6}$/.test(value) || 'Incorrect color'
+  });
 
   const { updateURL, queryParams } = useLink<UrlProps>();
 
-  const debouncedColor = useDebounce(color, 200);
-  const debouncedWeight = useDebounce(weight, 200);
-
-  const handleChange = useCallback(() => {
-    const red = parseInt((redRef.current?.childNodes[3] as HTMLInputElement).value, 10);
-    const green = parseInt((greenRef.current?.childNodes[3] as HTMLInputElement).value, 10);
-    const blue = parseInt((blueRef.current?.childNodes[3] as HTMLInputElement).value, 10);
-    const opacity = parseFloat((opacityRef.current?.childNodes[3] as HTMLInputElement).value) ?? 1;
-    const newColor = rgb(red, green, blue);
-
-    if (inputColorRef?.current) {
-      inputColorRef.current.value = newColor;
-    }
-
-    setWeight(opacity);
-    setColor(newColor);
-
-  }, [onChange]);
+  const debouncedColor = useDebounce(color, DEBOUNCE_TIMEOUT);
+  const debouncedWeight = useDebounce(balance, DEBOUNCE_TIMEOUT);
 
   useEffect(() => {
-    if (!isUrlProcessed) {
-      const { c, w } = queryParams;
+    const newColor = rgb(parseInt(red, 10), parseInt(green, 10), parseInt(blue, 10));
+    setValue('color', newColor);
+  }, [red, green, blue]);
 
-      const weight = w ? parseFloat(String(w)) : DEFAULT_WEIGHT;
-      let color: string|null = null;
-      setWeight(weight);
+  const handleColorSubmit = handleSubmit((data: FormValues) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(data.color);
 
-      if (c && /[a-f0-9]{6}/.test(c)) {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(c);
-        setDeafultRed(parseInt(result?.[1] as string, 16));
-        setDeafultGreen(parseInt(result?.[2] as string, 16));
-        setDeafultBlue(parseInt(result?.[3] as string, 16));
-        color = `#${c}`;
-        setColor(color);
-        onChange(color, weight);
-      }
+    setValue('red', String(parseInt(result?.[1] as string, 16)));
+    setValue('green', String(parseInt(result?.[2] as string, 16)));
+    setValue('blue', String(parseInt(result?.[3] as string, 16)));
 
-      setIsUrlProcessed(true);
-    }
-  }, [queryParams, isUrlProcessed, onChange]);
-
-  useEffect(() => {
+    const newColor = data.color;
     updateURL({
-      c: debouncedColor.replace('#', ''),
-      w: debouncedWeight,
+      c: newColor.replace('#', ''),
+      w: parseFloat(data.balance),
+    });
+  });
+
+  useEffect(() => {
+    if (isUrlProcessed) {
+      return;
+    }
+
+    const { c, w } = queryParams;
+
+    const urlBalance = w ? parseFloat(String(w)) : DEFAULT_WEIGHT;
+    let urlColor: string|null = DEFAULT_COLOR;
+
+    let red = DEFAULT_COLOR_PARTIAL;
+    let green = DEFAULT_COLOR_PARTIAL;
+    let blue = DEFAULT_COLOR_PARTIAL;
+
+    if (c && /[a-f0-9]{6}/.test(c)) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(c);
+      red = parseInt(result?.[1] as string, 16);
+      green = parseInt(result?.[2] as string, 16);
+      blue = parseInt(result?.[3] as string, 16);
+      urlColor = `#${c}`;
+    }
+
+    reset({
+      color: urlColor,
+      red: String(red),
+      green: String(green),
+      blue: String(blue),
+      balance: String(urlBalance),
     });
 
-    onChange(debouncedColor, debouncedWeight);
-  }, [updateURL, debouncedColor, debouncedWeight]);
+    setIsUrlProcessed(true);
+  }, [queryParams, isUrlProcessed]);
 
   useEffect(() => {
-    if (!isInitialized && isUrlProcessed) {
-      setIsInitialized(true);
+    if (debouncedWeight && debouncedColor) {
+      handleColorSubmit();
     }
-  }, [isUrlProcessed, handleChange, isInitialized]);
+  }, [updateURL, debouncedColor, debouncedWeight]);
 
   return {
-    defaultRed,
-    defaultGreen,
-    defaultBlue,
-    redRef,
-    greenRef,
-    blueRef,
-    opacityRef,
     inputColorRef,
+    register,
     isUrlProcessed,
     color,
-    weight,
-    handleChange,
-  }
-
-
-}
+    handleColorSubmit,
+    errors,
+  };
+};
 
 export default useSettings;

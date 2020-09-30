@@ -1,28 +1,29 @@
 import React from 'react';
-import { Box, Input, Flex, Spinner } from '@chakra-ui/core';
+import {
+  Box,
+  FormControl,
+  FormErrorMessage,
+  Flex,
+  Grid,
+  IconButton,
+  Input,
+  Spinner,
+} from '@chakra-ui/core';
 
+import { Range } from 'components';
 import paletteSvg from './palette.svg';
-import Slider from './Slider';
 import { SettingsProps } from './types.d';
 import useSettings from './useSettings';
 
-const FilterColor: React.FC<SettingsProps> = ({
-  onChange,
-}) => {
+const FilterColor: React.FC<SettingsProps> = () => {
   const {
-    defaultRed,
-    defaultGreen,
-    defaultBlue,
-    redRef,
-    greenRef,
-    blueRef,
-    opacityRef,
+    register,
     inputColorRef,
     isUrlProcessed,
     color,
-    weight,
-    handleChange,
-  } = useSettings(onChange);
+    handleColorSubmit,
+    errors,
+  } = useSettings();
 
   return (
     <Box
@@ -30,62 +31,73 @@ const FilterColor: React.FC<SettingsProps> = ({
       borderWidth="1px"
       rounded="lg"
       padding="4"
-      backgroundColor="rgba(255,255,255,0.5)"
+      backgroundColor="rgba(255,255,255,0.7)"
     >
       {isUrlProcessed ? (
-      <>
-        <Slider
-          color="red"
-          onChange={handleChange}
-          ref={redRef}
-          defaultValue={defaultRed}
-        />
-        <Slider
-          color="green"
-          onChange={handleChange}
-          ref={greenRef}
-          defaultValue={defaultGreen}
-        />
-        <Slider
-          color="blue"
-          onChange={handleChange}
-          ref={blueRef}
-          defaultValue={defaultBlue}
-        />
-        <Flex
-          direction="row"
-          alignItems="start"
-          justifyContent="space-between"
-        >
-          <img src={paletteSvg} width="30px" />
-          <Slider
-            color="black"
-            onChange={handleChange}
-            ref={opacityRef}
-            defaultValue={weight}
-            step={.05}
-            min={0.3}
-            max={.8}
-            marginBottom="4"
-            marginX="3"
-            width="auto"
-            flexGrow={1}
+        <form onSubmit={handleColorSubmit}>
+          <Range
+            name="red"
+            ref={register}
+            max="255"
           />
-          <Box
-            backgroundColor={color}
-            width="30px"
-            height="30px"
+          <Range
+            name="green"
+            max="255"
+            ref={register}
           />
-        </Flex>
-        <Input
-          ref={inputColorRef}
-          defaultValue={color}
-          textAlign="center"
-        />
-      </>
-    ) : (
-      <Spinner />
-    )}
+          <Range
+            name="blue"
+            ref={register}
+            max="255"
+          />
+          <Flex
+            direction="row"
+            alignItems="start"
+            justifyContent="space-between"
+          >
+            <img src={paletteSvg} width="30px" />
+            <Box
+              marginBottom="4"
+              marginX="3"
+              width="auto"
+              flexGrow={1}
+            >
+              <Range
+                name="balance"
+                color="black"
+                ref={register}
+                max="0.8"
+                min="0.3"
+                step="0.05"
+              />
+            </Box>
+            <Box
+              backgroundColor={color}
+              width="30px"
+              height="30px"
+            />
+          </Flex>
+          <FormControl isInvalid={!!errors.color}>
+            <Grid templateColumns="1fr 2rem" gap="4">
+              <Input
+                ref={inputColorRef}
+                textAlign="center"
+                errorBorderColor="red.500"
+                isInvalid={Boolean(errors.color)}
+                name="color"
+              />
+              <IconButton
+                type="submit"
+                icon="repeat"
+                aria-label="apply color"
+              />
+              {errors.color && <FormErrorMessage>{errors.color.message}</FormErrorMessage>}
+            </Grid>
+          </FormControl>
+        </form>
+      ) : (
+        <Spinner />
+      )}
     </Box>
   );
 };
