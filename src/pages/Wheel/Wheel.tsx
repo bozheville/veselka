@@ -4,8 +4,8 @@ import { mix } from 'polished';
 
 import { Flex } from '@chakra-ui/core';
 
-import { Page } from 'components';
-import { useLink } from 'hooks';
+import { CookieBanner, Page, Welcome } from 'components';
+import { useLink, useLocalStorage } from 'hooks';
 import { IWheelProps, UrlProps } from './types';
 import Circle from './Circle';
 import FilterColor from './Settings';
@@ -61,8 +61,11 @@ const Wheel: React.FC<IWheelProps> = () => {
   const [filterWeight, setFilterWeight] = useState(1);
   const [colors, setColors] = useState<{[key:string]: string}>(defaultColors);
   const { t } = useTranslation('pages');
+  const [ isWelcomeClosed, setIsWelcomeClosed ] = useLocalStorage<boolean>('isWelcomeClosed', false);
 
   const { updateURL, queryParams } = useLink<UrlProps>();
+
+  const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), []);
 
   useEffect(() => {
     const color = /[0-9a-zA-Z]{6}/.test(queryParams.c || '') ? queryParams.c : null;
@@ -110,6 +113,7 @@ const Wheel: React.FC<IWheelProps> = () => {
 
   return (
     <Page title={t('wheel.title')}>
+      {!isWelcomeClosed && <Welcome onClose={handleWelcomeClose} /> }
       <Flex
         justifyContent="space-between"
         flexDirection={['column', 'column', 'row', 'row']}
