@@ -46,13 +46,13 @@ const SchemaOutput: React.FC<SchemaOutputProps> = ({
         bottom="4"
         right="4"
         zIndex={2}
-        variantColor="transparent"
+        variantColor="purple"
       />
       <Textarea
         ref={outputRef}
         value={value}
         height="10rem"
-        backgroundColor="#444"
+        backgroundColor="gray.700"
         isReadOnly={true}
       />
     </Box>
