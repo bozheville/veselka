@@ -34,6 +34,7 @@ const SchemaOutput: React.FC<SchemaOutputProps> = ({
         value={exportType}
         isInline
         onChange={onExportTypeChange}
+        variantColor="purple"
       >
         <Radio value="json">JSON</Radio>
         <Radio value="sass">SASS/LESS</Radio>

@@ -9,6 +9,7 @@ const StyledInput = styled.input`
   --thumbBg: #fff;
   --trackBg: #f2f2f2;
   --progressBg: #262626;
+  background: transparent;
 
   /* webkit progress workaround */
   --webkitProgressPercent: 0%;
