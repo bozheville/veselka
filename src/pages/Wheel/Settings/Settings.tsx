@@ -3,16 +3,20 @@ import {
   Box,
   FormControl,
   FormErrorMessage,
-  Flex,
   Grid,
   Input,
   Spinner,
 } from '@chakra-ui/core';
+import styled from '@emotion/styled';
 
 import { Range } from 'components';
 import paletteSvg from './palette.svg';
 import { SettingsProps } from './types.d';
 import useSettings from './useSettings';
+
+const BalanceRange = styled(Range)`
+  margin-top: 6px!important;
+`;
 
 const FilterColor: React.FC<SettingsProps> = () => {
   const {
@@ -49,33 +53,29 @@ const FilterColor: React.FC<SettingsProps> = () => {
             ref={register}
             max="255"
           />
-          <Flex
-            direction="row"
-            alignItems="start"
-            justifyContent="space-between"
+          <Grid
+            templateColumns="30px 1fr 30px"
+            gap="2"
           >
-            <img src={paletteSvg} width="30px" />
-            <Box
-              marginBottom="4"
-              marginX="3"
-              width="auto"
-              flexGrow={1}
-            >
-              <Range
-                name="balance"
-                color="black"
-                ref={register}
-                max="0.8"
-                min="0.3"
-                step="0.05"
-              />
-            </Box>
+            <img
+              src={paletteSvg}
+              width="30px"
+              height="30px"
+            />
+            <BalanceRange
+              name="balance"
+              color="black"
+              ref={register}
+              max="0.8"
+              min="0.3"
+              step="0.05"
+            />
             <Box
               backgroundColor={Boolean(errors.color) ? 'transparent' : color}
               width="30px"
               height="30px"
             />
-          </Flex>
+          </Grid>
           <FormControl isInvalid={!!errors.color}>
             <Grid templateColumns="1fr" gap="2">
               <Input
