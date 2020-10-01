@@ -11,7 +11,6 @@ import { ColorAlias, ColorSchema } from './colorData.d';
 const useColorData = (colors: ColorAlias ) => {
   const [ output, setOutput ] = useState<string>('');
   const [ schema, setSchema ] = useState<ColorSchema>();
-  const [ isBWShadesOn, setIsBWShadesOn ] = useState<boolean>(false);
   const [ colorAlias, setColorAlias ] = useState<ColorAlias>({});
   const [ exportType, setExportType ] = useState<string>('json');
 
@@ -38,20 +37,20 @@ const useColorData = (colors: ColorAlias ) => {
 
     for (const key of Object.keys(schema)) {
       const outputKey = colorAlias[key] || defaultColorAlias[key];
-      const outputValue = !isBWShadesOn && ['BLACK', 'WHITE'].includes(key)
+      const outputValue = ['BLACK', 'WHITE'].includes(key)
         ? schema[key][500]
         : schema[key];
       jsonSchema[outputKey] = outputValue;
     }
 
     setOutput(JSON.stringify(jsonSchema, null, 2));
-  }, [isBWShadesOn]);
+  }, []);
 
   const getSassSchema = useCallback((colorAlias: ColorAlias) => (schema: ColorSchema) => {
     const sassSchema = [];
 
     for (const key of Object.keys(schema)) {
-      if (!isBWShadesOn && ['BLACK', 'WHITE'].includes(key)) {
+      if (['BLACK', 'WHITE'].includes(key)) {
         const varName = `@color-${colorAlias[key] || defaultColorAlias[key]}`;
         sassSchema.push(`${varName}: ${schema[key][500]};`);
       } else {
@@ -65,7 +64,7 @@ const useColorData = (colors: ColorAlias ) => {
     }
 
     setOutput(sassSchema.join('\n'));
-  }, [isBWShadesOn]);
+  }, []);
 
   useEffect(() => {
     const totalShadesNum = 9;
@@ -101,7 +100,7 @@ const useColorData = (colors: ColorAlias ) => {
     } else {
       getJSONSchema(colorAlias)(schema);
     }
-  }, [exportType, colorAlias, colors, isBWShadesOn, getJSONSchema, getSassSchema]);
+  }, [exportType, colorAlias, colors, getJSONSchema, getSassSchema]);
 
   useEffect(() => {
     if (queryParams.a) {
@@ -120,16 +119,6 @@ const useColorData = (colors: ColorAlias ) => {
     }
   }, [queryParams.a])
 
-  useEffect(() => {
-    setIsBWShadesOn(Boolean(parseInt(String(queryParams.s) || '0', 10)));
-  }, [queryParams.s]);
-
-  const handleShadesChande = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    updateURL({
-      s: event.target.checked ? 1 : 0
-    })
-  }, [updateURL]);
-
   const handleExportTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setExportType(event.target.value);
   };
@@ -140,10 +129,8 @@ const useColorData = (colors: ColorAlias ) => {
     colorAlias,
     exportType,
     isColorAliasVisible,
-    isBWShadesOn,
     handleAliasChange,
     handleAliasExpand,
-    handleShadesChande,
     handleExportTypeChange,
   };
 };

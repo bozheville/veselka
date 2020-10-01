@@ -78,7 +78,7 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
     >
       <Button
         margin="0 auto"
-        variantColor="blue"
+        variantColor="purple"
         onClick={handleAliasExpand}
       >
         Set custom color names
