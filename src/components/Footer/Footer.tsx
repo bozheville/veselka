@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Text } from '@chakra-ui/core';
 import { FooterProps } from './Footer.d';
+import { useTranslation } from 'react-i18next';
 
 const Footer: React.FC<FooterProps> = ({
   menuItems,
 }) => {
+  const { t } = useTranslation('footer');
   return (
     <Box
       as="footer"
@@ -23,19 +25,29 @@ const Footer: React.FC<FooterProps> = ({
       >
         {menuItems.map((item) => (
           <Text padding="4"key={`menu-${item.link}`}>
-            <Link to={item.link}>{item.title}</Link>
+            <Link to={item.link}>{t(`menuItems.${item.titleKey}`)}</Link>
           </Text>
         ))}
 
         <Text padding="4">
-          <a href="https://github.com/bozheville/veselka/issues/new" target="_blank">Suggest a feature</a>
+          <a
+            href="https://github.com/bozheville/veselka/issues/new"
+            target="_blank"
+          >
+            {t(`menuItems.suggest_a_feature`)}
+          </a>
         </Text>
         <Text padding="4">
-          <a href="https://github.com/bozheville/veselka/issues/new?labels=bug&body=OS:%3Cwindows/linux/macOS%3E%0D%0Abrowser:%3Cchrome/firefox/safari%3E%0D%0ASteps%20to%20reproduce:" target="_blank">Report a bug</a>
+          <a
+            href="https://github.com/bozheville/veselka/issues/new?labels=bug&body=OS:%3Cwindows/linux/macOS%3E%0D%0Abrowser:%3Cchrome/firefox/safari%3E%0D%0ASteps%20to%20reproduce:"
+            target="_blank"
+          >
+            {t(`menuItems.report_a_bug`)}
+          </a>
         </Text>
 
       </Box>
-      <p>Created by Denys Grybov in 2020</p>
+      <p>{t('created_by')}</p>
     </Box>
   );
 };

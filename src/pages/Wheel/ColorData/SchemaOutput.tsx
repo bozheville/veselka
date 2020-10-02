@@ -8,12 +8,14 @@ import {
   IconButton,
   useToast,
 } from '@chakra-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const SchemaOutput: React.FC<SchemaOutputProps> = ({
   exportType,
   value,
   onExportTypeChange,
 }) => {
+  const { t } = useTranslation('details');
   const outputRef = useRef<HTMLTextAreaElement>(null);
   const toast = useToast();
 
@@ -21,7 +23,7 @@ const SchemaOutput: React.FC<SchemaOutputProps> = ({
     outputRef?.current?.select();
     document.execCommand('copy');
     toast({
-      description: "Color schema copied to clipboard",
+      description: t('toast'),
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -36,8 +38,8 @@ const SchemaOutput: React.FC<SchemaOutputProps> = ({
         onChange={onExportTypeChange}
         variantColor="purple"
       >
-        <Radio value="json">JSON</Radio>
-        <Radio value="sass">SASS/LESS</Radio>
+        <Radio value="json">{t('types.json')}</Radio>
+        <Radio value="sass">{t('types.sass')}</Radio>
       </RadioGroup>
       <IconButton
         icon="copy"

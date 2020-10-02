@@ -3,10 +3,12 @@ import { Box, Heading, List, ListItem, Text } from '@chakra-ui/core';
 
 import Button from '../Button';
 import { WelcomeProps } from './Welcome.d';
+import { useTranslation } from 'react-i18next';
 
 const Welcome: React.FC<WelcomeProps> = ({
   onClose,
 }) => {
+  const { t } = useTranslation('welcome');
   return (
     <Box
       paddingX="8"
@@ -16,17 +18,24 @@ const Welcome: React.FC<WelcomeProps> = ({
       backgroundColor="purple.600"
       color="white"
     >
-      <Heading as="h1" size="xl">Welcome to Veselka</Heading>
-      <Heading as="h3" size="md" marginBottom="4">The easiest tool for creating a color scheme</Heading>
-      <Text>All you need to do is:</Text>
+      <Heading as="h1" size="xl">
+        {t('title')}
+      </Heading>
+      <Heading
+        as="h3"
+        size="md"
+        marginBottom="4"
+      >
+        {t('subtitle')}
+      </Heading>
+      <Text>{t('all_you_need')}</Text>
       <List as="ol" styleType="decimal">
-        <ListItem>Pick a shade color</ListItem>
-        <ListItem>Set a balance between a spectre and a shade</ListItem>
-        <ListItem>Select output format</ListItem>
-        <ListItem>Copy your color scheme to clipboard</ListItem>
+        {(t('steps', {returnObjects: true}) as string[]).map((step) => (
+          <ListItem>{step}</ListItem>
+        ))}
       </List>
-      <Text>You can do it in seconds</Text>
-      <Text>Additionally you can rename color names if your design system requires</Text>
+      <Text>{t('you_can_do_it_in_seconds')}</Text>
+      <Text>{t('you_can_rename')}</Text>
       <Button
         marginTop="6"
         variantColor="pink"
