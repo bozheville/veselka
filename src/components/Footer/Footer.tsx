@@ -39,7 +39,7 @@ const Footer: React.FC<FooterProps> = ({
         </Text>
         <Text padding="4">
           <a
-            href="https://github.com/bozheville/veselka/issues/new?labels=bug&body=OS:%3Cwindows/linux/macOS%3E%0D%0Abrowser:%3Cchrome/firefox/safari%3E%0D%0ASteps%20to%20reproduce:"
+            href="https://github.com/bozheville/veselka/issues/new?labels=bug&template=bug_report.md"
             target="_blank"
           >
             {t(`menuItems.report_a_bug`)}
