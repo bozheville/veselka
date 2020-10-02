@@ -32,7 +32,7 @@ const Header: React.FC<IHeaderProps> = ({
                 variant="link"
                 variantColor="gray"
               >
-                {item.title}
+                {item.titleKey}
               </Button>
             </Flex>
           ))}
