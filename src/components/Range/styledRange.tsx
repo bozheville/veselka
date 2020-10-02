@@ -9,24 +9,25 @@ const StyledInput = styled.input`
   --thumbBg: #fff;
   --trackBg: #f2f2f2;
   --progressBg: #262626;
+  background: transparent;
 
   /* webkit progress workaround */
   --webkitProgressPercent: 0%;
 }
 
 &[name="red"] {
-  --progressBg: #f00;
-  --thumbBg: #f00;
+  --progressBg: #e33732;
+  --thumbBg: #e33732;
 }
 
 &[name="green"] {
-  --progressBg: #0f0;
-  --thumbBg: #0f0;
+  --progressBg: #49914f;
+  --thumbBg: #49914f;
 }
 
 &[name="blue"] {
-  --progressBg: #00f;
-  --thumbBg: #00f;
+  --progressBg: #3078a9;
+  --thumbBg: #3078a9;
 }
 
 & {

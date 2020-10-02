@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box } from "@chakra-ui/core";
 
-import Header from '../Header';
 import Footer from '../Footer';
 
 import { ILayoutProps } from './types';
@@ -12,14 +11,13 @@ const Layout: React.FC<ILayoutProps> = ({
 }) => {
   return (
     <>
-      <Header items={menuItems} />
       <Box
         as="section"
         flex="1 0 auto"
       >
         {children}
       </Box>
-      <Footer />
+      <Footer menuItems={menuItems} />
     </>
   );
 };

@@ -15,8 +15,6 @@ export interface ColorAliasProps {
 
 export interface ColorShadesProps {
   schema?: ColorSchema;
-  isBWShadesOn: boolean;
-  onShadesChande: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface SchemaOutputProps {

@@ -15,8 +15,6 @@ const ColorData: React.FC<ColorDataProps> = ({
     output,
     schema,
     exportType,
-    handleShadesChande,
-    isBWShadesOn,
     handleExportTypeChange,
     handleAliasChange,
   } = useColorData(colors);
@@ -25,8 +23,6 @@ const ColorData: React.FC<ColorDataProps> = ({
     <Box marginY="2rem" color="white">
       <ColorShadesSection
         schema={schema}
-        isBWShadesOn={isBWShadesOn}
-        onShadesChande={handleShadesChande}
       />
       <ColorAliasSection
         value={schema}
