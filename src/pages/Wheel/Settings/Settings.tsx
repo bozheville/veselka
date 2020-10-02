@@ -76,7 +76,7 @@ const FilterColor: React.FC<SettingsProps> = () => {
               height="30px"
             />
           </Grid>
-          <FormControl isInvalid={!!errors.color}>
+          <FormControl isInvalid={!!errors.color} marginTop="4">
             <Grid templateColumns="1fr" gap="2">
               <Input
                 ref={inputColorRef}
