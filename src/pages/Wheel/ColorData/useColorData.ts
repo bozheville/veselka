@@ -5,22 +5,14 @@ import useLink from 'hooks/useLink';
 
 import { UrlProps } from '../types';
 
-import { orderedColors, shadesList, defaultColorAlias } from './constants';
+import { orderedColors, defaultColorAlias } from './constants';
 import { ColorAlias, ColorSchema } from './colorData.d';
 
 const useColorData = (colors: ColorAlias ) => {
-  const [ output, setOutput ] = useState<string>('');
   const [ schema, setSchema ] = useState<ColorSchema>();
   const [ colorAlias, setColorAlias ] = useState<ColorAlias>({});
-  const [ exportType, setExportType ] = useState<string>('json');
 
   const { updateURL, queryParams } = useLink<UrlProps>();
-
-  const [ isColorAliasVisible, setIsColorAliasVisible ] = useState<boolean>(false);
-
-  const handleAliasExpand = useCallback(() => {
-    setIsColorAliasVisible(true);
-  }, []);
 
   const handleAliasChange = useCallback((value: ColorAlias) => {
     updateURL({
@@ -31,40 +23,6 @@ const useColorData = (colors: ColorAlias ) => {
       ).join('~'),
     })
   }, [updateURL]);
-
-  const getJSONSchema = useCallback((colorAlias: ColorAlias) => (schema: ColorSchema) => {
-    const jsonSchema: ColorSchema = {};
-
-    for (const key of Object.keys(schema)) {
-      const outputKey = colorAlias[key] || defaultColorAlias[key];
-      const outputValue = ['BLACK', 'WHITE'].includes(key)
-        ? schema[key][500]
-        : schema[key];
-      jsonSchema[outputKey] = outputValue;
-    }
-
-    setOutput(JSON.stringify(jsonSchema, null, 2));
-  }, []);
-
-  const getSassSchema = useCallback((colorAlias: ColorAlias) => (schema: ColorSchema) => {
-    const sassSchema = [];
-
-    for (const key of Object.keys(schema)) {
-      if (['BLACK', 'WHITE'].includes(key)) {
-        const varName = `@color-${colorAlias[key] || defaultColorAlias[key]}`;
-        sassSchema.push(`${varName}: ${schema[key][500]};`);
-      } else {
-        for(const shade of shadesList) {
-          const varName = `@color-${colorAlias[key] || defaultColorAlias[key]}-${shade}`;
-          sassSchema.push(`${varName}: ${schema[key][shade]};`);
-        }
-      }
-
-      sassSchema.push('');
-    }
-
-    setOutput(sassSchema.join('\n'));
-  }, []);
 
   useEffect(() => {
     const totalShadesNum = 9;
@@ -94,13 +52,7 @@ const useColorData = (colors: ColorAlias ) => {
     }
 
     setSchema(schema);
-
-    if (exportType === 'sass') {
-      getSassSchema(colorAlias)(schema);
-    } else {
-      getJSONSchema(colorAlias)(schema);
-    }
-  }, [exportType, colorAlias, colors, getJSONSchema, getSassSchema]);
+  }, [colorAlias, colors,]);
 
   useEffect(() => {
     if (queryParams.a) {
@@ -119,19 +71,10 @@ const useColorData = (colors: ColorAlias ) => {
     }
   }, [queryParams.a])
 
-  const handleExportTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setExportType(event.target.value);
-  };
-
   return {
-    output,
     schema,
     colorAlias,
-    exportType,
-    isColorAliasVisible,
     handleAliasChange,
-    handleAliasExpand,
-    handleExportTypeChange,
   };
 };
 

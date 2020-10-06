@@ -17,8 +17,3 @@ export interface ColorShadesProps {
   schema?: ColorSchema;
 }
 
-export interface SchemaOutputProps {
-  exportType: string;
-  value: string;
-  onExportTypeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}

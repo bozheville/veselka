@@ -6,16 +6,14 @@ import { ColorDataProps } from '../types';
 import useColorData from './useColorData';
 import ColorAliasSection from './ColorAlias';
 import ColorShadesSection from './ColorShades';
-import SchemaOutputSection from './SchemaOutput';
+import SchemaOutputSection from './SchemeOutput';
 
 const ColorData: React.FC<ColorDataProps> = ({
   colors,
 }) => {
   const {
-    output,
     schema,
-    exportType,
-    handleExportTypeChange,
+    colorAlias,
     handleAliasChange,
   } = useColorData(colors);
 
@@ -28,11 +26,7 @@ const ColorData: React.FC<ColorDataProps> = ({
         value={schema}
         onChange={handleAliasChange}
       />
-      <SchemaOutputSection
-        value={output}
-        exportType={exportType}
-        onExportTypeChange={handleExportTypeChange}
-      />
+      {schema && <SchemaOutputSection value={schema} colorAlias={colorAlias} />}
     </Box>
   );
 };
