@@ -33,6 +33,7 @@ const Footer: React.FC<FooterProps> = ({
           <a
             href="https://github.com/bozheville/veselka/issues/new"
             target="_blank"
+            rel="noopener noreferrer"
           >
             {t(`menuItems.suggest_a_feature`)}
           </a>
@@ -41,6 +42,7 @@ const Footer: React.FC<FooterProps> = ({
           <a
             href="https://github.com/bozheville/veselka/issues/new?labels=bug&template=bug_report.md"
             target="_blank"
+            rel="noopener noreferrer"
           >
             {t(`menuItems.report_a_bug`)}
           </a>

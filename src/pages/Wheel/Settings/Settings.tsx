@@ -61,6 +61,7 @@ const FilterColor: React.FC<SettingsProps> = () => {
               src={paletteSvg}
               width="30px"
               height="30px"
+              alt="spectrum"
             />
             <BalanceRange
               name="balance"

@@ -4,7 +4,7 @@ import { mix } from 'polished';
 
 import { Flex } from '@chakra-ui/core';
 
-import { CookieBanner, Page, Welcome } from 'components';
+import { Page, Welcome } from 'components';
 import { useLink, useLocalStorage } from 'hooks';
 import { IWheelProps, UrlProps } from './types';
 import Circle from './Circle';
@@ -65,7 +65,7 @@ const Wheel: React.FC<IWheelProps> = () => {
 
   const { updateURL, queryParams } = useLink<UrlProps>();
 
-  const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), []);
+  const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), [setIsWelcomeClosed]);
 
   useEffect(() => {
     const color = /[0-9a-zA-Z]{6}/.test(queryParams.c || '') ? queryParams.c : null;
@@ -81,7 +81,7 @@ const Wheel: React.FC<IWheelProps> = () => {
       setFilterWeight(1-(balance));
       setIsFilterVIsible(true);
     }
-  }, [queryParams.c, queryParams.w]);
+  }, [queryParams.c, queryParams.w, updateURL]);
 
   useEffect(() => {
     if (!filterColor) {
