@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { rgb } from 'polished';
 import { useForm } from 'react-hook-form';
 
@@ -7,7 +7,7 @@ import { UrlProps } from '../types';
 
 const DEFAULT_COLOR = '#7f7f7f';
 const DEFAULT_COLOR_PARTIAL = 127;
-const DEFAULT_WEIGHT = 0.2;
+const DEFAULT_WEIGHT = 0.3;
 const DEBOUNCE_TIMEOUT = 300;
 
 export interface FormValues {
@@ -46,7 +46,7 @@ const useSettings = () => {
   useEffect(() => {
     const newColor = rgb(parseInt(red, 10), parseInt(green, 10), parseInt(blue, 10));
     setValue('color', newColor);
-  }, [red, green, blue]);
+  }, [red, green, blue, setValue]);
 
   const handleColorSubmit = handleSubmit((data: FormValues) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(data.color);
@@ -93,12 +93,13 @@ const useSettings = () => {
     });
 
     setIsUrlProcessed(true);
-  }, [queryParams, isUrlProcessed]);
+  }, [queryParams, isUrlProcessed, reset]);
 
   useEffect(() => {
     if (debouncedWeight && debouncedColor) {
       handleColorSubmit();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateURL, debouncedColor, debouncedWeight]);
 
   return {
