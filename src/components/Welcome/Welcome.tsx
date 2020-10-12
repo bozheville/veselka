@@ -31,7 +31,7 @@ const Welcome: React.FC<WelcomeProps> = ({
       <Text>{t('all_you_need')}</Text>
       <List as="ol" styleType="decimal">
         {(t('steps', {returnObjects: true}) as string[]).map((step) => (
-          <ListItem>{step}</ListItem>
+          <ListItem key={step}>{step}</ListItem>
         ))}
       </List>
       <Text>{t('you_can_do_it_in_seconds')}</Text>
