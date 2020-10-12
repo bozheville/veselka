@@ -1,28 +1,18 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { tint, shade } from 'polished';
 
 import useLink from 'hooks/useLink';
 
 import { UrlProps } from '../types';
 
-import { orderedColors, defaultColorAlias } from './constants';
+import { orderedColors } from './constants';
 import { ColorAlias, ColorSchema } from './colorData.d';
 
 const useColorData = (colors: ColorAlias ) => {
   const [ schema, setSchema ] = useState<ColorSchema>();
   const [ colorAlias, setColorAlias ] = useState<ColorAlias>({});
 
-  const { updateURL, queryParams } = useLink<UrlProps>();
-
-  const handleAliasChange = useCallback((value: ColorAlias) => {
-    updateURL({
-      a: orderedColors.map(
-        (color) => defaultColorAlias[color] !== value[color]
-          ? value[color]
-          : ''
-      ).join('~'),
-    })
-  }, [updateURL]);
+  const { queryParams } = useLink<UrlProps>();
 
   useEffect(() => {
     const totalShadesNum = 9;
@@ -74,7 +64,6 @@ const useColorData = (colors: ColorAlias ) => {
   return {
     schema,
     colorAlias,
-    handleAliasChange,
   };
 };
 
