@@ -17,12 +17,11 @@
     "all_you_need": "All you need to do is:",
     "steps": [
       "Pick a shade color",
-      "Set a balance between a spectre and a shade",
-      "Select output format",
+      "Set a balance between a hue and a shade",
       "Copy your color scheme to clipboard"
     ],
     "you_can_do_it_in_seconds": "You can do it in seconds",
-    "you_can_rename": "Additionally you can rename color names if your design system requires"
+    "you_can_rename": "Additionally you can change an output format and update color names if your design system requires"
   },
   "details": {
     "types": {

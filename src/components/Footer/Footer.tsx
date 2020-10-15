@@ -33,14 +33,16 @@ const Footer: React.FC<FooterProps> = ({
           <a
             href="https://github.com/bozheville/veselka/issues/new"
             target="_blank"
+            rel="noopener noreferrer"
           >
             {t(`menuItems.suggest_a_feature`)}
           </a>
         </Text>
         <Text padding="4">
           <a
-            href="https://github.com/bozheville/veselka/issues/new?labels=bug&body=OS:%3Cwindows/linux/macOS%3E%0D%0Abrowser:%3Cchrome/firefox/safari%3E%0D%0ASteps%20to%20reproduce:"
+            href="https://github.com/bozheville/veselka/issues/new?labels=bug&template=bug_report.md"
             target="_blank"
+            rel="noopener noreferrer"
           >
             {t(`menuItems.report_a_bug`)}
           </a>

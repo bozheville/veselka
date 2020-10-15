@@ -1,15 +1,16 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { mix } from 'polished';
 
 import { Flex } from '@chakra-ui/core';
 
-import { CookieBanner, Page, Welcome } from 'components';
-import { useLink, useLocalStorage } from 'hooks';
-import { IWheelProps, UrlProps } from './types';
+import { Page, Welcome } from 'components';
+import { useLocalStorage } from 'hooks';
+import { IWheelProps } from './types';
 import Circle from './Circle';
 import FilterColor from './Settings';
 import ColorData from './ColorData';
+import UrlContext from 'services/UrlContext';
 
 const RED = '#ed1c24';
 const BLUE = '#0f75bc';
@@ -63,25 +64,16 @@ const Wheel: React.FC<IWheelProps> = () => {
   const { t } = useTranslation('pages');
   const [ isWelcomeClosed, setIsWelcomeClosed ] = useLocalStorage<boolean>('isWelcomeClosed', false);
 
-  const { updateURL, queryParams } = useLink<UrlProps>();
+  const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), [setIsWelcomeClosed]);
+  const {shade, balance} = useContext(UrlContext);
 
   const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), []);
 
   useEffect(() => {
-    const color = /[0-9a-zA-Z]{6}/.test(queryParams.c || '') ? queryParams.c : null;
-    const balance = queryParams.w;
-
-    if (!balance || !color) {
-      updateURL({
-        c: color || '7f7f7f',
-        w: balance || 0.3,
-      });
-    } else {
-      setFilterColor(`#${color}`);
-      setFilterWeight(1-(balance));
-      setIsFilterVIsible(true);
-    }
-  }, [queryParams.c, queryParams.w]);
+    setFilterColor(`#${shade}`);
+    setFilterWeight(1-(balance));
+    setIsFilterVIsible(true);
+  }, [shade, balance]);
 
   useEffect(() => {
     if (!filterColor) {

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -8,34 +8,25 @@ import {
   Text,
 } from '@chakra-ui/core';
 
-import { useForm } from 'react-hook-form';
-
-import { orderedColors } from './constants';
-import { ColorAlias as ColorAliasData, ColorAliasProps } from './colorData.d';
-import { useTranslation } from 'react-i18next';
+import { orderedColors } from '../constants';
+import { ColorAliasProps } from './colorAlias.d';
+import useColorAlias from './useColorAlias';
 
 const ColorAlias: React.FC<ColorAliasProps> = ({
   value: schema,
-  onChange,
 }) => {
-  const { t } = useTranslation('details');
-  const [ isColorAliasVisible, setisColorAliasVisible ] = useState<boolean>(false);
-  const handleAliasExpand = useCallback(() => setisColorAliasVisible(true), []);
-  const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data: ColorAliasData) => {
-    const normalizedData = Object
-      .keys(data)
-      .filter(key => data[key])
-      .reduce((result, key) => ({
-        ...result,
-        [key.replace('color_alias_', '')]: data[key],
-      }), {});
-
-    onChange(normalizedData);
-  };
+  const {
+    isColorAliasVisible,
+    errors,
+    handleFormSubmit,
+    handleAliasExpand,
+    register,
+    validate,
+    t,
+  } = useColorAlias();
 
   return isColorAliasVisible ? (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleFormSubmit}>
       <Grid
         marginTop="4"
         templateColumns={[
@@ -54,15 +45,17 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
               height="10"
               backgroundColor={schema?.[color]?.[500]}
               rounded="md"
+              data-test-id={`color-${color}`}
             />
             <Box>
               <Input
                 flexGrow={1}
                 name={`color_alias_${color}`}
-                ref={register({ validate: (value) => /^[A-Za-z_-]*$/.test(value) || t('color_error') as string })}
+                ref={register({ validate })}
                 placeholder={color.toLocaleLowerCase()}
                 backgroundColor="gray.700"
-                isInvalid={errors[`color_alias_${color}`]}
+                isInvalid={Boolean(errors[`color_alias_${color}`])}
+                errorBorderColor="red.600"
               />
               {errors[`color_alias_${color}`] && (
                 <Text fontSize="xs">

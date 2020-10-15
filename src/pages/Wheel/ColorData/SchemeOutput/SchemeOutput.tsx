@@ -1,41 +1,35 @@
-import React, { useCallback, useRef } from 'react';
-import { SchemaOutputProps } from './colorData.d';
+import React, {useContext} from 'react';
 import {
   Box,
   Textarea,
   Radio,
   RadioGroup,
   IconButton,
-  useToast,
 } from '@chakra-ui/core';
-import { useTranslation } from 'react-i18next';
 
-const SchemaOutput: React.FC<SchemaOutputProps> = ({
-  exportType,
+import { useTranslation } from 'react-i18next';
+import { SchemeOutputProps } from './SchemeOutput.d';
+import useSchemeOutput from './useSchemeOutput';
+
+const SchemaOutput: React.FC<SchemeOutputProps> = ({
   value,
-  onExportTypeChange,
 }) => {
   const { t } = useTranslation('details');
-  const outputRef = useRef<HTMLTextAreaElement>(null);
-  const toast = useToast();
 
-  const handleCopyClick = useCallback(() => {
-    outputRef?.current?.select();
-    document.execCommand('copy');
-    toast({
-      description: t('toast'),
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    })
-  }, [toast]);
+  const {
+    exportType,
+    handleExportTypeChange,
+    output,
+    handleCopyClick,
+    outputRef,
+  } = useSchemeOutput(value, t);
 
   return (
     <Box marginTop="1rem" position="relative">
       <RadioGroup
         value={exportType}
         isInline
-        onChange={onExportTypeChange}
+        onChange={handleExportTypeChange}
         variantColor="purple"
       >
         <Radio value="json">{t('types.json')}</Radio>
@@ -53,7 +47,7 @@ const SchemaOutput: React.FC<SchemaOutputProps> = ({
       />
       <Textarea
         ref={outputRef}
-        value={value}
+        value={output}
         height="10rem"
         backgroundColor="gray.700"
         isReadOnly={true}

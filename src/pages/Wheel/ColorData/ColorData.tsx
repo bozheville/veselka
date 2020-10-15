@@ -4,35 +4,20 @@ import { Box } from '@chakra-ui/core';
 import { ColorDataProps } from '../types';
 
 import useColorData from './useColorData';
-import ColorAliasSection from './ColorAlias';
+import ColorAliasSection from './ColorAlias/ColorAlias';
 import ColorShadesSection from './ColorShades';
-import SchemaOutputSection from './SchemaOutput';
+import SchemaOutputSection from './SchemeOutput';
 
 const ColorData: React.FC<ColorDataProps> = ({
   colors,
 }) => {
-  const {
-    output,
-    schema,
-    exportType,
-    handleExportTypeChange,
-    handleAliasChange,
-  } = useColorData(colors);
+  const { schema } = useColorData(colors);
 
   return (
     <Box marginY="2rem" color="white">
-      <ColorShadesSection
-        schema={schema}
-      />
-      <ColorAliasSection
-        value={schema}
-        onChange={handleAliasChange}
-      />
-      <SchemaOutputSection
-        value={output}
-        exportType={exportType}
-        onExportTypeChange={handleExportTypeChange}
-      />
+      <ColorShadesSection schema={schema}/>
+      <ColorAliasSection value={schema}/>
+      {schema && <SchemaOutputSection value={schema} />}
     </Box>
   );
 };
