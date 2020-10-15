@@ -33,10 +33,10 @@ const useColorAlias = () => {
         [key.replace('color_alias_', '')]: data[key],
       }), {});
 
-      updateUrl?.({
+      updateUrl({
         colorAlias: normalizedData,
       })
-  }), []);
+  }), [updateUrl]);
 
   const validate = useCallback((value) => {
     if (!/^[A-Za-z_-]*$/.test(value)) {

@@ -51,7 +51,7 @@ export const useUrlContext = () => {
     }
 
     updateURL(updateObject);
-  }, []);
+  }, [updateURL]);
 
   useEffect(() => {
     let aliasValue: ColorAliasList = DEFAULT_COLOR_ALIAS;
