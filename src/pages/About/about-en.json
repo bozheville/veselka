@@ -1,0 +1,29 @@
+{
+  "title": "About Veselka",
+  "welcome": "Welcome to Veselka - the easiest way to create a color scheme for your project. Don't expect too much. It's simple, primitive, and can't do much. All for making the process easy and fast.",
+  "veselka_is_different": "There are a lot of outstanding services for creating fantastic, thoughtful color schemes for professional UX designers. Veselka is different. Veselka is for others. Using Veselka, you can create a unique color schema for your project in seconds. Without being a professional UX designer.",
+  "why": {
+    "title": "Why do you need it?",
+    "list": [
+      "Because you want a unique look for your app",
+      "Because you don't want to spend much time on it"
+    ],
+    "explain": "I created Veselka thinking about project prototypes. For freshly bootstrapped projects using your favorite template."
+  },
+  "possibilities": {
+    "title": "Using Veselka, you can",
+    "list": [
+      "Create a truly unique color scheme",
+      "See the full preview of your scheme",
+      "Set a name for any color if you prefer it over the default one",
+      "Choose the output format JSON/SASS(LESS)",
+      "Copy to clipboard"
+    ]
+  },
+  "thanks": [
+    "Thanks for using it.",
+    "Sincerely yours,",
+    "Denys"
+  ],
+  "lets_start": "OK, let's start using it"
+}

@@ -1,44 +1,56 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
+import Button from 'components/Button';
 import Page from 'components/Page';
 import { IAboutProps } from './types';
-import { Heading, Text } from '@chakra-ui/core';
+import { Heading, Text, List, ListItem, Box } from '@chakra-ui/core';
+
+import aboutEn from './about-en.json';
+
+i18next.addResourceBundle('en', 'about', aboutEn);
 
 const About: React.FC<IAboutProps> = () => {
-  const { t } = useTranslation('pages');
+  const { t } = useTranslation('about');
 
   return (
-    <Page color="white" title={t('about.title')}>
-      <Heading mb="2rem" as="h1" size="xl">{t('about.title')}</Heading>
-
-      <Text>
-        Welcome to veselka - the easiest way to create a color schema for your project.
-        Don't expect too much. It's simple, primitive and can't do much.
-        All for making the process easy and fast.
-      </Text>
-      <Text>
-        There are a lot of outstanding services for creating a wonderful
-        thoughtful color schemas for proffessional UX designers.
-      </Text>
-      <Text>
-        Veselka is for others. Using veselta you can create a unique
-        color schema for your project in seconds. Why do you need it?
-      </Text>
-      <Text>
-        1. Because you want a unique look for your site
-        <br />
-        2. Because you don't wan't to spend much time on it
-      </Text>
-      <Text>
-        I created veselka because I create some
-      </Text>
-      <Text>
-        Thanks for using it.
-      </Text>
-      <Text>
-        Denys Grybov
-      </Text>
+    <Page color="white" title={t('title')} maxWidth="680px">
+      <Text p="2">{t('welcome')}</Text>
+      <Text p="2">{t('veselka_is_different')}</Text>
+      <Heading p="2" size="md">{t('why.title')}</Heading>
+      <List p="2" styleType="decimal">
+        {
+          (t('why.list', {returnObjects: true}) as string[])
+            .map((point) => (<ListItem key={point}>{point}</ListItem>))
+        }
+      </List>
+      <Text p="2">{t('why.explain')}</Text>
+      <Heading p="2" size="md">{t('possibilities.title')}</Heading>
+      <List p="2" styleType="decimal">
+        {
+          (t('possibilities.list', {returnObjects: true}) as string[])
+            .map((point) => (<ListItem key={point}>{point}</ListItem>))
+        }
+      </List>
+      {
+        (t('thanks', {returnObjects: true}) as string[])
+          .map((line) => (<Text p="2" key={line}>{line}</Text>))
+      }
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="center"
+      >
+        <Button
+          as={Link}
+          to="/"
+          variantColor="purple"
+        >
+          {t('lets_start')}
+        </Button>
+      </Box>
     </Page>
   );
 };
