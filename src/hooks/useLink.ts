@@ -18,7 +18,7 @@ const useLink = <T>() => {
       ...update,
     };
 
-    history.push(`?${stringify(urlProps)}`);
+    history.push(`/?${stringify(urlProps)}`);
   }, [location.search, history]);
 
   useEffect(() => {
