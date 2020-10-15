@@ -1,10 +1,26 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import { render, fireEvent, waitFor } from 'services/test-utils';
+import UrlContext, { useUrlContext } from 'services/UrlContext';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import ColorAlias from '../ColorAlias';
+
+function mockRRD() {
+  const original = jest.requireActual('react-router-dom');
+  return {
+    ...original,
+    useLocation: jest.fn().mockReturnValue({
+      pathname: '/',
+      search: 'a=bloodymary~~~~~teal~~~~~~sunset~~~',
+      hash: '',
+      state: null,
+      key: '5nvxpbdafa',
+    }),
+  };
+}
+
+jest.mock('react-router-dom', () => mockRRD());
 
 const color2rgb = (color: string) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
@@ -18,12 +34,40 @@ const color2rgb = (color: string) => {
   })`;
 }
 
+const TextAppWrapper: React.FC = ({
+  children,
+}) => {
+  const contextValue = useUrlContext();
+
+  return (
+    <UrlContext.Provider value={contextValue}>
+      {children}
+    </UrlContext.Provider>
+  );
+};
+
+const TextAppWrapperWithRouter: React.FC<{history: any}> = ({
+  children,
+  history,
+}) => {
+  const contextValue = useUrlContext();
+
+  return (
+    <Router history={history}>
+      <UrlContext.Provider value={contextValue}>
+        {children}
+      </UrlContext.Provider>
+    </Router>
+  );
+};
+
 describe('ColorAlias component', () => {
   test('click on a button opens a form', () => {
+
     const { getByText, queryByText } = render(
-      <MemoryRouter initialEntries={['/']}>
+      <TextAppWrapper>
         <ColorAlias />
-      </MemoryRouter>
+      </TextAppWrapper>
     );
 
     expect(queryByText('Update color names')).toBeNull();
@@ -35,9 +79,9 @@ describe('ColorAlias component', () => {
 
   test('ColorAlias values can be initialized from URL', () => {
     const { container, getByText } = render(
-      <MemoryRouter initialEntries={['/?a=bloodymary~~~~~teal~~~~~~sunset~~~']}>
+      <TextAppWrapper>
         <ColorAlias />
-      </MemoryRouter>
+      </TextAppWrapper>
     );
 
     fireEvent.click(getByText('Set custom color names'));
@@ -51,10 +95,12 @@ describe('ColorAlias component', () => {
     expect.assertions(1);
     const history = createMemoryHistory();
 
+    (global as any).history = history;
+
     const { container, getByText } = render(
-      <Router history={history}>
+      <TextAppWrapperWithRouter history={history}>
         <ColorAlias />
-      </Router>
+      </TextAppWrapperWithRouter>
     );
 
     fireEvent.click(getByText('Set custom color names'));
@@ -75,7 +121,6 @@ describe('ColorAlias component', () => {
 
   test('value prop controlls color boxes', () => {
     const colors = {
-
       RED: { 500: '#f4562e' },
       BLUE: { 500: '#6f8b89' },
       YELLOW: { 500: '#ffd618' },
@@ -94,9 +139,9 @@ describe('ColorAlias component', () => {
     };
 
     const { container, getByText } = render(
-      <MemoryRouter initialEntries={['/']}>
+      <TextAppWrapper>
         <ColorAlias value={colors} />
-      </MemoryRouter>
+      </TextAppWrapper>
     );
 
     fireEvent.click(getByText('Set custom color names'));

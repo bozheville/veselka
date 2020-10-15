@@ -10,6 +10,7 @@ import customTheme from 'services/theme';
 import menuJson from 'services/menu-items.json';
 import globalStyles from 'styled/global';
 import { MenuItem } from 'types';
+import UrlContext, { useUrlContext } from 'services/UrlContext';
 
 const menuItems = menuJson as unknown as MenuItem[];
 
@@ -21,14 +22,17 @@ const App: React.FC = () => {
   const [title, setTitle] = useState('');
 
   const pageContextState = useMemo(() => ({ title, setTitle }), [title, setTitle]);
+  const urlContextvalue = useUrlContext();
+
   return (
     <ThemeProvider theme={customTheme}>
+      <UrlContext.Provider value={urlContextvalue}>
       <CSSReset />
       <Global styles={globalStyles} />
       <BrowserRouter>
         <PageDataContext.Provider value={pageContextState}>
             <Layout menuItems={menuItems}>
-              <Suspense fallback={PagePlaceholder}>
+              <Suspense fallback={<PagePlaceholder />}>
                 <Switch>
                   <Route path="/about" exact component={AboutPage} />
                   <Route path="/" exact component={WheelPage} />
@@ -38,6 +42,7 @@ const App: React.FC = () => {
             </Layout>
         </PageDataContext.Provider>
       </BrowserRouter>
+      </UrlContext.Provider>
     </ThemeProvider>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Box,
   Textarea,
@@ -6,12 +6,12 @@ import {
   RadioGroup,
   IconButton,
 } from '@chakra-ui/core';
+
 import { useTranslation } from 'react-i18next';
 import { SchemeOutputProps } from './SchemeOutput.d';
 import useSchemeOutput from './useSchemeOutput';
 
 const SchemaOutput: React.FC<SchemeOutputProps> = ({
-  colorAlias,
   value,
 }) => {
   const { t } = useTranslation('details');
@@ -22,7 +22,7 @@ const SchemaOutput: React.FC<SchemeOutputProps> = ({
     output,
     handleCopyClick,
     outputRef,
-  } = useSchemeOutput(value, colorAlias, t);
+  } = useSchemeOutput(value, t);
 
   return (
     <Box marginTop="1rem" position="relative">

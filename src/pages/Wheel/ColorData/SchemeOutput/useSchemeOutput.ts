@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useContext, useEffect, useState, useRef } from "react";
 import { useToast } from '@chakra-ui/core';
 import { TFunction } from 'i18next';
 
+import UrlContext from 'services/UrlContext';
 import { ColorAlias, ColorSchema } from '../colorData.d';
 import { shadesList, defaultColorAlias } from '../constants';
 
@@ -41,11 +42,12 @@ const getJSONSchema = (colorAlias: ColorAlias, schema: ColorSchema) => {
   return JSON.stringify(jsonSchema, null, 2);
 };
 
-const useSchemeOutput = (value: ColorSchema, colorAlias: ColorAlias, t: TFunction) => {
+const useSchemeOutput = (value: ColorSchema, t: TFunction) => {
   const [ output, setOutput ] = useState<string>('');
   const [ exportType, setExportType ] = useState<string>('json');
   const toast = useToast();
   const outputRef = useRef<HTMLTextAreaElement>(null);
+  const { colorAlias } = useContext(UrlContext);
 
   useEffect(() => {
     let outputString = exportType === 'sass'

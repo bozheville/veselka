@@ -42,16 +42,19 @@ const FilterColor: React.FC<SettingsProps> = () => {
             name="red"
             ref={register}
             max="255"
+            data-testid="red-slider"
           />
           <Range
             name="green"
             max="255"
             ref={register}
+            data-testid="green-slider"
           />
           <Range
             name="blue"
             ref={register}
             max="255"
+            data-testid="blue-slider"
           />
           <Grid
             templateColumns="30px 1fr 30px"
@@ -61,7 +64,7 @@ const FilterColor: React.FC<SettingsProps> = () => {
               src={paletteSvg}
               width="30px"
               height="30px"
-              alt="spectrum"
+              alt="hue"
             />
             <BalanceRange
               name="balance"
@@ -70,6 +73,7 @@ const FilterColor: React.FC<SettingsProps> = () => {
               max="0.8"
               min="0.3"
               step="0.05"
+              data-testid="balance-slider"
             />
             <Box
               backgroundColor={Boolean(errors.color) ? 'transparent' : color}
@@ -85,6 +89,7 @@ const FilterColor: React.FC<SettingsProps> = () => {
                 errorBorderColor="red.500"
                 isInvalid={Boolean(errors.color)}
                 name="color"
+                data-testid="color-input"
               />
               {errors.color && <FormErrorMessage>{errors.color.message}</FormErrorMessage>}
             </Grid>
