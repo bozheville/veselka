@@ -1,9 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import useLink from 'hooks/useLink';
+import UrlContext from 'services/UrlContext';
 
-import { UrlProps } from '../../types';
 import { orderedColors, defaultColorAlias } from '../constants';
 import { ColorAliasList } from './colorAlias.d';
 
@@ -11,19 +10,18 @@ const useColorAlias = () => {
   const { t } = useTranslation('details');
 
   const [ isColorAliasVisible, setisColorAliasVisible ] = useState<boolean>(false);
-  const { updateURL, queryParams } = useLink<UrlProps>();
-
+  const { colorAlias, updateUrl } = useContext(UrlContext);
   const { register, handleSubmit, errors, reset, getValues } = useForm();
 
   const handleAliasExpand = useCallback(() => {
     setisColorAliasVisible(true);
 
-    const urlValue = queryParams?.a?.split('~').reduce((result, alias, index) => ({
+    const values = orderedColors.reduce((result, color, index) => ({
       ...result,
-      [`color_alias_${orderedColors[index]}`]: alias || ''
+      [`color_alias_${color}`]: colorAlias[color] || ''
     }), {});
 
-    reset(urlValue);
+    reset(values);
   }, []);
 
   const handleFormSubmit = useCallback(handleSubmit((data: ColorAliasList) => {
@@ -35,12 +33,8 @@ const useColorAlias = () => {
         [key.replace('color_alias_', '')]: data[key],
       }), {});
 
-      updateURL({
-        a: orderedColors.map(
-          (color) => defaultColorAlias[color] !== normalizedData[color]
-            ? normalizedData[color]
-            : ''
-        ).join('~'),
+      updateUrl?.({
+        colorAlias: normalizedData,
       })
   }), []);
 
@@ -63,28 +57,6 @@ const useColorAlias = () => {
     }
   }, [getValues]);
 
-  const handleAliasChange = useCallback((value: ColorAliasList) => {
-    const urlAProp = orderedColors.map(
-      (color) => defaultColorAlias[color] !== value[color]
-        ? value[color]
-        : ''
-    ).join('~');
-
-    //  ____                                                ___   _____
-    // |  _ \    ___   _ __ ___     ___   __   __   ___    |_ _| |_   _|
-    // | |_) |  / _ \ | '_ ` _ \   / _ \  \ \ / /  / _ \    | |    | |
-    // |  _ <  |  __/ | | | | | | | (_) |  \ V /  |  __/    | |    | |
-    // |_| \_\  \___| |_| |_| |_|  \___/    \_/    \___|   |___|   |_|
-    //
-    console.log('urlAProp', urlAProp);
-    // ^^^^^^^^
-
-
-    updateURL({
-      a: urlAProp,
-    })
-  }, [updateURL]);
-
   return {
     isColorAliasVisible,
     errors,
@@ -92,7 +64,6 @@ const useColorAlias = () => {
     handleAliasExpand,
     register,
     validate,
-    handleAliasChange,
     t,
   };
 };

@@ -11,13 +11,13 @@ import SchemaOutputSection from './SchemeOutput';
 const ColorData: React.FC<ColorDataProps> = ({
   colors,
 }) => {
-  const { schema, colorAlias } = useColorData(colors);
+  const { schema } = useColorData(colors);
 
   return (
     <Box marginY="2rem" color="white">
       <ColorShadesSection schema={schema}/>
       <ColorAliasSection value={schema}/>
-      {schema && <SchemaOutputSection value={schema} colorAlias={colorAlias} />}
+      {schema && <SchemaOutputSection value={schema} />}
     </Box>
   );
 };

@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { render, fireEvent } from 'services/test-utils';
+import UrlContext, { useUrlContext } from 'services/UrlContext';
 
 import SchemeOutput from '../SchemeOutput';
+
+function mockRRD() {
+  const original = jest.requireActual('react-router-dom');
+  return {
+    ...original,
+    useLocation: jest.fn().mockReturnValue({
+      pathname: '/',
+      search: 'a=~~~purple~~~~~~~~~~~',
+      hash: '',
+      state: null,
+      key: '5nvxpbdafa',
+    }),
+  };
+}
+
+jest.mock('react-router-dom', () => mockRRD());
 
 const blueViolet = {
   50: 'bv50',
@@ -28,10 +45,24 @@ const scheme2 = {
   BLACK: {500: '#232323'},
 };
 
+const UrlContextWrapper: React.FC<{initialEntries?: string[]}> = ({
+  children,
+  initialEntries,
+}) => {
+  const contextValue = useUrlContext();
+  const initialEntriesVlaue = useMemo(() => initialEntries || ['/'], [initialEntries]);
+
+  return (
+    <UrlContext.Provider value={contextValue}>
+      {children}
+    </UrlContext.Provider>
+  );
+};
+
 describe('SchemeOutput component', () => {
 
   test('output depends on value prop', () => {
-    const { container, rerender } = render(<SchemeOutput value={scheme1} colorAlias={{}} />);
+    const { container, rerender } = render(<SchemeOutput value={scheme1} />);
 
     let textarea = container.querySelector('textarea');
 
@@ -53,7 +84,7 @@ describe('SchemeOutput component', () => {
   "black": "#000000"
 }`);
 
-    rerender(<SchemeOutput value={scheme2} colorAlias={{}} />);
+    rerender(<SchemeOutput value={scheme2} />);
     textarea = container.querySelector('textarea');
 
     expect(textarea?.value).toBe(
@@ -76,7 +107,7 @@ describe('SchemeOutput component', () => {
   });
 
   test('changing output type changes output', () => {
-    const { container, getByLabelText } = render(<SchemeOutput value={scheme1} colorAlias={{}} />);
+    const { container, getByLabelText } = render(<SchemeOutput value={scheme1} />);
 
     let textarea = container.querySelector('textarea');
 
@@ -123,7 +154,7 @@ describe('SchemeOutput component', () => {
   test('click on copy button shwos', () => {
     global.document.execCommand = jest.fn();
 
-    const { container } = render(<SchemeOutput value={scheme1} colorAlias={{}} />);
+    const { container } = render(<SchemeOutput value={scheme1} />);
     const button = container.querySelector('button[aria-label="copy"]');
 
     button && fireEvent.click(button);
@@ -133,10 +164,9 @@ describe('SchemeOutput component', () => {
 
   test('output depends on colorAlias', () => {
     const { container } = render(
-      <SchemeOutput
-        value={scheme1}
-        colorAlias={{BLUE_VIOLET: 'purple'}}
-      />
+      <UrlContextWrapper>
+        <SchemeOutput value={scheme1} />
+      </UrlContextWrapper>
     );
 
     let textarea = container.querySelector('textarea');

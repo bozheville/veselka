@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { rgb } from 'polished';
 import { useForm } from 'react-hook-form';
 
-import { useDebounce, useLink } from 'hooks';
-import { UrlProps } from '../types';
+import { useDebounce } from 'hooks';
+import UrlContext from 'services/UrlContext';
 
 const DEFAULT_COLOR = '#7f7f7f';
 const DEFAULT_COLOR_PARTIAL = 127;
@@ -38,7 +38,7 @@ const useSettings = () => {
     validate: (value: string) => /^#[a-zA-Z0-9]{6}$/.test(value) || 'Incorrect color'
   });
 
-  const { updateURL, queryParams } = useLink<UrlProps>();
+  const { updateUrl, shade: urlShade, balance: urlBalance } = useContext(UrlContext);
 
   const debouncedColor = useDebounce(color, DEBOUNCE_TIMEOUT);
   const debouncedWeight = useDebounce(balance, DEBOUNCE_TIMEOUT);
@@ -56,9 +56,9 @@ const useSettings = () => {
     setValue('blue', String(parseInt(result?.[3] as string, 16)));
 
     const newColor = data.color;
-    updateURL({
-      c: newColor.replace('#', ''),
-      w: parseFloat(data.balance),
+    updateUrl({
+      shade: newColor.replace('#', ''),
+      balance: parseFloat(data.balance),
     });
   });
 
@@ -67,40 +67,38 @@ const useSettings = () => {
       return;
     }
 
-    const { c, w } = queryParams;
-
-    const urlBalance = w ? parseFloat(String(w)) : DEFAULT_WEIGHT;
-    let urlColor: string|null = DEFAULT_COLOR;
+    const updatedBalance = urlBalance ? parseFloat(String(urlBalance)) : DEFAULT_WEIGHT;
+    let updatedShade: string|null = DEFAULT_COLOR;
 
     let red = DEFAULT_COLOR_PARTIAL;
     let green = DEFAULT_COLOR_PARTIAL;
     let blue = DEFAULT_COLOR_PARTIAL;
 
-    if (c && /[a-f0-9]{6}/.test(c)) {
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(c);
+    if (urlShade && /[a-f0-9]{6}/.test(urlShade)) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(urlShade);
       red = parseInt(result?.[1] as string, 16);
       green = parseInt(result?.[2] as string, 16);
       blue = parseInt(result?.[3] as string, 16);
-      urlColor = `#${c}`;
+      updatedShade = `#${urlShade}`;
     }
 
     reset({
-      color: urlColor,
+      color: updatedShade,
       red: String(red),
       green: String(green),
       blue: String(blue),
-      balance: String(urlBalance),
+      balance: String(updatedBalance),
     });
 
     setIsUrlProcessed(true);
-  }, [queryParams, isUrlProcessed, reset]);
+  }, [urlShade, urlBalance, isUrlProcessed, reset]);
 
   useEffect(() => {
     if (debouncedWeight && debouncedColor) {
       handleColorSubmit();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateURL, debouncedColor, debouncedWeight]);
+  }, [debouncedColor, debouncedWeight]);
 
   return {
     inputColorRef,
