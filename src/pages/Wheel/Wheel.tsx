@@ -67,8 +67,6 @@ const Wheel: React.FC<IWheelProps> = () => {
   const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), [setIsWelcomeClosed]);
   const {shade, balance} = useContext(UrlContext);
 
-  const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), []);
-
   useEffect(() => {
     setFilterColor(`#${shade}`);
     setFilterWeight(1-(balance));
