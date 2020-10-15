@@ -1,14 +1,16 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { mix } from 'polished';
 
 import { Flex } from '@chakra-ui/core';
 
-import { Page } from 'components';
+import { Page, Welcome } from 'components';
+import { useLocalStorage } from 'hooks';
 import { IWheelProps } from './types';
 import Circle from './Circle';
-import FilterColor from './FilterColor';
+import FilterColor from './Settings';
 import ColorData from './ColorData';
+import UrlContext from 'services/UrlContext';
 
 const RED = '#ed1c24';
 const BLUE = '#0f75bc';
@@ -55,18 +57,21 @@ const defaultColors = {
 };
 
 const Wheel: React.FC<IWheelProps> = () => {
-  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+  const [isFilterVisible, setIsFilterVIsible] = useState(false);
   const [filterColor, setFilterColor] = useState('');
   const [filterWeight, setFilterWeight] = useState(1);
   const [colors, setColors] = useState<{[key:string]: string}>(defaultColors);
   const { t } = useTranslation('pages');
+  const [ isWelcomeClosed, setIsWelcomeClosed ] = useLocalStorage<boolean>('isWelcomeClosed', false);
 
-  const handleFilterColorChange = useCallback((color, weight) => {
-    setFilterColor(color);
-    setFilterWeight(weight);
-  }, []);
+  const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), [setIsWelcomeClosed]);
+  const {shade, balance} = useContext(UrlContext);
 
-  const handleViewDetailsClick = useCallback(() => setIsDetailsVisible(true), []);
+  useEffect(() => {
+    setFilterColor(`#${shade}`);
+    setFilterWeight(1-(balance));
+    setIsFilterVIsible(true);
+  }, [shade, balance]);
 
   useEffect(() => {
     if (!filterColor) {
@@ -93,18 +98,19 @@ const Wheel: React.FC<IWheelProps> = () => {
       );
     }
 
-    setIsDetailsVisible(false);
+    // setIsDetailsVisible(false);
   }, [filterColor, filterWeight]);
 
   return (
     <Page title={t('wheel.title')}>
+      {!isWelcomeClosed && <Welcome onClose={handleWelcomeClose} /> }
       <Flex
         justifyContent="space-between"
         flexDirection={['column', 'column', 'row', 'row']}
       >
         <Flex
           flexDirection={['row', 'row', 'column', 'column']}
-          width={['100%', '100%', '67%', '75%']}
+          width={['100%', '100%', '67%', '70%']}
           maxHeight={['45vh', '45vh', '80vh', null]}
           marginBottom={['2rem', '2rem', 0, 0]}
         >
@@ -112,16 +118,13 @@ const Wheel: React.FC<IWheelProps> = () => {
         </Flex>
         <Flex
           flexDirection={['row', 'row', 'column', 'column']}
-          width={['100%', '100%', '33%', '25%']}
+          width={['100%', '100%', '33%', '30%']}
           paddingLeft={['0', '0', '4', '0']}
         >
-          <FilterColor
-            onChange={handleFilterColorChange}
-            onViewDetailsClick={handleViewDetailsClick}
-          />
+          {isFilterVisible && <FilterColor />}
         </Flex>
       </Flex>
-      { isDetailsVisible && <ColorData colors={colors} /> }
+      <ColorData colors={colors} />
     </Page>
   );
 };

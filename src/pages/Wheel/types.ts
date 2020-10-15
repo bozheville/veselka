@@ -6,11 +6,6 @@ export interface IWheelContainerProps extends RouteComponentProps<IWheelRoutePro
 
 export interface IWheelProps {}
 
-export interface FilterColorProps {
-  onChange: (color: string, weight: number) => void;
-  onViewDetailsClick: () => void;
-}
-
 export interface ColorDataProps {
   colors: {
     [key:string]: string;
@@ -18,8 +13,8 @@ export interface ColorDataProps {
 }
 
 export interface UrlProps {
-  c?: string; // mask color
-  w?: number; // mask weight
+  c?: string; // shade color
+  w?: number; // scale/shade balance
   a?: string; // color names aliases
   s?: number; // shades for black and white
 }

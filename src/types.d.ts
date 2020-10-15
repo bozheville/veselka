@@ -11,7 +11,7 @@ declare module "*.svg" {
 }
 
 export interface MenuItem {
-  title: string;
+  titleKey: string;
   link: string;
 }
 

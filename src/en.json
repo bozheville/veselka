@@ -1,33 +1,6 @@
 {
   "general": {},
   "pages": {
-    "home": {
-      "title": "BlaBla Experience. Rethought",
-      "description": "A better way to do some nasty stuff",
-      "moreButton": "Explore",
-      "bottomSection": {
-        "heading": "Not confident yet?",
-        "button": "Just try it for free"
-      },
-      "keyBenefits": {
-        "title": "Key Benefits",
-        "a11y": {
-          "title": "Accesible",
-          "description": "VoiceOver friendly",
-          "actionName": "Learn more"
-        },
-        "responsiveness": {
-          "title": "Responsive",
-          "description": "Have the best user experinece. No matter which device you are using.",
-          "actionName": "Learn more"
-        },
-        "simplicity": {
-          "title": "Simple",
-          "description": "No sand. Only pure gold",
-          "actionName": "Learn more"
-        }
-      }
-    },
     "about": {
       "title": "About"
     },
@@ -35,35 +8,39 @@
       "title": "Page not found"
     },
     "wheel": {
-      "title": "Wheel",
-      "colorGroups": {
-        "primary": "Primary",
-        "secondary": "Secondary",
-        "tertiary": "Tertiary"
-      },
-      "colors": {
-        "red": "Red",
-        "blue": "Blue",
-        "yellow": "Yellow",
-        "violet": "Violet",
-        "green": "Green",
-        "orange": "Orange",
-        "red_violet": "Red-Violet",
-        "red_orange": "Red-Orange",
-        "blue_violet": "Blue-Violet",
-        "blue_green": "Blue-Green",
-        "yellow_green": "Yellow-Green",
-        "yellow_orange": "Yellow-Orange"
-      },
-      "buttons": {
-        "details": "View Details"
-      }
-    },
-    "test": {
-      "title": "Test"
+      "title": "Wheel"
     }
   },
-  "colorShades": {
-    "switch": "Enable shades for black and white colors"
+  "welcome": {
+    "title": "Welcome to Veselka",
+    "subtitle": "The easiest tool for creating a color scheme",
+    "all_you_need": "All you need to do is:",
+    "steps": [
+      "Pick a shade color",
+      "Set a balance between a hue and a shade",
+      "Copy your color scheme to clipboard"
+    ],
+    "you_can_do_it_in_seconds": "You can do it in seconds",
+    "you_can_rename": "Additionally you can change an output format and update color names if your design system requires"
+  },
+  "details": {
+    "types": {
+      "json": "JSON",
+      "sass": "SASS/LESS"
+    },
+    "buttons": {
+      "set_color_names": "Set custom color names",
+      "update_color_names": "Update color names"
+    },
+    "color_error": "Incorrect value. Only letters, _ and - allowed",
+    "toast": "Color schema copied to clipboard"
+  },
+  "footer": {
+    "menuItems": {
+      "about": "About Veselka",
+      "suggest_a_feature": "Suggest a feature",
+      "report_a_bug": "Report a bug"
+    },
+    "created_by": "Created by Denys Grybov in 2020"
   }
 }

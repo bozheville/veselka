@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -8,32 +8,25 @@ import {
   Text,
 } from '@chakra-ui/core';
 
-import { useForm } from 'react-hook-form';
-
-import { orderedColors } from './constants';
-import { ColorAlias as ColorAliasData, ColorAliasProps } from './colorData.d';
+import { orderedColors } from '../constants';
+import { ColorAliasProps } from './colorAlias.d';
+import useColorAlias from './useColorAlias';
 
 const ColorAlias: React.FC<ColorAliasProps> = ({
   value: schema,
-  onChange,
 }) => {
-  const [ isColorAliasVisible, setisColorAliasVisible ] = useState<boolean>(false);
-  const handleAliasExpand = useCallback(() => setisColorAliasVisible(true), []);
-  const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data: ColorAliasData) => {
-    const normalizedData = Object
-      .keys(data)
-      .filter(key => data[key])
-      .reduce((result, key) => ({
-        ...result,
-        [key.replace('color_alias_', '')]: data[key],
-      }), {});
-
-    onChange(normalizedData);
-  };
+  const {
+    isColorAliasVisible,
+    errors,
+    handleFormSubmit,
+    handleAliasExpand,
+    register,
+    validate,
+    t,
+  } = useColorAlias();
 
   return isColorAliasVisible ? (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleFormSubmit}>
       <Grid
         marginTop="4"
         templateColumns={[
@@ -52,22 +45,33 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
               height="10"
               backgroundColor={schema?.[color]?.[500]}
               rounded="md"
+              data-test-id={`color-${color}`}
             />
             <Box>
               <Input
                 flexGrow={1}
                 name={`color_alias_${color}`}
-                ref={register({ validate: (value) => /^[A-Za-z_-]*$/.test(value) || 'Incorrect value. Only letters, _ and - allowed' })}
+                ref={register({ validate })}
                 placeholder={color.toLocaleLowerCase()}
                 backgroundColor="gray.700"
-                isInvalid={errors[`color_alias_${color}`]}
+                isInvalid={Boolean(errors[`color_alias_${color}`])}
+                errorBorderColor="red.600"
               />
-              {errors[`color_alias_${color}`] && <Text fontSize="xs">{errors[`color_alias_${color}`].message}</Text>}
+              {errors[`color_alias_${color}`] && (
+                <Text fontSize="xs">
+                  {errors[`color_alias_${color}`].message}
+                </Text>
+              )}
             </Box>
           </React.Fragment>
         ))}
-        <div></div>
-        <Button variantColor="purple" type="submit">Update color names</Button>
+        <div />
+        <Button
+          variantColor="purple"
+          type="submit"
+        >
+          {t('buttons.update_color_names')}
+        </Button>
       </Grid>
     </form>
   ) : (
@@ -78,10 +82,10 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
     >
       <Button
         margin="0 auto"
-        variantColor="blue"
+        variantColor="purple"
         onClick={handleAliasExpand}
       >
-        Set custom color names
+        {t('buttons.set_color_names')}
       </Button>
     </Flex>
   );
