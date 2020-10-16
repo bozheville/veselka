@@ -1,5 +1,5 @@
 import React, { Suspense, useMemo, useState } from 'react';
-import { ThemeProvider, CSSReset } from "@chakra-ui/core";
+import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 import { Global } from '@emotion/core';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
