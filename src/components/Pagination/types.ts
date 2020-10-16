@@ -1,4 +1,4 @@
-import { BoxProps } from "@chakra-ui/core";
+import { BoxProps } from '@chakra-ui/core';
 
 export interface IPagination {
   page: number;

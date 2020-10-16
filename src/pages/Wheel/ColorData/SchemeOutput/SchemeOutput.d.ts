@@ -1,4 +1,4 @@
-import { ColorSchema } from "../colorData.d";
+import { ColorSchema } from '../colorData.d';
 
 export interface SchemeOutputProps {
   value: ColorSchema;

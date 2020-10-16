@@ -16,13 +16,13 @@ const useColorAlias = () => {
   const handleAliasExpand = useCallback(() => {
     setisColorAliasVisible(true);
 
-    const values = orderedColors.reduce((result, color, index) => ({
+    const values = orderedColors.reduce((result, color) => ({
       ...result,
       [`color_alias_${color}`]: colorAlias[color] || ''
     }), {});
 
     reset(values);
-  }, []);
+  }, [colorAlias, reset]);
 
   const handleFormSubmit = useCallback(handleSubmit((data: ColorAliasList) => {
     const normalizedData: ColorAliasList = Object
@@ -52,10 +52,10 @@ const useColorAlias = () => {
         );
 
       if (length > 1) {
-        return 'Duplicated names not allowed';
+        return t('color_duplicated_error') as string;
       }
     }
-  }, [getValues]);
+  }, [getValues, t]);
 
   return {
     isColorAliasVisible,

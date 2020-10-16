@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState, useRef } from "react";
+import { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import { useToast } from '@chakra-ui/core';
 import { TFunction } from 'i18next';
 
@@ -16,9 +16,9 @@ const getSassSchema = (colorAlias: ColorAlias, schema: ColorSchema) => {
       const varName = `@color-${colorAlias[key] || defaultColorAlias[key]}`;
       sassSchema.push(`${varName}: ${schema[key][500]};`);
     } else {
-      for(const shade of shadesList) {
-        const varName = `@color-${colorAlias[key] || defaultColorAlias[key]}-${shade}`;
-        sassSchema.push(`${varName}: ${schema[key][shade]};`);
+      for (const saturation of shadesList) {
+        const varName = `@color-${colorAlias[key] || defaultColorAlias[key]}--${saturation}`;
+        sassSchema.push(`${varName}: ${schema[key][saturation]};`);
       }
     }
 
@@ -50,9 +50,16 @@ const useSchemeOutput = (value: ColorSchema, t: TFunction) => {
   const { colorAlias } = useContext(UrlContext);
 
   useEffect(() => {
-    let outputString = exportType === 'sass'
-      ? getSassSchema(colorAlias, value)
-      : getJSONSchema(colorAlias, value);
+    let outputString = '';
+
+    switch (exportType) {
+      case 'sass':
+        outputString = getSassSchema(colorAlias, value);
+        break;
+      case 'json':
+        outputString = getJSONSchema(colorAlias, value);
+        break;
+    }
 
     setOutput(outputString);
   }, [colorAlias, value, exportType]);
