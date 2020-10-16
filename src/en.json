@@ -1,5 +1,8 @@
 {
-  "general": {},
+  "general": {
+    "title": "Veselka",
+    "description": "The easiest tool for creating a color scheme"
+  },
   "pages": {
     "about": {
       "title": "About"
