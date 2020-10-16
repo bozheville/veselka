@@ -25,7 +25,7 @@ const Footer: React.FC<FooterProps> = ({
       >
         {menuItems.map((item) => (
           <Text padding="4"key={`menu-${item.link}`}>
-            <Link to={item.link}>{t(`menuItems.${item.titleKey}`)}</Link>
+            <Link to={item.link}>{t(`menu_items.${item.titleKey}`)}</Link>
           </Text>
         ))}
 
@@ -35,7 +35,7 @@ const Footer: React.FC<FooterProps> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t(`menuItems.suggest_a_feature`)}
+            {t(`menu_items.suggest_a_feature`)}
           </a>
         </Text>
         <Text padding="4">
@@ -44,7 +44,7 @@ const Footer: React.FC<FooterProps> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t(`menuItems.report_a_bug`)}
+            {t(`menu_items.report_a_bug`)}
           </a>
         </Text>
 

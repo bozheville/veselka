@@ -33,10 +33,11 @@
       "update_color_names": "Update color names"
     },
     "color_error": "Incorrect value. Only letters, _ and - allowed",
+    "color_diplicated_error": "Duplicated names not allowed",
     "toast": "Color schema copied to clipboard"
   },
   "footer": {
-    "menuItems": {
+    "menu_items": {
       "about": "About Veselka",
       "suggest_a_feature": "Suggest a feature",
       "report_a_bug": "Report a bug"
