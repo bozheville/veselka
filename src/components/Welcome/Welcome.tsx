@@ -34,8 +34,8 @@ const Welcome: React.FC<WelcomeProps> = ({
           <ListItem key={step}>{step}</ListItem>
         ))}
       </List>
-      <Text>{t('you_can_do_it_in_seconds')}</Text>
-      <Text>{t('you_can_rename')}</Text>
+      <Text paddingTop="4">{t('you_can_do_it_in_seconds')}</Text>
+      <Text paddingTop="4">{t('you_can_rename')}</Text>
       <Button
         marginTop="6"
         variantColor="pink"
