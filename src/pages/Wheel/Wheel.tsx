@@ -14,6 +14,7 @@ import UrlContext from 'services/UrlContext';
 
 import {
   Circle,
+  ColorAlias,
   SchemeOutput,
 } from 'organisms';
 
@@ -99,8 +100,11 @@ const Wheel: React.FC<IWheelProps> = () => {
       );
     }
 
-    // setIsDetailsVisible(false);
-  }, [filterColor, filterWeight]);
+  const handleAliasChange = useCallback((updatedAlias: TColorAlias) => {
+    updateUrl({
+      colorAlias: updatedAlias,
+    });
+  }, [updateUrl]);
 
   return (
     <Page title={t('wheel.title')}>
@@ -126,7 +130,14 @@ const Wheel: React.FC<IWheelProps> = () => {
         </Flex>
       </Flex>
       {schema && (
+        <>
+          <ColorAlias
+            defaultValue={colorAlias}
+            schema={schema}
+            onChange={handleAliasChange}
+          />
           <SchemeOutput value={schema} colorAlias={colorAlias} />
+        </>
       )}
     </Page>
   );
