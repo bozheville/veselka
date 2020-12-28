@@ -14,6 +14,7 @@ import UrlContext from 'services/UrlContext';
 
 import {
   Circle,
+  SchemeOutput,
 } from 'organisms';
 
 const VIOLET = '#92278f';
@@ -65,7 +66,7 @@ const Wheel: React.FC<IWheelProps> = () => {
   const [ isWelcomeClosed, setIsWelcomeClosed ] = useLocalStorage<boolean>('isWelcomeClosed', false);
 
   const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), [setIsWelcomeClosed]);
-  const {shade, balance} = useContext(UrlContext);
+  const {shade, balance, colorAlias, updateUrl} = useContext(UrlContext);
 
   useEffect(() => {
     setFilterColor(`#${shade}`);
@@ -124,7 +125,9 @@ const Wheel: React.FC<IWheelProps> = () => {
           {isFilterVisible && <FilterColor />}
         </Flex>
       </Flex>
-      <ColorData colors={colors} />
+      {schema && (
+          <SchemeOutput value={schema} colorAlias={colorAlias} />
+      )}
     </Page>
   );
 };

@@ -6,7 +6,6 @@ import { ColorDataProps } from '../types';
 import useColorData from './useColorData';
 import ColorAliasSection from './ColorAlias/ColorAlias';
 import ColorShadesSection from './ColorShades';
-import SchemaOutputSection from './SchemeOutput';
 
 const ColorData: React.FC<ColorDataProps> = ({
   colors,
@@ -17,7 +16,6 @@ const ColorData: React.FC<ColorDataProps> = ({
     <Box marginY="2rem" color="white">
       <ColorShadesSection schema={schema}/>
       <ColorAliasSection value={schema}/>
-      {schema && <SchemaOutputSection value={schema} />}
     </Box>
   );
 };

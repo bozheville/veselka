@@ -13,6 +13,7 @@ import useSchemeOutput from './useSchemeOutput';
 
 const SchemaOutput: React.FC<SchemeOutputProps> = ({
   value,
+  colorAlias,
 }) => {
   const { t } = useTranslation('details');
 
@@ -22,10 +23,14 @@ const SchemaOutput: React.FC<SchemeOutputProps> = ({
     output,
     handleCopyClick,
     outputRef,
-  } = useSchemeOutput(value, t);
+  } = useSchemeOutput({value, colorAlias, t});
 
   return (
-    <Box marginTop="1rem" position="relative">
+    <Box
+      marginTop="4"
+      position="relative"
+      color="white"
+    >
       <RadioGroup
         value={exportType}
         isInline
