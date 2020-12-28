@@ -16,6 +16,7 @@ import {
   Circle,
   ColorAlias,
   SchemeOutput,
+  Spectre,
 } from 'organisms';
 
 const VIOLET = '#92278f';
@@ -131,6 +132,7 @@ const Wheel: React.FC<IWheelProps> = () => {
       </Flex>
       {schema && (
         <>
+          <Spectre value={schema} />
           <ColorAlias
             defaultValue={colorAlias}
             schema={schema}
