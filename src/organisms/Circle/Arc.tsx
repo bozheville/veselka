@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ArcProps } from './circle.d'
-import WheelContext from '../WheelContext';
+import WheelContext from './WheelContext';
 
 const polarToCartesian = (
   centerX: number,

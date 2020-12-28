@@ -1,6 +1,6 @@
 import React, { useMemo, useContext } from 'react';
 import { SectorProps } from './circle.d'
-import WheelContext from '../WheelContext';
+import WheelContext from './WheelContext';
 
 const polarToCartesian = (
   centerX: number,

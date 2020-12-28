@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import styled from '@emotion/styled';
+
 import { CircleProps } from './circle.d';
-import WheelContext from '../WheelContext';
+import WheelContext from './WheelContext';
 import Sector from './Sector';
 import Arc from './Arc';
-import styled from '@emotion/styled';
 
 const SvgWrapper = styled.svg`
   min-height: 40vh;
