@@ -7,14 +7,14 @@ import { Flex } from '@chakra-ui/core';
 import { Page, Welcome } from 'components';
 import { useLocalStorage } from 'hooks';
 import { IWheelProps } from './types';
-import Circle from './Circle';
+
 import FilterColor from './Settings';
 import ColorData from './ColorData';
 import UrlContext from 'services/UrlContext';
 
-const RED = '#ed1c24';
-const BLUE = '#0f75bc';
-const YELLOW = '#fff200';
+import {
+  Circle,
+} from 'organisms';
 
 const VIOLET = '#92278f';
 const ORANGE = '#f7941e';
