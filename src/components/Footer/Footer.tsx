@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Text } from '@chakra-ui/core';
-import { FooterProps } from './Footer.d';
 import { useTranslation } from 'react-i18next';
+import { Box, Image, Text } from '@chakra-ui/core';
+import Button from '../Button';
+import { FooterProps } from './Footer.d';
+import coffeeImage from './bmc-logo-64.png';
 
 const Footer: React.FC<FooterProps> = ({
   menuItems,
@@ -48,6 +50,22 @@ const Footer: React.FC<FooterProps> = ({
           </a>
         </Text>
 
+      </Box>
+      <Box marginBottom="4">
+        <Button
+          as="a"
+          href="https://www.buymeacoffee.com/denysgrybov"
+          target="_blank"
+          variantColor="pink"
+          size="xs"
+        >
+          <Image
+            src={coffeeImage}
+            height="4"
+            marginRight="2"
+          />
+          Buy me a coffee
+        </Button>
       </Box>
       <p>{t('created_by')}</p>
     </Box>
