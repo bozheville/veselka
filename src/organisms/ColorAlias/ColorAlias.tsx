@@ -8,12 +8,14 @@ import {
   Text,
 } from '@chakra-ui/core';
 
-import { orderedColors } from '../constants';
+import { orderedColors } from 'services/constants';
 import { ColorAliasProps } from './colorAlias.d';
 import useColorAlias from './useColorAlias';
 
 const ColorAlias: React.FC<ColorAliasProps> = ({
-  value: schema,
+  defaultValue,
+  onChange,
+  schema,
 }) => {
   const {
     isColorAliasVisible,
@@ -23,7 +25,10 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
     register,
     validate,
     t,
-  } = useColorAlias();
+  } = useColorAlias({
+    defaultValue,
+    onChange,
+  });
 
   return isColorAliasVisible ? (
     <form onSubmit={handleFormSubmit}>
@@ -45,7 +50,7 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
               height="10"
               backgroundColor={schema?.[color]?.[500]}
               rounded="md"
-              data-test-id={`color-${color}`}
+              data-testid={`color-${color}`}
             />
             <Box>
               <Input
@@ -56,6 +61,7 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
                 backgroundColor="gray.700"
                 isInvalid={Boolean(errors[`color_alias_${color}`])}
                 errorBorderColor="red.600"
+                color="white"
               />
               {errors[`color_alias_${color}`] && (
                 <Text fontSize="xs">

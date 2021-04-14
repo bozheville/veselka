@@ -1,16 +1,22 @@
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import UrlContext from 'services/UrlContext';
 
-import { orderedColors, defaultColorAlias } from '../constants';
-import { ColorAliasList } from './colorAlias.d';
+import { orderedColors, defaultColorAlias } from 'services/constants';
+import { ColorAlias, Color } from 'types';
 
-const useColorAlias = () => {
+interface UseColorAlias {
+  defaultValue: ColorAlias;
+  onChange: (value: ColorAlias) => void;
+}
+
+const useColorAlias = ({
+  defaultValue: colorAlias,
+  onChange,
+}: UseColorAlias) => {
   const { t } = useTranslation('details');
 
   const [ isColorAliasVisible, setisColorAliasVisible ] = useState<boolean>(false);
-  const { colorAlias, updateUrl } = useContext(UrlContext);
   const { register, handleSubmit, errors, reset, getValues } = useForm();
 
   const handleAliasExpand = useCallback(() => {
@@ -18,25 +24,22 @@ const useColorAlias = () => {
 
     const values = orderedColors.reduce((result, color) => ({
       ...result,
-      [`color_alias_${color}`]: colorAlias[color] || ''
+      [`color_alias_${color}`]: colorAlias[color] || '',
     }), {});
 
     reset(values);
   }, [colorAlias, reset]);
 
-  const handleFormSubmit = useCallback(handleSubmit((data: ColorAliasList) => {
-    const normalizedData: ColorAliasList = Object
-      .keys(data)
-      .filter(key => data[key])
-      .reduce((result, key) => ({
+  const handleFormSubmit = useCallback(handleSubmit((data: ColorAlias) => {
+    const normalizedData = Object.entries(data)
+      .filter(([color, value]) => value)
+      .reduce((result, [color, value]) => ({
         ...result,
-        [key.replace('color_alias_', '')]: data[key],
-      }), {});
+        [color.replace('color_alias_', '')]: value,
+      }), {}) as ColorAlias;
 
-      updateUrl({
-        colorAlias: normalizedData,
-      })
-  }), [updateUrl]);
+      onChange(normalizedData);
+  }), [onChange]);
 
   const validate = useCallback((value) => {
     if (!/^[A-Za-z_-]*$/.test(value)) {
@@ -48,7 +51,7 @@ const useColorAlias = () => {
 
       const { length } = Object.entries(values)
         .filter(
-          ([key, val]) => (val || defaultColorAlias[key.replace('color_alias_', '')]) === value
+          ([key, val]) => (val || defaultColorAlias[key.replace('color_alias_', '') as Color]) === value
         );
 
       if (length > 1) {

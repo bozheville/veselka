@@ -1,105 +1,90 @@
 import React, { useCallback, useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { mix } from 'polished';
+import { mix, shade as darken, tint } from 'polished';
 
 import { Flex } from '@chakra-ui/core';
 
+import { defaultColors } from 'services/constants';
+
+import { ColorAlias as TColorAlias, ColorSchema } from 'types';
 import { Page, Welcome } from 'components';
 import { useLocalStorage } from 'hooks';
 import { IWheelProps } from './types';
-import Circle from './Circle';
+
 import FilterColor from './Settings';
-import ColorData from './ColorData';
 import UrlContext from 'services/UrlContext';
 
-const RED = '#ed1c24';
-const BLUE = '#0f75bc';
-const YELLOW = '#fff200';
-
-const VIOLET = '#92278f';
-const ORANGE = '#f7941e';
-const GREEN = '#00a651';
-
-const RED_VIOLET = mix(0.5, RED, VIOLET);
-const RED_ORANGE = mix(0.5, RED, ORANGE);
-const BLUE_VIOLET = mix(0.5, BLUE, VIOLET);
-const BLUE_GREEN = mix(0.5, BLUE, GREEN);
-const YELLOW_GREEN = mix(0.5, YELLOW, GREEN);
-const YELLOW_ORANGE = mix(0.5, YELLOW, ORANGE);
-
-const BLACK = '#000000';
-const GRAY = '#555555';
-const WHITE = '#ffffff';
-//
-const defaultColors = {
-  // PRIMARY
-  RED,
-  BLUE,
-  YELLOW,
-
-  // SECONDARY
-  VIOLET,
-  GREEN,
-  ORANGE,
-
-  // TERTIARY
-  RED_ORANGE,
-  RED_VIOLET,
-  BLUE_VIOLET,
-  BLUE_GREEN,
-  YELLOW_GREEN,
-  YELLOW_ORANGE,
-
-  // BASIC
-  BLACK,
-  GRAY,
-  WHITE,
-};
+import {
+  Circle,
+  ColorAlias,
+  SchemeOutput,
+  Spectre,
+} from 'organisms';
 
 const Wheel: React.FC<IWheelProps> = () => {
   const [isFilterVisible, setIsFilterVIsible] = useState(false);
-  const [filterColor, setFilterColor] = useState('');
-  const [filterWeight, setFilterWeight] = useState(1);
-  const [colors, setColors] = useState<{[key:string]: string}>(defaultColors);
+  const [colors, setColors] = useState<{[key :string]: string}>(defaultColors);
+  const [schema, setSchema] = useState<ColorSchema|null>(null);
   const { t } = useTranslation('pages');
   const [ isWelcomeClosed, setIsWelcomeClosed ] = useLocalStorage<boolean>('isWelcomeClosed', false);
 
   const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), [setIsWelcomeClosed]);
-  const {shade, balance} = useContext(UrlContext);
+  const {shade, balance, colorAlias, updateUrl} = useContext(UrlContext);
 
   useEffect(() => {
-    setFilterColor(`#${shade}`);
-    setFilterWeight(1-(balance));
+    const filterColor = `#${shade}`;
+    const filterWeight = 1-(balance ?? 1);
     setIsFilterVIsible(true);
-  }, [shade, balance]);
 
-  useEffect(() => {
-    if (!filterColor) {
+    if (!shade) {
       setColors(defaultColors);
     } else {
-      setColors(
-        Object
-          .entries(defaultColors)
-          .reduce((result, color) => {
-            const [ colorKey, colorValue ] = color;
-            const isBasic = ['BLACK', 'GRAY', 'WHITE'].includes(colorKey);
-            const weightModifier = (isBasic ? (1-filterWeight)/2 : 0);
-            const updatedColor = mix(
-              filterWeight + weightModifier,
-              colorValue,
-              filterColor
-            );
+      const newColors = Object
+        .entries(defaultColors)
+        .reduce((result, color) => {
+          const [ colorKey, colorValue ] = color;
+          const isBasic = ['BLACK', 'GRAY', 'WHITE'].includes(colorKey);
+          const weightModifier = isBasic ? (1-filterWeight)/2 : 0;
+          const updatedColor = mix(
+            filterWeight + weightModifier,
+            colorValue,
+            filterColor
+          );
 
-            return {
-              ...result,
-              [colorKey]: updatedColor
-            };
-          }, {})
-      );
+          return {
+            ...result,
+            [colorKey]: updatedColor
+          };
+        }, {}) as {[key :string]: string};
+
+      setColors(newColors);
+
+      const schema = Object.entries(newColors)
+        .reduce((result, [colorName, color]) => ({
+          ...result,
+          [colorName]: {
+            50: tint(5/6, color),
+            100: tint(4/6, color),
+            200: tint(3/6, color),
+            300: tint(2/6, color),
+            400: tint(1/6, color),
+            500: color,
+            600: darken(1/6, color),
+            700: darken(2/6, color),
+            800: darken(3/6, color),
+            900: darken(4/6, color),
+          }
+        }), {}) as ColorSchema;
+
+      setSchema(schema);
     }
+  }, [shade, balance]);
 
-    // setIsDetailsVisible(false);
-  }, [filterColor, filterWeight]);
+  const handleAliasChange = useCallback((updatedAlias: TColorAlias) => {
+    updateUrl({
+      colorAlias: updatedAlias,
+    });
+  }, [updateUrl]);
 
   return (
     <Page title={t('wheel.title')}>
@@ -124,7 +109,17 @@ const Wheel: React.FC<IWheelProps> = () => {
           {isFilterVisible && <FilterColor />}
         </Flex>
       </Flex>
-      <ColorData colors={colors} />
+      {schema && (
+        <>
+          <Spectre value={schema} />
+          <ColorAlias
+            defaultValue={colorAlias}
+            schema={schema}
+            onChange={handleAliasChange}
+          />
+          <SchemeOutput value={schema} colorAlias={colorAlias} />
+        </>
+      )}
     </Page>
   );
 };

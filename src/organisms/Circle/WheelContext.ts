@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-const WheelContext = createContext({
+const CircleContext = createContext({
   center: {
     x:0,
     y:0,
@@ -8,4 +8,4 @@ const WheelContext = createContext({
   radius: 0,
 });
 
-export default WheelContext;
+export default CircleContext;
