@@ -16,3 +16,34 @@ export interface MenuItem {
 }
 
 export type TPageState = 'initial'|'loading'|'contentful'|'error'|'empty';
+
+export type Color =
+  'RED'|
+  'RED_VIOLET'|
+  'VIOLET'|
+  'BLUE_VIOLET'|
+  'BLUE'|
+  'BLUE_GREEN'|
+  'GREEN'|
+  'YELLOW_GREEN'|
+  'YELLOW'|
+  'YELLOW_ORANGE'|
+  'ORANGE'|
+  'RED_ORANGE'|
+  'GRAY'|
+  'BLACK'|
+  'WHITE';
+
+export type Shade = 50|100|200|300|400|500|600|700|800|900;
+
+export type ColorShades = {
+  [shade in Shade]: string;
+};
+
+export type ColorSchema = {
+  [color in Color]: ColorShades;
+};
+
+export type ColorAlias = {
+  [color in Color]: string;
+};
