@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 import { Box, Image, Text } from '@chakra-ui/core';
 import Button from '../Button';
 import { FooterProps } from './Footer.d';
@@ -10,6 +10,7 @@ const Footer: React.FC<FooterProps> = ({
   menuItems,
 }) => {
   const { t } = useTranslation('footer');
+
   return (
     <Box
       as="footer"
@@ -27,7 +28,9 @@ const Footer: React.FC<FooterProps> = ({
       >
         {menuItems.map((item) => (
           <Text padding="4"key={`menu-${item.link}`}>
-            <Link to={item.link}>{t(`menu_items.${item.titleKey}`)}</Link>
+            <Link href={item.link} passHref={true}>
+            <a>{t(`menu_items.${item.titleKey}`)}</a>
+            </Link>
           </Text>
         ))}
 
@@ -62,9 +65,10 @@ const Footer: React.FC<FooterProps> = ({
           <Image
             src={coffeeImage}
             height="4"
+            width="3"
             marginRight="2"
           />
-          Buy me a coffee
+          {t('buy_me_a_coffee')}
         </Button>
       </Box>
       <p>{t('created_by')}</p>

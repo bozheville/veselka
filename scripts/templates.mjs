@@ -70,7 +70,7 @@ export default ${componentName};
 
 export const getPageFile = ({ componentName }) =>
 `import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 // import {  } from '@chakra-ui/core';
 

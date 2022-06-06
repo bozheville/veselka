@@ -1,35 +1,34 @@
-import { useCallback, useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { parse, stringify } from 'query-string';
+import { useCallback } from 'react';
+import { useRouter } from 'next/router';
+import { stringify } from 'query-string';
+
+import { UrlProps } from 'pages/Wheel/types';
 
 const useLink = <T>() => {
-  const history = useHistory();
-  const location = useLocation();
-
-  const [ data, setData ] = useState<T>(parse(location.search) as unknown as T);
+  const router = useRouter();
+  const { query } = router;
 
   const setURL = useCallback((urlProps: T) => {
-    history.push(`?${stringify(urlProps || {})}`);
-  }, [history]);
+    router.push(
+      `/?${stringify(urlProps || {})}`,
+      undefined,
+      { shallow: true }
+    );
+  }, [router]);
 
   const updateURL = useCallback((update: T) => {
     const urlProps = {
-      ...parse(location.search),
+      ...query,
       ...update,
     };
 
-    history.push(`/?${stringify(urlProps)}`);
-  }, [location.search, history]);
-
-  useEffect(() => {
-    const urlProps = parse(location.search) as unknown as T;
-    setData(urlProps);
-  }, [location.search]);
+    setURL(urlProps);
+  }, [query, setURL]);
 
   return {
     setURL,
     updateURL,
-    queryParams: data,
+    queryParams: query as UrlProps,
   };
 };
 

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { useTranslation } from 'next-i18next';
+import Head from 'next/head';
 
 import PageContext from './PageContext';
 
@@ -12,6 +13,7 @@ const Page: React.FC<IPageProps> = ({
   ...props
 }) => {
   const { setTitle } = useContext(PageContext);
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     setTitle(title || '');
@@ -19,9 +21,9 @@ const Page: React.FC<IPageProps> = ({
 
   return (
     <Container {...props}>
-      <Helmet>
-        <title>{`${title} • ${process.env.REACT_APP_PROJECT_TITLE}`}</title>
-      </Helmet>
+      <Head>
+        <title>{`${title} • ${t('title')}`}</title>
+      </Head>
       {children}
     </Container>
   );
