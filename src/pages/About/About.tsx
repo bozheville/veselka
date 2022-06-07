@@ -1,16 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
-import i18next from 'i18next';
 
 import Button from 'components/Button';
 import Page from 'components/Page';
 import { IAboutProps } from './types';
 import { Heading, Text, List, ListItem, Box } from '@chakra-ui/core';
-
-import aboutEn from './about-en.json';
-
-i18next.addResourceBundle('en', 'about', aboutEn);
 
 const About: React.FC<IAboutProps> = () => {
   const { t } = useTranslation('about');
@@ -43,13 +38,11 @@ const About: React.FC<IAboutProps> = () => {
         flexDirection="row"
         justifyContent="center"
       >
-        <Button
-          as={Link}
-          to="/"
-          variantColor="purple"
-        >
-          {t('lets_start')}
-        </Button>
+        <Link href="/" passHref={true}>
+          <Button as="a" variantColor="purple">
+            {t('lets_start')}
+          </Button>
+        </Link>
       </Box>
     </Page>
   );

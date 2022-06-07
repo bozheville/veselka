@@ -41,6 +41,7 @@
   "scripts": {
     "next:start": "next start",
     "next:build": "next build",
+    "next:bs": "next build && next start",
     "next:dev": "next dev",
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -1,15 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
-import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-import { Global } from '@emotion/core';
 
 import Layout from 'components/Layout';
 import PageDataContext, { usePageContext } from 'components/Page/PageContext';
 // import PagePlaceholder from 'components/PagePlaceholder';
-import customTheme from 'services/theme';
 import menuJson from 'services/menu-items.json';
-import globalStyles from 'styled/global';
 import { MenuItem } from 'types';
 import UrlContext, { useUrlContext } from 'services/UrlContext';
 import WheelPage from 'pages/Wheel';
@@ -22,7 +18,7 @@ const App: React.FC = () => {
   const { t } = useTranslation('common');
 
   return (
-    <ThemeProvider theme={customTheme}>
+    <>
       <Head>
         {/* <link
           rel="icon"
@@ -43,15 +39,13 @@ const App: React.FC = () => {
         />
       </Head>
       <UrlContext.Provider value={useUrlContext()}>
-        <CSSReset />
-        <Global styles={globalStyles} />
         <PageDataContext.Provider value={usePageContext()}>
             <Layout menuItems={menuItems}>
               <WheelPage />
             </Layout>
         </PageDataContext.Provider>
       </UrlContext.Provider>
-    </ThemeProvider>
+    </>
   );
 };
 
