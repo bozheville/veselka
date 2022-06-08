@@ -4,7 +4,6 @@ import { useTranslation } from 'next-i18next';
 import { Box, Image, Text } from '@chakra-ui/core';
 import Button from '../Button';
 import { FooterProps } from './Footer.d';
-import coffeeImage from './bmc-logo-64.png';
 
 const Footer: React.FC<FooterProps> = ({
   menuItems,
@@ -63,7 +62,7 @@ const Footer: React.FC<FooterProps> = ({
           size="xs"
         >
           <Image
-            src={coffeeImage}
+            src="/images/bmc-logo-64.png"
             height="4"
             width="3"
             marginRight="2"

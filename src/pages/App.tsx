@@ -10,7 +10,6 @@ import { MenuItem } from 'types';
 import UrlContext, { useUrlContext } from 'services/UrlContext';
 import WheelPage from 'pages/Wheel';
 
-import favicon from './favicon.svg';
 
 const menuItems = menuJson as unknown as MenuItem[];
 
@@ -20,18 +19,18 @@ const App: React.FC = () => {
   return (
     <>
       <Head>
-        {/* <link
+        <link
           rel="icon"
           type="image/png"
-          href={favicon}
-        /> */}
+          href="/images/favicon.svg"
+        />
         <meta
           property="og:title"
           content={t('title')}
         />
         <meta
           property="og:image"
-          content={favicon}
+          content="/images/favicon.svg"
         />
         <meta
           property="og:description"

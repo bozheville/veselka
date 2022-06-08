@@ -2,11 +2,10 @@ import styled from '@emotion/styled';
 
 import Page from 'components/Page';
 
-import background from './tree_swing.svg';
 
 export const Container = styled.div`
-  height: 100%;
-  background-image: url(${background});
+  height: 100vh;
+  background-image: url(/images/tree_swing.svg);
   background-position-y: center;
   background-position-x: right;
   background-repeat: no-repeat;
