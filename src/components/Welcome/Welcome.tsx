@@ -3,7 +3,7 @@ import { Box, Heading, List, ListItem, Text } from '@chakra-ui/core';
 
 import Button from '../Button';
 import { WelcomeProps } from './Welcome.d';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const Welcome: React.FC<WelcomeProps> = ({
   onClose,
@@ -30,7 +30,7 @@ const Welcome: React.FC<WelcomeProps> = ({
       </Heading>
       <Text>{t('all_you_need')}</Text>
       <List as="ol" styleType="decimal">
-        {(t('steps', {returnObjects: true}) as string[]).map((step) => (
+        {(t('steps', {returnObjects: true}) as string[] || []).map((step) => (
           <ListItem key={step}>{step}</ListItem>
         ))}
       </List>

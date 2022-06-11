@@ -10,7 +10,6 @@ import {
 import styled from '@emotion/styled';
 
 import { Range } from 'components';
-import paletteSvg from './palette.svg';
 import { SettingsProps } from './types.d';
 import useSettings from './useSettings';
 
@@ -61,7 +60,7 @@ const FilterColor: React.FC<SettingsProps> = () => {
             gap="2"
           >
             <img
-              src={paletteSvg}
+              src="/images/palette.svg"
               width="30px"
               height="30px"
               alt="hue"

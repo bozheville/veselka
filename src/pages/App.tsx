@@ -1,41 +1,28 @@
-import React, { Suspense, useMemo, useState } from 'react';
-import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-import { Global } from '@emotion/core';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import Head from 'next/head';
+import { useTranslation } from 'next-i18next';
 
 import Layout from 'components/Layout';
-import PageDataContext from 'components/Page/PageContext';
-import PagePlaceholder from 'components/PagePlaceholder';
-import customTheme from 'services/theme';
+import PageDataContext, { usePageContext } from 'components/Page/PageContext';
+// import PagePlaceholder from 'components/PagePlaceholder';
 import menuJson from 'services/menu-items.json';
-import globalStyles from 'styled/global';
 import { MenuItem } from 'types';
 import UrlContext, { useUrlContext } from 'services/UrlContext';
-import { Helmet } from 'react-helmet';
+import WheelPage from 'pages/Wheel';
 
-import favicon from './favicon.svg';
-import { useTranslation } from 'react-i18next';
 
 const menuItems = menuJson as unknown as MenuItem[];
 
-const AboutPage = React.lazy(() => import('pages/About'));
-const WheelPage = React.lazy(() => import('pages/Wheel'));
-const Page404 = React.lazy(() => import('pages/Page404'));
-
 const App: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const { t } = useTranslation('general');
-
-  const pageContextState = useMemo(() => ({ title, setTitle }), [title, setTitle]);
-  const urlContextvalue = useUrlContext();
+  const { t } = useTranslation('common');
 
   return (
-    <ThemeProvider theme={customTheme}>
-      <Helmet>
+    <>
+      <Head>
         <link
           rel="icon"
           type="image/png"
-          href={favicon}
+          href="/images/favicon.svg"
         />
         <meta
           property="og:title"
@@ -43,31 +30,21 @@ const App: React.FC = () => {
         />
         <meta
           property="og:image"
-          content={favicon}
+          content="/images/favicon.svg"
         />
         <meta
           property="og:description"
           content={t('descriptoin')}
         />
-      </Helmet>
-      <UrlContext.Provider value={urlContextvalue}>
-      <CSSReset />
-      <Global styles={globalStyles} />
-      <BrowserRouter>
-        <PageDataContext.Provider value={pageContextState}>
+      </Head>
+      <UrlContext.Provider value={useUrlContext()}>
+        <PageDataContext.Provider value={usePageContext()}>
             <Layout menuItems={menuItems}>
-              <Suspense fallback={<PagePlaceholder />}>
-                <Switch>
-                  <Route path="/about" exact component={AboutPage} />
-                  <Route path="/" exact component={WheelPage} />
-                  <Route component={Page404} />
-                </Switch>
-              </Suspense>
+              <WheelPage />
             </Layout>
         </PageDataContext.Provider>
-      </BrowserRouter>
       </UrlContext.Provider>
-    </ThemeProvider>
+    </>
   );
 };
 

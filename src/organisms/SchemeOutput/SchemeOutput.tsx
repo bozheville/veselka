@@ -7,7 +7,7 @@ import {
   IconButton,
 } from '@chakra-ui/core';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { SchemeOutputProps } from './SchemeOutput.d';
 import useSchemeOutput from './useSchemeOutput';
 

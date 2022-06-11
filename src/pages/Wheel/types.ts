@@ -1,8 +1,5 @@
-import { RouteComponentProps } from 'react-router-dom';
 
-interface IWheelRouteProps {}
-
-export interface IWheelContainerProps extends RouteComponentProps<IWheelRouteProps> {}
+export interface IWheelContainerProps{}
 
 export interface IWheelProps {}
 

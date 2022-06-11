@@ -1,0 +1,13 @@
+{
+  "types": {
+    "json": "JSON",
+    "sass": "SASS/LESS"
+  },
+  "buttons": {
+    "set_color_names": "Set custom color names",
+    "update_color_names": "Update color names"
+  },
+  "color_error": "Incorrect value. Only letters, _ and - allowed",
+  "color_diplicated_error": "Duplicated names not allowed",
+  "toast": "Color schema copied to clipboard"
+}
