@@ -1,6 +1,6 @@
 {
   "name": "wheel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
@@ -39,17 +39,16 @@
     "web-vitals": "^0.2.2"
   },
   "scripts": {
-    "next:start": "next start",
-    "next:build": "next build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p $PORT",
     "next:bs": "next build && next start",
-    "next:dev": "next dev",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "add:component": "node ./scripts/add.mjs --type component",
     "add:page": "node ./scripts/add.mjs --type page",
-    "lint": "eslint --ext ts,tsx ./src"
+    "lint": "eslint --ext ts,tsx ./src",
+    "post-deploy": "yarn && node pre-deploy.js && yarn build && pm2 restart $PM2_ID -s"
   },
   "eslintConfig": {
     "extends": "react-app"
