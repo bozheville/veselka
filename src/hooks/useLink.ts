@@ -1,34 +1,17 @@
-import { useCallback } from 'react';
-import { useRouter } from 'next/router';
-import { stringify } from 'query-string';
-
-import { UrlProps } from 'pages/Wheel/types';
-
 const useLink = <T>() => {
-  const router = useRouter();
-  const { query } = router;
+  const updateURL = (urlProps: T) => {
+    var searchParams = new URLSearchParams(window.location.search);
 
-  const setURL = useCallback((urlProps: T) => {
-    router.push(
-      `/?${stringify(urlProps || {})}`,
-      undefined,
-      { shallow: true }
-    );
-  }, [router]);
+    for (const [key, value] of Object.entries(urlProps)) {
+      searchParams.set(key, value);
+    }
 
-  const updateURL = useCallback((update: T) => {
-    const urlProps = {
-      ...query,
-      ...update,
-    };
-
-    setURL(urlProps);
-  }, [query, setURL]);
+    var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+    window.history.pushState(null, '', newRelativePathQuery);
+  };
 
   return {
-    setURL,
     updateURL,
-    queryParams: query as UrlProps,
   };
 };
 
