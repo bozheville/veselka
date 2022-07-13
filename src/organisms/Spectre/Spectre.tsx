@@ -23,10 +23,10 @@ const Spectre: React.FC<SpectreProps> = ({value }) => {
   };
 
   return (
-    <Grid templateColumns="repeat(16, 1fr)" padding="4">
+    <Grid templateColumns="repeat(16, 0fr)" padding="4" justifyContent="center">
       {shadesList.map((shade) => (
         <React.Fragment key={`shade-${shade}`}>
-          <Box color="white">{shade}</Box>
+          <Box color="white" padding="40% 6px 0 0">{shade}</Box>
           {orderedColors.map(colorName => {
             const shadeNum: Shade = keyColors.has(colorName) ? 500 : shade as Shade;
 
@@ -36,8 +36,9 @@ const Spectre: React.FC<SpectreProps> = ({value }) => {
                 cursor="pointer"
                 key={`shade-${colorName}-${shade}`}
                 backgroundColor={value[colorName][shadeNum]}
-                width="100%"
-                height="8"
+                width="12"
+                height="12"
+                borderRadius={keyColors.has(colorName) ? '' : '4px'}
                 onClick={handleClick(value[colorName][shadeNum])}
               />
             );
