@@ -6,14 +6,21 @@ import Layout from 'components/Layout';
 import PageDataContext, { usePageContext } from 'components/Page/PageContext';
 // import PagePlaceholder from 'components/PagePlaceholder';
 import menuJson from 'services/menu-items.json';
-import { MenuItem } from 'types';
+import { AppProps, MenuItem } from 'types';
 import UrlContext, { useUrlContext } from 'services/UrlContext';
+import ColorSchemaContext, { useColorSchemaContext } from 'services/ColorSchemaContext';
 import WheelPage from 'pages/Wheel';
-
 
 const menuItems = menuJson as unknown as MenuItem[];
 
-const App: React.FC = () => {
+const App: React.FC<AppProps> = ({
+  color,
+  balance,
+  defaultColors,
+  defaultSchema,
+  initialColorAlias,
+  isWelcomeClosed,
+}) => {
   const { t } = useTranslation('common');
 
   return (
@@ -37,12 +44,14 @@ const App: React.FC = () => {
           content={t('descriptoin')}
         />
       </Head>
-      <UrlContext.Provider value={useUrlContext()}>
-        <PageDataContext.Provider value={usePageContext()}>
-            <Layout menuItems={menuItems}>
-              <WheelPage />
-            </Layout>
-        </PageDataContext.Provider>
+      <UrlContext.Provider value={useUrlContext(color, balance, initialColorAlias)}>
+        <ColorSchemaContext.Provider value={useColorSchemaContext(defaultColors, defaultSchema)}>
+          <PageDataContext.Provider value={usePageContext()}>
+              <Layout menuItems={menuItems}>
+                <WheelPage isWelcomeClosed={isWelcomeClosed} />
+              </Layout>
+          </PageDataContext.Provider>
+        </ColorSchemaContext.Provider>
       </UrlContext.Provider>
     </>
   );

@@ -47,3 +47,12 @@ export type ColorSchema = {
 export type ColorAlias = {
   [color in Color]: string;
 };
+
+export interface AppProps {
+  color: string;
+  balance:  number;
+  defaultColors: ColorAlias;
+  defaultSchema: ColorSchema;
+  initialColorAlias: ColorAlias;
+  isWelcomeClosed: boolean;
+}
