@@ -19,8 +19,8 @@ const Circle: React.FC<CircleProps> = ({
   colors,
   size = 600,
 }) => {
-  const [center, setCenter] = useState({ x:0, y:0 });
-  const [radius, setRadius] = useState(0);
+  const [center, setCenter] = useState({x: size/2, y: size/2});
+  const [radius, setRadius] = useState(size/2);
 
   useEffect(() => {
     setRadius(size/2);
