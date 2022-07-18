@@ -70,11 +70,11 @@ describe('ColorAlias component', () => {
       </TextAppWrapper>
     );
 
-    expect(queryByText('Update color names')).toBeNull();
+    expect(queryByText('buttons.update_color_names')).toBeNull();
 
-    fireEvent.click(getByText('Set custom color names'));
+    fireEvent.click(getByText('buttons.set_color_names'));
 
-    expect(queryByText('Update color names')).not.toBeNull();
+    expect(queryByText('buttons.update_color_names')).not.toBeNull();
   });
 
   test('ColorAlias values can be initialized from URL', () => {
@@ -84,7 +84,7 @@ describe('ColorAlias component', () => {
       </TextAppWrapper>
     );
 
-    fireEvent.click(getByText('Set custom color names'));
+    fireEvent.click(getByText('buttons.set_color_names'));
 
     expect((container?.querySelector('input[name="color_alias_RED"]') as HTMLInputElement)?.value).toBe('bloodymary');
     expect((container?.querySelector('input[name="color_alias_BLUE_GREEN"]') as HTMLInputElement)?.value).toBe('teal');
@@ -103,14 +103,14 @@ describe('ColorAlias component', () => {
       </TextAppWrapperWithRouter>
     );
 
-    fireEvent.click(getByText('Set custom color names'));
+    fireEvent.click(getByText('buttons.set_color_names'));
 
     fireEvent.change(
       container.querySelector('input[name="color_alias_RED"]') as HTMLInputElement,
       {target: {value: 'bloodymary'}}
     );
 
-    fireEvent.click(getByText('Update color names'));
+    fireEvent.click(getByText('buttons.update_color_names'));
 
     waitFor(() => {
       expect(
@@ -144,7 +144,7 @@ describe('ColorAlias component', () => {
       </TextAppWrapper>
     );
 
-    fireEvent.click(getByText('Set custom color names'));
+    fireEvent.click(getByText('buttons.set_color_names'));
 
     const redBox = container.querySelector('[data-test-id="color-RED"]') as HTMLElement;
     const redStyle = window.getComputedStyle(redBox) as any;

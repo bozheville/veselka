@@ -10,7 +10,7 @@ describe('Wheel page', () => {
   test('Wheel page renders', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <Wheel />
+        <Wheel isWelcomeClosed={true} />
       </MemoryRouter>
     )
   });

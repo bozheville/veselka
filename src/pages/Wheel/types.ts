@@ -1,9 +1,9 @@
 
-export interface IWheelContainerProps{}
-
 export interface IWheelProps {
   isWelcomeClosed: boolean;
 }
+
+export interface IWheelContainerProps extends IWheelProps{}
 
 export interface ColorDataProps {
   colors: {

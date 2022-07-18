@@ -83,6 +83,7 @@ const FilterColor: React.FC<SettingsProps> = ({
           defaultValue={sliders.balance}
         />
         <Box
+          data-testid="color-preview"
           backgroundColor={color}
           width="30px"
           height="30px"

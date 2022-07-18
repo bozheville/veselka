@@ -20,13 +20,14 @@
     "noEmit": true,
     "jsx": "preserve",
     "noFallthroughCasesInSwitch": true,
-    "incremental": true,
+    "incremental": true
   },
   "include": [
     "src",
-    "pages",
+    "pages"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.test.tsx"
   ]
 }

@@ -1,11 +1,11 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { calculateColors, calculateSchema, getRandomColorHex, getRandomBalance, deserializeColorAlias } from 'services/vizarunok';
 
 export { default } from 'pages/App';
 
-export const getServerSideProps: GetStaticProps = async ({ locale = 'en', query, req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale = 'en', query, req }) => {
   const {
     c: color = getRandomColorHex(),
     w: balance = getRandomBalance(),
@@ -23,7 +23,7 @@ export const getServerSideProps: GetStaticProps = async ({ locale = 'en', query,
 
   const defaultColors = calculateColors(`#${color}`, numericBalance);
   const defaultSchema = calculateSchema(defaultColors);
-  const initialColorAlias = deserializeColorAlias(alias);
+  const initialColorAlias = deserializeColorAlias(String(alias));
 
   return ({
     props: {
