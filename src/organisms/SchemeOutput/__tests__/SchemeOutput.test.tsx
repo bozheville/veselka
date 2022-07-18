@@ -102,7 +102,7 @@ describe('SchemeOutput component', () => {
   "black": "#000000"
 }`);
 
-    const radio = getByLabelText('SASS/LESS')
+    const radio = getByLabelText('types.sass')
     fireEvent.click(radio);
 
     textarea = container.querySelector('textarea');
