@@ -3,12 +3,15 @@ import { Box, Heading, List, ListItem, Text } from '@chakra-ui/core';
 
 import Button from '../Button';
 import { WelcomeProps } from './Welcome.d';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const Welcome: React.FC<WelcomeProps> = ({
+  isVisible = true,
   onClose,
 }) => {
   const { t } = useTranslation('welcome');
+  const display = isVisible ? 'block' : 'none';
+
   return (
     <Box
       paddingX="8"
@@ -17,6 +20,7 @@ const Welcome: React.FC<WelcomeProps> = ({
       rounded="lg"
       backgroundColor="purple.600"
       color="white"
+      display={display}
     >
       <Heading as="h1" size="xl">
         {t('title')}
@@ -30,7 +34,7 @@ const Welcome: React.FC<WelcomeProps> = ({
       </Heading>
       <Text>{t('all_you_need')}</Text>
       <List as="ol" styleType="decimal">
-        {(t('steps', {returnObjects: true}) as string[]).map((step) => (
+        {(t('steps', {returnObjects: true}) as string[] || []).map((step) => (
           <ListItem key={step}>{step}</ListItem>
         ))}
       </List>

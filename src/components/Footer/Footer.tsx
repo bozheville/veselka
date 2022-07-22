@@ -1,13 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Box, Text } from '@chakra-ui/core';
+import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
+import { Box, Image, Text } from '@chakra-ui/core';
+import Button from '../Button';
 import { FooterProps } from './Footer.d';
-import { useTranslation } from 'react-i18next';
 
 const Footer: React.FC<FooterProps> = ({
   menuItems,
 }) => {
   const { t } = useTranslation('footer');
+
   return (
     <Box
       as="footer"
@@ -25,7 +27,9 @@ const Footer: React.FC<FooterProps> = ({
       >
         {menuItems.map((item) => (
           <Text padding="4"key={`menu-${item.link}`}>
-            <Link to={item.link}>{t(`menu_items.${item.titleKey}`)}</Link>
+            <Link href={item.link} passHref={true}>
+            <a>{t(`menu_items.${item.titleKey}`)}</a>
+            </Link>
           </Text>
         ))}
 
@@ -48,6 +52,23 @@ const Footer: React.FC<FooterProps> = ({
           </a>
         </Text>
 
+      </Box>
+      <Box marginBottom="4">
+        <Button
+          as="a"
+          href="https://www.buymeacoffee.com/denysgrybov"
+          target="_blank"
+          variantColor="pink"
+          size="xs"
+        >
+          <Image
+            src="/images/bmc-logo-64.png"
+            height="4"
+            width="3"
+            marginRight="2"
+          />
+          {t('buy_me_a_coffee')}
+        </Button>
       </Box>
       <p>{t('created_by')}</p>
     </Box>

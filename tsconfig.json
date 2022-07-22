@@ -18,9 +18,16 @@
     "isolatedModules": true,
     "baseUrl": "src",
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "preserve",
+    "noFallthroughCasesInSwitch": true,
+    "incremental": true
   },
   "include": [
-    "src"
+    "src",
+    "pages"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.tsx"
   ]
 }

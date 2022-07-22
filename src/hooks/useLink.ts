@@ -1,35 +1,17 @@
-import { useCallback, useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { parse, stringify } from 'query-string';
-
 const useLink = <T>() => {
-  const history = useHistory();
-  const location = useLocation();
+  const updateURL = (urlProps: T) => {
+    var searchParams = new URLSearchParams(window.location.search);
 
-  const [ data, setData ] = useState<T>(parse(location.search) as unknown as T);
+    for (const [key, value] of Object.entries(urlProps)) {
+      searchParams.set(key, value);
+    }
 
-  const setURL = useCallback((urlProps: T) => {
-    history.push(`?${stringify(urlProps || {})}`);
-  }, [history]);
-
-  const updateURL = useCallback((update: T) => {
-    const urlProps = {
-      ...parse(location.search),
-      ...update,
-    };
-
-    history.push(`/?${stringify(urlProps)}`);
-  }, [location.search, history]);
-
-  useEffect(() => {
-    const urlProps = parse(location.search) as unknown as T;
-    setData(urlProps);
-  }, [location.search]);
+    var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+    window.history.pushState(null, '', newRelativePathQuery);
+  };
 
   return {
-    setURL,
     updateURL,
-    queryParams: data,
   };
 };
 

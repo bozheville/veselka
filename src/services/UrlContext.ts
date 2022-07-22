@@ -1,31 +1,35 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLink } from 'hooks';
 import { UrlProps } from 'pages/Wheel/types';
-import { orderedColors, defaultColorAlias } from 'pages/Wheel/ColorData/constants';
-import { ColorAliasList } from 'pages/Wheel/ColorData/ColorAlias/colorAlias.d';
-
+import { orderedColors, defaultColorAlias } from 'services/constants';
+import { getRandomBalance, getRandomColorHex, deserializeColorAlias } from 'services/vizarunok';
+import { ColorAlias } from 'types';
 interface UpdateUrlProps {
-  colorAlias?: ColorAliasList;
+  colorAlias?: ColorAlias;
   shade?: string;
   balance?: number;
 }
 
 interface ContextValue {
-  colorAlias: ColorAliasList;
+  colorAlias: ColorAlias;
   shade: string;
   balance: number;
   updateUrl: (update: UpdateUrlProps) => void;
 }
 
-const DEFAULT_COLOR_ALIAS = {};
-const DEFAULT_SHADE = '7f7f7f';
-const DEAFULT_BALANCE = 0.3;
+const DEFAULT_COLOR_ALIAS: ColorAlias = {...defaultColorAlias};
+const DEFAULT_SHADE = getRandomColorHex();
+const DEAFULT_BALANCE = getRandomBalance();
 
-export const useUrlContext = () => {
-  const [colorAlias, setColorAlias] = useState<ColorAliasList>(DEFAULT_COLOR_ALIAS);
-  const [shade, setShade] = useState<string>(DEFAULT_SHADE);
-  const [balance, setBalance] = useState<number>(DEAFULT_BALANCE);
-  const {queryParams, updateURL} = useLink<UrlProps>();
+export const useUrlContext = (
+  initialColor: string,
+  initialBalance: number,
+  initialColorAlias: ColorAlias,
+) => {
+  const [colorAlias, setColorAlias] = useState<ColorAlias>(initialColorAlias);
+  const [shade, setShade] = useState<string>(initialColor);
+  const [balance, setBalance] = useState<number>(initialBalance);
+  const { updateURL } = useLink<UrlProps>();
 
   const updateUrl = useCallback(({
     colorAlias,
@@ -40,36 +44,22 @@ export const useUrlContext = () => {
           ? colorAlias[color]
           : ''
       ).join('~');
+
+      setColorAlias(deserializeColorAlias(updateObject.a ));
     }
 
     if (shade) {
       updateObject.c = shade;
+      setShade(shade);
     }
 
     if (balance) {
       updateObject.w = balance;
+      setBalance(balance);
     }
 
-    updateURL(updateObject);
+    setTimeout(() => updateURL(updateObject), 0);
   }, [updateURL]);
-
-  useEffect(() => {
-    let aliasValue: ColorAliasList = DEFAULT_COLOR_ALIAS;
-
-    if (queryParams?.a) {
-      const urlAlias = queryParams.a.split('~');
-
-      for (const [index, color] of Object.entries(orderedColors)) {
-        if (urlAlias[parseInt(index, 10)]) {
-          aliasValue[color] = urlAlias[parseInt(index, 10)];
-        }
-      }
-    }
-
-    setColorAlias({...aliasValue});
-    setBalance(queryParams?.w || DEAFULT_BALANCE);
-    setShade(queryParams?.c?.replace('#', '') || DEFAULT_SHADE);
-  }, [queryParams]);
 
   return {
     colorAlias,
@@ -80,7 +70,7 @@ export const useUrlContext = () => {
 };
 
 const UrlContext = React.createContext<ContextValue>({
-  colorAlias: {},
+  colorAlias: defaultColorAlias,
   shade: DEFAULT_SHADE,
   balance: DEAFULT_BALANCE,
   updateUrl: (update: UpdateUrlProps) => {},

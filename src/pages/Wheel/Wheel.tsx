@@ -1,109 +1,36 @@
-import React, { useCallback, useState, useEffect, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { mix } from 'polished';
-
+import React from 'react';
 import { Flex } from '@chakra-ui/core';
 
 import { Page, Welcome } from 'components';
-import { useLocalStorage } from 'hooks';
+import {
+  Circle,
+  ColorAlias,
+  SchemeOutput,
+  Spectre,
+} from 'organisms';
+
 import { IWheelProps } from './types';
-import Circle from './Circle';
-import FilterColor from './Settings';
-import ColorData from './ColorData';
-import UrlContext from 'services/UrlContext';
+import Settings from './Settings';
+import { useWheel } from './useWheel';
 
-const RED = '#ed1c24';
-const BLUE = '#0f75bc';
-const YELLOW = '#fff200';
-
-const VIOLET = '#92278f';
-const ORANGE = '#f7941e';
-const GREEN = '#00a651';
-
-const RED_VIOLET = mix(0.5, RED, VIOLET);
-const RED_ORANGE = mix(0.5, RED, ORANGE);
-const BLUE_VIOLET = mix(0.5, BLUE, VIOLET);
-const BLUE_GREEN = mix(0.5, BLUE, GREEN);
-const YELLOW_GREEN = mix(0.5, YELLOW, GREEN);
-const YELLOW_ORANGE = mix(0.5, YELLOW, ORANGE);
-
-const BLACK = '#000000';
-const GRAY = '#555555';
-const WHITE = '#ffffff';
-//
-const defaultColors = {
-  // PRIMARY
-  RED,
-  BLUE,
-  YELLOW,
-
-  // SECONDARY
-  VIOLET,
-  GREEN,
-  ORANGE,
-
-  // TERTIARY
-  RED_ORANGE,
-  RED_VIOLET,
-  BLUE_VIOLET,
-  BLUE_GREEN,
-  YELLOW_GREEN,
-  YELLOW_ORANGE,
-
-  // BASIC
-  BLACK,
-  GRAY,
-  WHITE,
-};
-
-const Wheel: React.FC<IWheelProps> = () => {
-  const [isFilterVisible, setIsFilterVIsible] = useState(false);
-  const [filterColor, setFilterColor] = useState('');
-  const [filterWeight, setFilterWeight] = useState(1);
-  const [colors, setColors] = useState<{[key:string]: string}>(defaultColors);
-  const { t } = useTranslation('pages');
-  const [ isWelcomeClosed, setIsWelcomeClosed ] = useLocalStorage<boolean>('isWelcomeClosed', false);
-
-  const handleWelcomeClose = useCallback(() => setIsWelcomeClosed(true), [setIsWelcomeClosed]);
-  const {shade, balance} = useContext(UrlContext);
-
-  useEffect(() => {
-    setFilterColor(`#${shade}`);
-    setFilterWeight(1-(balance));
-    setIsFilterVIsible(true);
-  }, [shade, balance]);
-
-  useEffect(() => {
-    if (!filterColor) {
-      setColors(defaultColors);
-    } else {
-      setColors(
-        Object
-          .entries(defaultColors)
-          .reduce((result, color) => {
-            const [ colorKey, colorValue ] = color;
-            const isBasic = ['BLACK', 'GRAY', 'WHITE'].includes(colorKey);
-            const weightModifier = (isBasic ? (1-filterWeight)/2 : 0);
-            const updatedColor = mix(
-              filterWeight + weightModifier,
-              colorValue,
-              filterColor
-            );
-
-            return {
-              ...result,
-              [colorKey]: updatedColor
-            };
-          }, {})
-      );
-    }
-
-    // setIsDetailsVisible(false);
-  }, [filterColor, filterWeight]);
+const Wheel: React.FC<IWheelProps> = ({
+  isWelcomeClosed,
+}) => {
+  const {
+    t,
+    wasWelcomeClosed,
+    handleWelcomeClose,
+    colorAlias,
+    colors,
+    schema,
+    handleAliasChange,
+    shade,
+    balance,
+  } =  useWheel(isWelcomeClosed);
 
   return (
     <Page title={t('wheel.title')}>
-      {!isWelcomeClosed && <Welcome onClose={handleWelcomeClose} /> }
+      <Welcome isVisible={!wasWelcomeClosed} onClose={handleWelcomeClose} />
       <Flex
         justifyContent="space-between"
         flexDirection={['column', 'column', 'row', 'row']}
@@ -121,10 +48,16 @@ const Wheel: React.FC<IWheelProps> = () => {
           width={['100%', '100%', '33%', '30%']}
           paddingLeft={['0', '0', '4', '0']}
         >
-          {isFilterVisible && <FilterColor />}
+          <Settings defaultColor={shade} defaultBalance={balance} />
         </Flex>
       </Flex>
-      <ColorData colors={colors} />
+      <Spectre value={schema} />
+      <ColorAlias
+        defaultValue={colorAlias}
+        schema={schema}
+        onChange={handleAliasChange}
+      />
+      <SchemeOutput value={schema} colorAlias={colorAlias} />
     </Page>
   );
 };

@@ -1,1 +1,1 @@
-export { default } from './Wheel.container';
+export { default } from './Wheel';

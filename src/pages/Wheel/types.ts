@@ -1,10 +1,9 @@
-import { RouteComponentProps } from 'react-router-dom';
 
-interface IWheelRouteProps {}
+export interface IWheelProps {
+  isWelcomeClosed: boolean;
+}
 
-export interface IWheelContainerProps extends RouteComponentProps<IWheelRouteProps> {}
-
-export interface IWheelProps {}
+export interface IWheelContainerProps extends IWheelProps{}
 
 export interface ColorDataProps {
   colors: {
