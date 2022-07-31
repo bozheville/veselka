@@ -66,7 +66,7 @@ export const calculateColors = (rootColor: string, balance: number): ColorAlias 
       const isBasic = ['BLACK', 'GRAY', 'WHITE'].includes(colorKey);
       const numericBalance = parseFloat(String(balance));
       const weightModifier = isBasic ? (1-numericBalance)/2 : 0;
-      const colorweight = numericBalance + weightModifier;
+      const colorweight = numericBalance - weightModifier;
 
       const updatedColor = mix(
         colorweight,
