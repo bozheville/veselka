@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="79.730446mm"
+   height="25.701212mm"
+   viewBox="0 0 79.730446 25.701212"
+   version="1.1"
+   id="svg1"
+   inkscape:export-filename="veselka_logo.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-0.99477157,-2.893936)"
+     style="display:inline;opacity:1">
+    <circle
+       style="fill:#008080;stroke-width:0.15875"
+       id="path1"
+       cx="57.3424"
+       cy="18.100122"
+       r="10.495027" />
+    <text
+       xml:space="preserve"
+       style="font-size:25.4px;fill:#00c146;fill-opacity:1;stroke-width:0.264583"
+       x="-2.1294284"
+       y="26.769936"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:Pacifico;-inkscape-font-specification:Pacifico;fill:#00c146;fill-opacity:1;stroke-width:0.264583"
+         x="-2.1294284"
+         y="26.769936">Veselka</tspan></text>
+    <circle
+       style="fill:#0082c1;fill-opacity:1;stroke-width:0.264583"
+       id="path2"
+       cx="41.219608"
+       cy="9.8866167"
+       r="4.410954" />
+    <circle
+       style="fill:#cb005f;fill-opacity:1;stroke-width:0.264583"
+       id="path3"
+       cx="31.18088"
+       cy="6.5403762"
+       r="2.8899353" />
+    <circle
+       style="fill:#ee5900;fill-opacity:1;stroke-width:0.167105"
+       id="path3-6"
+       cx="22.05477"
+       cy="7.1487875"
+       r="1.8252223" />
+  </g>
+</svg>

@@ -35,7 +35,11 @@ const Header: React.FC = () => {
         flexDirection="row"
         alignItems="center"
       >
-        <Box>Veselka.app</Box>
+        <Image
+          src="/images/veselka_logo.svg"
+          width="100px"
+          height="32px"
+        />
         <Box
           display="flex"
           flexDirection="row"
