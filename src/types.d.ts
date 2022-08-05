@@ -55,4 +55,5 @@ export interface AppProps {
   defaultSchema: ColorSchema;
   initialColorAlias: ColorAlias;
   isWelcomeClosed: boolean;
+  initialKeepBW: boolean;
 }

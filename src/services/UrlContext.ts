@@ -8,12 +8,14 @@ interface UpdateUrlProps {
   colorAlias?: ColorAlias;
   shade?: string;
   balance?: number;
+  keepBW?: boolean;
 }
 
 interface ContextValue {
   colorAlias: ColorAlias;
   shade: string;
   balance: number;
+  keepBW: boolean;
   updateUrl: (update: UpdateUrlProps) => void;
 }
 
@@ -25,16 +27,20 @@ export const useUrlContext = (
   initialColor: string,
   initialBalance: number,
   initialColorAlias: ColorAlias,
+  initialKeepBW: boolean,
 ) => {
   const [colorAlias, setColorAlias] = useState<ColorAlias>(initialColorAlias);
   const [shade, setShade] = useState<string>(initialColor);
   const [balance, setBalance] = useState<number>(initialBalance);
+  const [keepBW, setKeepBW] = useState(initialKeepBW);
+
   const { updateURL } = useLink<UrlProps>();
 
   const updateUrl = useCallback(({
     colorAlias,
     shade,
     balance,
+    keepBW,
   }: UpdateUrlProps) => {
     const updateObject: UrlProps = {};
 
@@ -46,6 +52,11 @@ export const useUrlContext = (
       ).join('~');
 
       setColorAlias(deserializeColorAlias(updateObject.a ));
+    }
+
+    if (typeof keepBW !== 'undefined') {
+      updateObject.s = keepBW ? 1 : 0;
+      setKeepBW(keepBW);
     }
 
     if (shade) {
@@ -66,6 +77,7 @@ export const useUrlContext = (
     shade,
     balance,
     updateUrl,
+    keepBW,
   };
 };
 
@@ -73,6 +85,7 @@ const UrlContext = React.createContext<ContextValue>({
   colorAlias: defaultColorAlias,
   shade: DEFAULT_SHADE,
   balance: DEAFULT_BALANCE,
+  keepBW: false,
   updateUrl: (update: UpdateUrlProps) => {},
 });
 

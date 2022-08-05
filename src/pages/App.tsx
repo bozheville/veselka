@@ -20,6 +20,7 @@ const App: React.FC<AppProps> = ({
   defaultSchema,
   initialColorAlias,
   isWelcomeClosed,
+  initialKeepBW,
 }) => {
   const { t } = useTranslation('common');
 
@@ -44,7 +45,7 @@ const App: React.FC<AppProps> = ({
           content={t('descriptoin')}
         />
       </Head>
-      <UrlContext.Provider value={useUrlContext(color, balance, initialColorAlias)}>
+      <UrlContext.Provider value={useUrlContext(color, balance, initialColorAlias, initialKeepBW)}>
         <ColorSchemaContext.Provider value={useColorSchemaContext(defaultColors, defaultSchema)}>
           <PageDataContext.Provider value={usePageContext()}>
               <Layout menuItems={menuItems}>

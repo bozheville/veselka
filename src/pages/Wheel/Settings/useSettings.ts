@@ -9,6 +9,7 @@ import UrlContext from 'services/UrlContext';
 import ColorSchemaContext from 'services/ColorSchemaContext';
 
 import { getRandomColorHex, getRandomBalance, hex2rgb, rgb2hex} from 'services/vizarunok';
+import { useTranslation } from 'next-i18next';
 
 export interface FormValues {
   [color: string]: string;
@@ -23,12 +24,13 @@ const useSettings = (defaultColor: string, defaultBalance: number) => {
     color: defaultColor.replace('#', ''),
   };
 
+  const { t } = useTranslation('details');
   const redRef = useRef<HTMLInputElement>(null);
   const greenRef = useRef<HTMLInputElement>(null);
   const blueRef = useRef<HTMLInputElement>(null);
   const balanceRef = useRef<HTMLInputElement>(null);
 
-  const { updateUrl, shade: urlShade } = useContext(UrlContext);
+  const { updateUrl, shade: urlShade, balance: urlBalance, keepBW } = useContext(UrlContext);
   const { recalculateSchema } = useContext(ColorSchemaContext);
 
   const handlerandomClick = () => {
@@ -57,7 +59,7 @@ const useSettings = (defaultColor: string, defaultBalance: number) => {
       balance: randomBalance,
     });
 
-    recalculateSchema(`#${randomColor}`, randomBalance);
+    recalculateSchema(`#${randomColor}`, randomBalance, keepBW);
   }
 
   const handleSliderChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +77,7 @@ const useSettings = (defaultColor: string, defaultBalance: number) => {
 
     const updatedBalance = parseFloat(balanceRef?.current?.value || '0.3');
 
-    recalculateSchema(updatedColor, updatedBalance);
+    recalculateSchema(updatedColor, updatedBalance, keepBW);
     updateUrl({
       shade: updatedColor.replace('#', ''),
       balance: updatedBalance
@@ -88,15 +90,24 @@ const useSettings = (defaultColor: string, defaultBalance: number) => {
     debouncedHandleSliderChange(event);
   };
 
+  const handleBWChange = () => {
+    const updated = !keepBW;
+    recalculateSchema(`#${urlShade}`, urlBalance, updated);
+    updateUrl({keepBW: updated});
+  }
+
   return {
+    t,
     redRef,
     greenRef,
     blueRef,
     balanceRef,
     sliders,
     handlerandomClick,
+    keepBW,
     color: `#${urlShade}`,
     handleSliderChange: onSliderChange,
+    handleBWChange,
   };
 };
 

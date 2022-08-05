@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Grid,
+  Checkbox,
 } from '@chakra-ui/core';
 import styled from '@emotion/styled';
 
@@ -19,6 +20,7 @@ const FilterColor: React.FC<SettingsProps> = ({
   defaultBalance,
 }) => {
   const {
+    t,
     redRef,
     greenRef,
     blueRef,
@@ -26,7 +28,9 @@ const FilterColor: React.FC<SettingsProps> = ({
     handlerandomClick,
     sliders,
     color,
+    keepBW,
     handleSliderChange,
+    handleBWChange,
   } = useSettings(defaultColor, defaultBalance);
 
   return (
@@ -95,8 +99,16 @@ const FilterColor: React.FC<SettingsProps> = ({
         variantColor="purple"
         onClick={handlerandomClick}
       >
-        Get random
+        {t('get_random_schema')}
       </Button>
+      <Checkbox
+        variantColor="purple"
+        isChecked={keepBW}
+        onChange={handleBWChange}
+        color="black"
+      >
+        {t('keep_black_white')}
+      </Checkbox>
     </Box>
   );
 };
