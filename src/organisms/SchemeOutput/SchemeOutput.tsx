@@ -29,7 +29,6 @@ const SchemaOutput: React.FC<SchemeOutputProps> = ({
     <Box
       marginTop="4"
       position="relative"
-      color="white"
     >
       <RadioGroup
         value={exportType}

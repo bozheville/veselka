@@ -7,6 +7,7 @@ import {
   ColorAlias,
   SchemeOutput,
   Spectre,
+  Header,
 } from 'organisms';
 
 import { IWheelProps } from './types';
@@ -29,6 +30,8 @@ const Wheel: React.FC<IWheelProps> = ({
   } =  useWheel(isWelcomeClosed);
 
   return (
+    <>
+    <Header />
     <Page title={t('wheel.title')}>
       <Welcome isVisible={!wasWelcomeClosed} onClose={handleWelcomeClose} />
       <Flex
@@ -59,6 +62,7 @@ const Wheel: React.FC<IWheelProps> = ({
       />
       <SchemeOutput value={schema} colorAlias={colorAlias} />
     </Page>
+    </>
   );
 };
 
