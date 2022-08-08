@@ -58,10 +58,9 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
                 name={`color_alias_${color}`}
                 ref={register({ validate })}
                 placeholder={color.toLocaleLowerCase()}
-                backgroundColor="gray.700"
+                backgroundColor="transparent"
                 isInvalid={Boolean(errors[`color_alias_${color}`])}
                 errorBorderColor="red.600"
-                color="white"
               />
               {errors[`color_alias_${color}`] && (
                 <Text fontSize="xs">

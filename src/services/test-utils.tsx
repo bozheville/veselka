@@ -10,10 +10,11 @@ import theme from './theme';
 
 export const CustomWrapper: React.FC<{}> = ({ children }) => {
 
-
+  const customTheme = theme(false);
+  // const global = globalStyles(customTheme)
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={customTheme}>
       <CSSReset />
       <Global styles={globalStyles} />
       {children}

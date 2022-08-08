@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
-import { Box, Image, Text } from '@chakra-ui/core';
-import Button from '../Button';
+import { Box, Text } from '@chakra-ui/core';
 import { FooterProps } from './Footer.d';
 
 const Footer: React.FC<FooterProps> = ({
@@ -13,10 +12,10 @@ const Footer: React.FC<FooterProps> = ({
   return (
     <Box
       as="footer"
-      bg="gray.800"
+      bg="footerBackground"
       p="1rem"
       pb="1.5rem"
-      color="white"
+      color="textColor"
       fontSize="0.75rem"
       textAlign="center"
     >
@@ -52,23 +51,6 @@ const Footer: React.FC<FooterProps> = ({
           </a>
         </Text>
 
-      </Box>
-      <Box marginBottom="4">
-        <Button
-          as="a"
-          href="https://www.buymeacoffee.com/denysgrybov"
-          target="_blank"
-          variantColor="pink"
-          size="xs"
-        >
-          <Image
-            src="/images/bmc-logo-64.png"
-            height="4"
-            width="3"
-            marginRight="2"
-          />
-          {t('buy_me_a_coffee')}
-        </Button>
       </Box>
       <p>{t('created_by')}</p>
     </Box>

@@ -26,7 +26,7 @@ const Welcome: React.FC<WelcomeProps> = ({
         {t('title')}
       </Heading>
       <Heading
-        as="h3"
+        as="h2"
         size="md"
         marginBottom="4"
       >
@@ -42,7 +42,7 @@ const Welcome: React.FC<WelcomeProps> = ({
       <Text paddingTop="4">{t('you_can_rename')}</Text>
       <Button
         marginTop="6"
-        variantColor="pink"
+        variantColor="purple"
         onClick={onClose}
       >
         Got it

@@ -8,18 +8,18 @@ import { calculateColors, calculateSchema } from './vizarunok';
 interface ColorSchemaContextValue {
   colors: ColorAlias;
   schema: ColorSchema;
-  recalculateSchema: (color: string, balance: number) => void;
+  recalculateSchema: (color: string, balance: number, keepBW: boolean) => void;
 }
 
 export const useColorSchemaContext = (
   defaultColors: ColorAlias,
-  defaultSchema: ColorSchema
+  defaultSchema: ColorSchema,
 ): ColorSchemaContextValue => {
   const [colors, setColors] = useState<ColorAlias>(defaultColors);
   const [schema, setSchema] = useState<ColorSchema>(defaultSchema);
 
-  const recalculateSchema = (updatedColor: string, updatedBalance: number) => {
-    const newColors = calculateColors(updatedColor, updatedBalance);
+  const recalculateSchema = (updatedColor: string, updatedBalance: number, keepBW: boolean) => {
+    const newColors = calculateColors(updatedColor, updatedBalance, keepBW);
     setColors(newColors);
     setSchema(calculateSchema(newColors));
   };

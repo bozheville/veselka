@@ -39,9 +39,13 @@ export const hex2rgb = (hex: string): number[] => {
 
 export const rgb2hex = (red: number, green: number, blue: number) => `#${hex(red)}${hex(green)}${hex(blue)}`;
 
-export const calculateSchema = (colors: ColorAlias): ColorSchema =>
-  Object.entries(colors)
-    .reduce((result, [colorName, color]) => ({
+export const calculateSchema = (colors: ColorAlias): ColorSchema => {
+
+
+  return Object.entries(colors)
+  .reduce((result, [colorName, color]) => {
+
+    return ({
       ...result,
       [colorName]: {
         50: tint(5/6, color),
@@ -55,9 +59,11 @@ export const calculateSchema = (colors: ColorAlias): ColorSchema =>
         800: darken(3/6, color),
         900: darken(4/6, color),
       }
-    }), {}) as ColorSchema;
+    });
+  }, {}) as ColorSchema;
+};
 
-export const calculateColors = (rootColor: string, balance: number): ColorAlias =>
+export const calculateColors = (rootColor: string, balance: number, keepBW: boolean): ColorAlias =>
   Object
     .entries(defaultColors)
     .reduce((result, color) => {
@@ -65,18 +71,21 @@ export const calculateColors = (rootColor: string, balance: number): ColorAlias 
 
       const isBasic = ['BLACK', 'GRAY', 'WHITE'].includes(colorKey);
       const numericBalance = parseFloat(String(balance));
-      const weightModifier = isBasic ? (1-numericBalance)/2 : 0;
-      const colorweight = numericBalance + weightModifier;
+      const weightModifier = isBasic ? numericBalance*0.75 : 0;
+      const colorweight = numericBalance - weightModifier;
 
-      const updatedColor = mix(
-        colorweight,
-        rootColor,
-        colorValue
-      );
+      const updatedColor =
+      ['BLACK', 'WHITE'].includes(colorKey) && keepBW
+        ? colorValue
+        : mix(
+          colorweight,
+          rootColor,
+          colorValue
+        );
 
       return {
         ...result,
-        [colorKey]: updatedColor
+        [colorKey]: updatedColor.replaceAll('-', '0'),
       };
     }, {}) as ColorAlias;;
 

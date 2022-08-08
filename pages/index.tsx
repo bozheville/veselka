@@ -10,6 +10,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale = 'en', qu
     c: color = getRandomColorHex(),
     w: balance = getRandomBalance(),
     a: alias = '',
+    s: keepBW = '0',
   } = query;
 
   const isWelcomeClosed =
@@ -21,7 +22,8 @@ export const getServerSideProps: GetServerSideProps = async ({ locale = 'en', qu
 
   const numericBalance = parseFloat(String(balance));
 
-  const defaultColors = calculateColors(`#${color}`, numericBalance);
+  const initialKeepBW = keepBW !== '0';
+  const defaultColors = calculateColors(`#${color}`, numericBalance, initialKeepBW);
   const defaultSchema = calculateSchema(defaultColors);
   const initialColorAlias = deserializeColorAlias(String(alias));
 
@@ -33,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale = 'en', qu
       defaultSchema,
       initialColorAlias,
       isWelcomeClosed,
+      initialKeepBW,
       ...(await serverSideTranslations(locale, [
         'common',
         'details',
