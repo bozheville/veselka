@@ -20,6 +20,7 @@ const Spectre: React.FC<SpectreProps> = ({value }) => {
 
             return (
               <SpectreCell
+                aria-label={`${colorName}.${shade}`}
                 key={`shade-${colorName}-${shade}`}
                 color={value[colorName][shadeNum]}
                 hasBorderRadius={!keyColors.has(colorName)}

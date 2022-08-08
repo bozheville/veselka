@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Box, IconButton, Image } from '@chakra-ui/core';
+import Image from 'next/image';
+import { Box, IconButton, Image as ChakraImage } from '@chakra-ui/core';
 
 import { useTranslation } from 'next-i18next';
 import Container from 'components/Container';
@@ -37,8 +38,9 @@ const Header: React.FC = () => {
       >
         <Image
           src="/images/veselka_logo.svg"
-          width="100px"
-          height="32px"
+          width={100}
+          height={32}
+          alt="Veselka"
         />
         <Box
           display="flex"
@@ -49,15 +51,16 @@ const Header: React.FC = () => {
             as="a"
             href="https://www.buymeacoffee.com/denysgrybov"
             target="_blank"
-            variantColor="pink"
+            variantColor="purple"
             size="sm"
             mr={4}
           >
-            <Image
+            <ChakraImage
               src="/images/bmc-logo-64.png"
               height="4"
               width="3"
               marginRight="2"
+              alt={t('buy_me_a_coffee')}
             />
             {t('buy_me_a_coffee')}
           </Button>
@@ -66,7 +69,6 @@ const Header: React.FC = () => {
             icon={isLightTheme ? 'moon' : 'sun'}
             variantColor={isLightTheme ? 'yellow' : 'purple'}
             size="sm"
-            color="bacground"
             onClick={handleSwitchTheme}
           />
         </Box>

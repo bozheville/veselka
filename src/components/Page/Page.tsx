@@ -23,6 +23,7 @@ const Page: React.FC<IPageProps> = ({
     <Container {...props}>
       <Head>
         <title>{`${title} • ${t('title')}`}</title>
+        <meta name="description" content={`${t('title')}: ${t('subtitle')}`} />
       </Head>
       {children}
     </Container>
