@@ -2,6 +2,8 @@ import { useRef } from 'react';
 import { useToast } from '@chakra-ui/core';
 import { useTranslation } from 'next-i18next';
 
+import { plausible } from 'services/plausible';
+
 export const useSpectre = () => {
   const { t } = useTranslation('details');
   const toast = useToast();
@@ -20,6 +22,8 @@ export const useSpectre = () => {
       duration: 3000,
       isClosable: true,
     });
+
+    plausible('copy-shade');
   };
 
   return { handleClick, ref };

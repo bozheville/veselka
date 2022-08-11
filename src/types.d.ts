@@ -3,6 +3,13 @@ declare module "*.json" {
   export default value;
 }
 
+declare global {
+
+  interface Window {
+    plausible: any;
+  }
+}
+
 declare module '*.png'
 
 declare module "*.svg" {
