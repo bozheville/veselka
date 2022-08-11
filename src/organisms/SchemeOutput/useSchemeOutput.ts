@@ -4,6 +4,7 @@ import { TFunction } from 'i18next';
 
 import { ColorAlias, ColorSchema } from 'types';
 import { getJSONSchema, getSassSchema } from './converters';
+import { plausible } from 'services/plausible';
 
 interface UseSchemeOutput {
   value: ColorSchema;
@@ -42,6 +43,8 @@ const useSchemeOutput = ({
       duration: 3000,
       isClosable: true,
     });
+
+    plausible('copy-scheme', {props: {format: exportType}});
   }, [toast, t]);
 
   return {

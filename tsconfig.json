@@ -24,7 +24,8 @@
   },
   "include": [
     "src",
-    "pages"
+    "pages",
+    "src/types.d.ts"
   ],
   "exclude": [
     "node_modules",
