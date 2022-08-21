@@ -25,7 +25,7 @@ jobs:
         script: |
           cd ${{ secrets.SSH_DEPLOYMENT_ALPHA_PATH }}
           git fetch -a -p
-          git checkout -f origin/develop
+          git reset --hard origin/develop
           yarn
           node pre-deploy.js
           yarn build
