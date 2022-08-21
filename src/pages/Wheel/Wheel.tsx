@@ -32,7 +32,7 @@ const Wheel: React.FC<IWheelProps> = ({
 
   return (
     <>
-    <Script id="pls-src" defer data-domain="alpha.veselka.app" src="https://p.veselka.app/js/script.js" />
+    <Script id="pls-src" defer data-domain="veselka.app" src="https://throbbing-butterfly-b669.veselka.workers.dev/js/script.js" />
     <Script id="pls-init" strategy="afterInteractive" dangerouslySetInnerHTML={{
       __html: `window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`
     }} />
