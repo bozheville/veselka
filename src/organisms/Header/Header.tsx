@@ -1,27 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { Box, IconButton, Image as ChakraImage } from '@chakra-ui/core';
 
-import { useTranslation } from 'next-i18next';
 import Container from 'components/Container';
 import Button from 'components/Button';
-import ThemeSwitchContext from 'services/ThemeSwitchContext';
 
-export const useHeader = () => {
-  const { t } = useTranslation('footer');
-  const { isLightTheme, setIsLightTheme } = useContext(ThemeSwitchContext);
-
-  const handleSwitchTheme = () => setIsLightTheme(!isLightTheme);
-
-  return {
-    handleSwitchTheme,
-    isLightTheme,
-    t,
-  };
-};
+import { useHeader } from './useHeader';
 
 const Header: React.FC = () => {
   const {
+    handleCoffeeClick,
     handleSwitchTheme,
     isLightTheme,
     t,
@@ -54,6 +42,7 @@ const Header: React.FC = () => {
             variantColor="purple"
             size="sm"
             mr={4}
+            onClick={handleCoffeeClick}
           >
             <ChakraImage
               src="/images/bmc-logo-64.png"
