@@ -28,3 +28,4 @@ yarn-error.log*
 server
 server-build
 .next
+.vercel
