@@ -21,7 +21,7 @@ const Page404: React.FC<IPage404Props> = () => {
           <p>What options do you have?</p>
           <ol>
             <li>
-              You can <Link href="/" passHref><a>go to the home page</a></Link> and start your journey over
+              You can <Link href="/">go to the home page</Link> and start your journey over
             </li>
             <li>Do nothing. Just sit back and relax</li>
             <li>Is doing nothing boring? <a href="https://www.mindful.org/audio-resources-for-mindfulness-meditation/">Meditate.</a></li>

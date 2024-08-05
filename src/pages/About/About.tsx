@@ -38,7 +38,7 @@ const About: React.FC<IAboutProps> = () => {
         flexDirection="row"
         justifyContent="center"
       >
-        <Link href="/" passHref={true}>
+        <Link href="/">
           <Button as="a" variantColor="purple">
             {t('lets_start')}
           </Button>

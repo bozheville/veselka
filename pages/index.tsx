@@ -3,6 +3,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { calculateColors, calculateSchema, getRandomColorHex, getRandomBalance, deserializeColorAlias } from 'services/vizarunok';
 
+export const runtime = 'edge';
+
 export { default } from 'pages/App';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale = 'en', query, req }) => {
