@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 import Head from 'next/head';
 
 import PageContext from './PageContext';
@@ -7,7 +7,7 @@ import PageContext from './PageContext';
 import { IPageProps } from './types';
 import Container from '../Container';
 
-const Page: React.FC<IPageProps> = ({
+const Page: React.FC<React.PropsWithChildren<IPageProps>> = ({
   children,
   title,
   ...props

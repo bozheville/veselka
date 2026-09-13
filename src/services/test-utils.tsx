@@ -3,26 +3,28 @@ import { BrowserRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 import { Global } from '@emotion/core';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import 'services/i18n';
 import globalStyles from 'styled/global';
 import theme from './theme';
 
-export const CustomWrapper: React.FC<{}> = ({ children }) => {
+const TypedThemeProvider = ThemeProvider as React.FC<React.PropsWithChildren<{ theme?: unknown }>>;
+
+export const CustomWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   const customTheme = theme(false);
   // const global = globalStyles(customTheme)
 
   return (
-    <ThemeProvider theme={customTheme}>
+    <TypedThemeProvider theme={customTheme}>
       <CSSReset />
       <Global styles={globalStyles} />
       {children}
-    </ThemeProvider>
+    </TypedThemeProvider>
   );
 };
 
-export const RouterWrapper: React.FC<{}> = ({ children }) => (
+export const RouterWrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
   <CustomWrapper>
     <BrowserRouter>
       {children}

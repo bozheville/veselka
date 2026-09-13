@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { ColorAlias as TColorAlias } from 'types';
 import UrlContext from 'services/UrlContext';

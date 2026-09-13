@@ -31,6 +31,6 @@ const SettingsSlider = forwardRef<HTMLInputElement, SliderProps>(({
   );
 });
 
-Slider.displayName = 'Slider';
+SettingsSlider.displayName = 'SettingsSlider';
 
 export default SettingsSlider;

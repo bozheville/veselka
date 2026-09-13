@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 
 import { orderedColors, defaultColorAlias } from 'services/constants';
@@ -17,7 +17,7 @@ const useColorAlias = ({
   const { t } = useTranslation('details');
 
   const [ isColorAliasVisible, setisColorAliasVisible ] = useState<boolean>(false);
-  const { register, handleSubmit, errors, reset, getValues } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset, getValues } = useForm<Record<string, string>>();
 
   const handleAliasExpand = useCallback(() => {
     setisColorAliasVisible(true);
@@ -30,7 +30,7 @@ const useColorAlias = ({
     reset(values);
   }, [colorAlias, reset]);
 
-  const handleFormSubmit = useCallback(handleSubmit((data: ColorAlias) => {
+  const handleFormSubmit = useCallback(handleSubmit((data) => {
     const normalizedData = Object.entries(data)
       .filter(([color, value]) => value)
       .reduce((result, [color, value]) => ({
@@ -41,7 +41,7 @@ const useColorAlias = ({
       onChange(normalizedData);
   }), [onChange]);
 
-  const validate = useCallback((value) => {
+  const validate = useCallback((value: string) => {
     if (!/^[A-Za-z_-]*$/.test(value)) {
       return t('color_error') as string;
     }

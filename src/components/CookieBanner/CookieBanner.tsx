@@ -23,7 +23,7 @@ const CookieBanner: React.FC<CookieBannerProps> = ({
       boxShadow="0 0 4px 1px rgba(255,255,255,0.6)"
     >
       <Heading as="h4" size="md">We use localStorage.</Heading>
-      <Text>We don't send storred data anywhere.</Text>
+      <Text>We don&apos;t send storred data anywhere.</Text>
       <Text>No third parties, no tracking. </Text>
       <Text>Only your best user experience.</Text>
 

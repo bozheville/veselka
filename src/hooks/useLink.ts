@@ -1,9 +1,11 @@
-const useLink = <T>() => {
+const useLink = <T extends { [s: string]: string | undefined; }>() => {
   const updateURL = (urlProps: T) => {
     var searchParams = new URLSearchParams(window.location.search);
 
     for (const [key, value] of Object.entries(urlProps)) {
-      searchParams.set(key, value);
+      if (value !== undefined) {
+        searchParams.set(key, value);
+      }
     }
 
     var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();

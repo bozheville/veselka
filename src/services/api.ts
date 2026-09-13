@@ -1,9 +1,9 @@
-import { stringify } from 'query-string';
+import queryString from 'query-string';
 
 const fetchProps = {};
 
 export const GET = <T, P = {}>(url: string, params?: P) => {
-  const uri = params ? `?${stringify(params)}` : '';
+  const uri = params ? `?${queryString.stringify(params)}` : '';
 
   return fetch(url + uri, {
     ...fetchProps,

@@ -5,7 +5,7 @@ import Footer from '../Footer';
 
 import { ILayoutProps } from './types';
 
-const Layout: React.FC<ILayoutProps> = ({
+const Layout: React.FC<React.PropsWithChildren<ILayoutProps>> = ({
   menuItems,
   children
 }) => {

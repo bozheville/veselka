@@ -55,7 +55,7 @@ export const useUrlContext = (
     }
 
     if (typeof keepBW !== 'undefined') {
-      updateObject.s = keepBW ? 1 : 0;
+      updateObject.s = keepBW ? '1' : '0';
       setKeepBW(keepBW);
     }
 
@@ -65,7 +65,7 @@ export const useUrlContext = (
     }
 
     if (balance) {
-      updateObject.w = balance;
+      updateObject.w = String(balance);
       setBalance(balance);
     }
 

@@ -34,7 +34,7 @@ const color2rgb = (color: string) => {
   })`;
 }
 
-const TextAppWrapper: React.FC = ({
+const TextAppWrapper: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const contextValue = useUrlContext();
@@ -46,7 +46,7 @@ const TextAppWrapper: React.FC = ({
   );
 };
 
-const TextAppWrapperWithRouter: React.FC<{history: any}> = ({
+const TextAppWrapperWithRouter: React.FC<React.PropsWithChildren<{history: any}>> = ({
   children,
   history,
 }) => {

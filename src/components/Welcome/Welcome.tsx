@@ -3,7 +3,7 @@ import { Box, Heading, List, ListItem, Text } from '@chakra-ui/core';
 
 import Button from '../Button';
 import { WelcomeProps } from './Welcome.d';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 
 const Welcome: React.FC<WelcomeProps> = ({
   isVisible = true,

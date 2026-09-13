@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/core';
 
 import { IPageContentProps } from './types';
 
-const Container: React.FC<IPageContentProps> = ({
+const Container: React.FC<React.PropsWithChildren<IPageContentProps>> = ({
   children,
   ...props
 }) => {

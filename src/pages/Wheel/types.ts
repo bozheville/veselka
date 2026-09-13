@@ -12,8 +12,9 @@ export interface ColorDataProps {
 }
 
 export interface UrlProps {
+  [key: string]: string | undefined;
   c?: string; // shade color
-  w?: number; // scale/shade balance
+  w?: string; // scale/shade balance
   a?: string; // color names aliases
-  s?: number; // shades for black and white
+  s?: string; // shades for black and white
 }

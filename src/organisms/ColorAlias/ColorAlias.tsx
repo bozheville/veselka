@@ -55,8 +55,7 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
             <Box>
               <Input
                 flexGrow={1}
-                name={`color_alias_${color}`}
-                ref={register({ validate })}
+                {...register(`color_alias_${color}`, { validate })}
                 placeholder={color.toLocaleLowerCase()}
                 backgroundColor="transparent"
                 isInvalid={Boolean(errors[`color_alias_${color}`])}
@@ -64,7 +63,7 @@ const ColorAlias: React.FC<ColorAliasProps> = ({
               />
               {errors[`color_alias_${color}`] && (
                 <Text fontSize="xs">
-                  {errors[`color_alias_${color}`].message}
+                  {String(errors[`color_alias_${color}`]?.message ?? '')}
                 </Text>
               )}
             </Box>

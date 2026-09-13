@@ -9,7 +9,7 @@ import UrlContext from 'services/UrlContext';
 import ColorSchemaContext from 'services/ColorSchemaContext';
 
 import { getRandomColorHex, getRandomBalance, hex2rgb, rgb2hex} from 'services/vizarunok';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 
 export interface FormValues {
   [color: string]: string;

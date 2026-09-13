@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { plausible } from 'services/plausible';
 import ThemeSwitchContext from 'services/ThemeSwitchContext';
