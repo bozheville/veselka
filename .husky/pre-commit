@@ -1,0 +1,2 @@
+node scripts/update-footer-year.mjs
+git add public/locales/en/footer.json

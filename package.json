@@ -40,7 +40,8 @@
     "add:page": "node ./scripts/add.mjs --type page",
     "lint": "eslint --ext ts,tsx ./src",
     "post-deploy": "yarn && node pre-deploy.js && yarn build && pm2 restart $PM2_ID -s",
-    "pages:build": "npx @cloudflare/next-on-pages"
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "prepare": "husky"
   },
   "browserslist": {
     "production": [
@@ -58,6 +59,7 @@
     "@cloudflare/next-on-pages": "^1.13.1",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.5",
+    "husky": "^9.1.7",
     "mutationobserver-shim": "^0.3.7",
     "react-router-dom": "6",
     "vercel": "^59.16.0"
