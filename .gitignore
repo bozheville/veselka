@@ -30,3 +30,7 @@ server-build
 .next
 .vercel
 .wrangler
+
+# yarn berry
+.yarn/cache
+.yarn/install-state.gz
